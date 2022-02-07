@@ -1,0 +1,12 @@
+name: build
+on:
+  pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test Docker Compose
+        run: docker-compose up

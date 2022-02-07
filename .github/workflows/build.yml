@@ -11,6 +11,6 @@ jobs:
       - name: Create .env File for Backend
         run: |
           touch ./backend/.env
-          echo DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} >> ./backend/.env
+          echo DJANGO_SECRET_KEY='${{ secrets.DJANGO_SECRET_KEY }}' >> ./backend/.env
       - name: Test Docker Compose
         run: docker-compose up

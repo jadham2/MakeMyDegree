@@ -26,6 +26,6 @@ jobs:
       #   id: frontend_diff
       #   run: container-diff diff daemon://frontend_1 daemon://frontend_2
       - name: Diff requirements.txt
-        run: git diff main -- requirements.txt
+        run: git diff remotes/origin/main HEAD -- requirements.txt
       - name: Diff package.json and package-lock.json
-        run: git diff main -- package*.json
+        run: git diff remotes/origin/main HEAD -- package*.json

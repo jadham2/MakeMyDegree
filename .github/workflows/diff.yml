@@ -25,6 +25,8 @@ jobs:
       - name: Diff Frontend Images
         id: frontend_diff
         run: container-diff diff daemon://frontend_1 daemon://frontend_2
+      - name: Add Remote Origin
+        run: git remote add origin https://github.com/jadham2/MakeMyDegree.git
       - name: Diff requirements.txt
         run: git diff origin/main -- requirements.txt
       - name: Diff package.json and package-lock.json

@@ -1,5 +1,4 @@
 name: Diff Images and Dependencies
-
 on:
   pull_request
 
@@ -7,23 +6,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-  steps:
-    - uses: actions/checkout@v2
-    - name: Install container-diff
-      runs: |
-      curl -LO https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 && \
-      sudo install container-diff-linux-amd64 /usr/local/bin/container-diff
-    - name: Build backend images
-      run: docker build --tag backend_1 . && docker build --tag backend_2 .
-      working-directory: ./backend
-    - name: Build frontend images
-      run: docker build --tag frontend_1 . && docker build --tag frontend_2 .
-      working-directory: ./frontend
-    - name: Diff Backend Images
-      id: backend_diff
-      run: container-diff diff daemon://backend_1 daemon://backend_2
-      working-directory: ./backend
-    - name: Diff Frontend Images
-      id: frontend_diff
-      run: container-diff diff daemon://frontend_1 daemon://frontend_2
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install container-diff
+        runs: |
+        curl -LO https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 && \
+        sudo install container-diff-linux-amd64 /usr/local/bin/container-diff
+      - name: Build backend images
+        run: docker build --tag backend_1 . && docker build --tag backend_2 .
+        working-directory: ./backend
+      - name: Build frontend images
+        run: docker build --tag frontend_1 . && docker build --tag frontend_2 .
+        working-directory: ./frontend
+      - name: Diff Backend Images
+        id: backend_diff
+        run: container-diff diff daemon://backend_1 daemon://backend_2
+        working-directory: ./backend
+      - name: Diff Frontend Images
+        id: frontend_diff
+        run: container-diff diff daemon://frontend_1 daemon://frontend_2
     

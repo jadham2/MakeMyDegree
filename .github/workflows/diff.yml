@@ -8,6 +8,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Install container-diff
         run: |
           curl -LO https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64
@@ -26,6 +28,6 @@ jobs:
       #   id: frontend_diff
       #   run: container-diff diff daemon://frontend_1 daemon://frontend_2
       - name: Diff requirements.txt
-        run: git diff remotes/origin/main HEAD -- requirements.txt
+        run: git diff origin/main HEAD -- requirements.txt
       - name: Diff package.json and package-lock.json
-        run: git diff remotes/origin/main HEAD -- package*.json
+        run: git diff origin/main HEAD -- package*.json

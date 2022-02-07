@@ -9,13 +9,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install container-diff
-        runs: |
-        curl -LO https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 && \
-        sudo install container-diff-linux-amd64 /usr/local/bin/container-diff
-      - name: Build backend images
+        run: |
+          curl -LO https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64
+          sudo install container-diff-linux-amd64 /usr/local/bin/container-diff
+      - name: Build Backend Images
         run: docker build --tag backend_1 . && docker build --tag backend_2 .
         working-directory: ./backend
-      - name: Build frontend images
+      - name: Build Frontend Images
         run: docker build --tag frontend_1 . && docker build --tag frontend_2 .
         working-directory: ./frontend
       - name: Diff Backend Images

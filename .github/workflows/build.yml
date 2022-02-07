@@ -1,4 +1,4 @@
-name: build
+name: Build
 on:
   pull_request
 
@@ -13,4 +13,4 @@ jobs:
           touch ./backend/.env
           echo DJANGO_SECRET_KEY='${{ secrets.DJANGO_SECRET_KEY }}' >> ./backend/.env
       - name: Test Docker Compose
-        run: docker-compose up
+        run: docker-compose up -d

@@ -23,7 +23,6 @@ jobs:
       - name: Diff Backend Images
         id: backend_diff
         run: container-diff diff daemon://backend_1 daemon://backend_2
-        working-directory: ./backend
       - name: Diff Frontend Images
         id: frontend_diff
         run: container-diff diff daemon://frontend_1 daemon://frontend_2
@@ -31,3 +30,4 @@ jobs:
         run: git diff origin/main HEAD -- requirements.txt
       - name: Diff package.json and package-lock.json
         run: git diff origin/main HEAD -- package*.json
+

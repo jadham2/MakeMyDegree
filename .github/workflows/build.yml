@@ -1,0 +1,16 @@
+name: Build
+on:
+  pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create .env File for Backend
+        run: |
+          touch ./backend/.env
+          echo DJANGO_SECRET_KEY='${{ secrets.DJANGO_SECRET_KEY }}' >> ./backend/.env
+      - name: Test Docker Compose
+        run: docker-compose up -d

@@ -1,6 +1,6 @@
 # Docker Image which is used as foundation to create
 # a custom Docker Image with this Dockerfile
-FROM node:latest
+FROM node:17-alpine
 
 # A directory within the virtualized Docker environment
 # Becomes more relevant when using Docker Compose later
@@ -10,7 +10,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Installs all node packages
-RUN npm install
+RUN npm install --only=prod
 
 # Copies everything over to Docker environment
 COPY . .

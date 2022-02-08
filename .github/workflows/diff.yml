@@ -1,0 +1,33 @@
+name: Diff Images and Dependencies
+on:
+  pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Install container-diff
+        run: |
+          curl -LO https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64
+          sudo install container-diff-linux-amd64 /usr/local/bin/container-diff
+      - name: Build Backend Images
+        run: docker build --tag backend_1 . && docker build --tag backend_2 .
+        working-directory: ./backend
+      - name: Build Frontend Images
+        run: docker build --tag frontend_1 . && docker build --tag frontend_2 .
+        working-directory: ./frontend
+      - name: Diff Backend Images
+        id: backend_diff
+        run: container-diff diff daemon://backend_1 daemon://backend_2
+      - name: Diff Frontend Images
+        id: frontend_diff
+        run: container-diff diff daemon://frontend_1 daemon://frontend_2
+      - name: Diff requirements.txt
+        run: git diff origin/main HEAD -- requirements.txt
+      - name: Diff package.json and package-lock.json
+        run: git diff origin/main HEAD -- package*.json
+

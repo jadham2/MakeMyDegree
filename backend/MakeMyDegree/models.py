@@ -8,7 +8,7 @@ class User(models.Model):
     email = models.EmailField()
     degree = models.ForeignKey(
         'Degree',
-        on_delete=models.CASCASE,
+        on_delete=models.CASCADE,
     )
     curr_plan = models.JSONField()
 
@@ -25,11 +25,13 @@ class Course(models.Model):
 class Requisite(models.Model):
     course_id = models.ForeignKey(
         'Course',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="courses"
     )
     requisite = models.ForeignKey(
         'Course',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="requisites"
     )
     requisite_type = models.CharField(max_length=50)
     

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
+
 class User(models.Model):
     user_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
@@ -12,6 +13,7 @@ class User(models.Model):
     )
     curr_plan = models.JSONField()
 
+
 class Course(models.Model):
     course_id = models.AutoField(primary_key=True)
     course_name = models.CharField(max_length=100)
@@ -21,6 +23,7 @@ class Course(models.Model):
     terms = ArrayField(
         models.CharField(max_length=6)
     )
+
 
 class Requisite(models.Model):
     course_id = models.ForeignKey(
@@ -34,13 +37,15 @@ class Requisite(models.Model):
         related_name="requisites"
     )
     requisite_type = models.CharField(max_length=50)
-    
+
+
 class Degree(models.Model):
     degree_id = models.AutoField(primary_key=True)
     degree_type = models.CharField(max_length=50)
     degree_name = models.CharField(max_length=50)
     school = models.CharField(max_length=100)
     term = models.CharField(max_length=50)
+
 
 class Tag(models.Model):
     tag_id = models.AutoField(primary_key=True)
@@ -51,6 +56,7 @@ class Tag(models.Model):
     name = models.CharField(max_length=50)
     rule = models.CharField(max_length=50)
 
+
 class CourseTag():
     tag_id = models.ForeignKey(
         'Tag',
@@ -60,4 +66,3 @@ class CourseTag():
         'Course',
         on_delete=models.CASCADE,
     )
-    

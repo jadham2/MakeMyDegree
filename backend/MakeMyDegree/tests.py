@@ -1,6 +1,7 @@
 from django.test import TestCase
 from MakeMyDegree.models import *
 
+
 class AppTestCase(TestCase):
     def setUp(self):
         test_degree = Degree.objects.create(

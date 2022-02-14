@@ -17,16 +17,7 @@ jobs:
           # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
 
-      - name: Lint Code Base
-        uses: github/super-linter@v4
-        env:
-          VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: main
-          # only have flake8 linter.for Python
-          VALIDATE_JAVASCRIPT_ES: false
-          VALIDATE_PYTHON_BLACK: false
-          VALIDATE_PYTHON_FLAKE8: true
-          VALIDATE_PYTHON_ISORT: false
-          VALIDATE_PYTHON_MYPY: false
-          VALIDATE_PYTHON_PYLINT: false
-          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Lint with flake8
+        uses: py-actions/flake8@v2
+        with:
+          ignore: "F401,F403,F405,E501"

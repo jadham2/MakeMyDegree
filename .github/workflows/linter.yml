@@ -6,18 +6,20 @@ on:
   pull_request
 
 jobs:
-  build:
+  lint:
     name: Lint Code Base
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
           # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
-
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
       - name: Lint with flake8
         uses: py-actions/flake8@v2
         with:
           ignore: "F401,F403,F405,E501"
+          path: "backend"

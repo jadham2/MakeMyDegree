@@ -57,7 +57,7 @@ class Tag(models.Model):
     rule = models.CharField(max_length=50)
 
 
-class CourseTag():
+class CourseTag(models.Model):
     tag_id = models.ForeignKey(
         'Tag',
         on_delete=models.CASCADE,

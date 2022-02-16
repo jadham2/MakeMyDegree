@@ -1,10 +1,8 @@
-from re import U
 from rest_framework import serializers
 from .models import *
 
 
 class UserSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = User
         fields = (
@@ -18,7 +16,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class DegreeSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Degree
         fields = (

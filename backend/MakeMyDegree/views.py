@@ -1,40 +1,68 @@
 from hashlib import sha256
+from sys import api_version
 
-from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 
 from MakeMyDegree.models import *
 from MakeMyDegree.serializers import *
 
 
+@api_view(['GET', 'POST'])
 @csrf_exempt
-def create_user(request) -> JsonResponse:
+def create_get_users(request) -> Response:
     if request.method == 'GET':
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
-        return JsonResponse(data=serializer.data, safe=False, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     if request.method == 'POST':
-        data = JSONParser().parse(request)
+        data = request.data
         data['password'] = sha256(data['password'].encode()).hexdigest()
         serializer = UserSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(data=serializer.data, status=status.HTTP_201_CREATED)
-        return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['GET', 'PUT', 'DELETE'])
 @csrf_exempt
-def create_degree(request) -> JsonResponse:
+def detail_user(request, user_id) -> Response:
+    try:
+        queried_user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = UserSerializer(queried_user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    if request.method == 'PUT':
+        serializer = UserSerializer(queried_user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'DELETE':
+        queried_user.delete()
+        return Response(status=status.HTTP_200_OK)
+
+
+@api_view(['GET', 'POST'])
+@csrf_exempt
+def create_get_degrees(request) -> Response:
     if request.method == 'GET':
         degrees = Degree.objects.all()
         serializer = DegreeSerializer(degrees, many=True)
-        return JsonResponse(data=serializer.data, safe=False, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     if request.method == 'POST':
         data = JSONParser().parse(request)
         serializer = DegreeSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(data=serializer.data, status=status.HTTP_201_CREATED)
-        return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

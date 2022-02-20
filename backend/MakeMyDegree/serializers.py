@@ -14,6 +14,17 @@ class UserSerializer(serializers.ModelSerializer):
             'curr_plan'
         )
 
+class CourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = (
+            'course_id',
+            'course_name',
+            'course_tag',
+            'course_credits',
+            'description',
+            'terms'
+        )
 
 class DegreeSerializer(serializers.ModelSerializer):
     class Meta:

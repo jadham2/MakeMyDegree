@@ -19,7 +19,7 @@ class Course(models.Model):
     course_name = models.CharField(max_length=100)
     course_tag = models.CharField(max_length=15)
     course_credits = models.IntegerField()
-    desciption = models.TextField()
+    description = models.TextField()
     terms = ArrayField(
         models.CharField(max_length=6)
     )

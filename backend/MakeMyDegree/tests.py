@@ -4,7 +4,7 @@ from rest_framework.test import APITestCase
 from MakeMyDegree.models import *
 
 
-class UserDegreeTests(APITestCase):
+class UserTests(APITestCase):
     def setUp(self):
         compe_degree_data = {
             'degree_type': 'BS',
@@ -79,7 +79,7 @@ class UserDegreeTests(APITestCase):
 
     def test_get_user_id_valid(self):
         get_user_resp = self.client.get(
-            reverse('detail_user', args=[self.test_student.user_id]),
+            reverse('detail_user', kwargs={'user_id': self.test_student.user_id}),
             format='json'
         )
         get_user_resp = get_user_resp.json()
@@ -88,11 +88,58 @@ class UserDegreeTests(APITestCase):
 
     def test_get_user_id_invalid(self):
         get_user_resp = self.client.get(
-            reverse('detail_user', args=[1]),
+            reverse('detail_user', kwargs={'user_id': 12415134}),
             format='json'
         )
 
         self.assertEqual(get_user_resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_update_user_id_valid(self):
+        new_user_data = {
+            'name': 'Jess Zhang',
+            'password': 'graphsRox',
+            'email': 'jzhang@purdue.edu',
+            'degree': self.compe_degree,
+            'curr_plan': {}
+        }
+        new_user = User.objects.create(**new_user_data)
+
+        update_data = {
+            'name': 'Jude Adham',
+            'password': 'pwned123',
+            'email': 'newlegitemail@purdue.edu',
+            'degree': self.compe_degree.degree_id,
+            'curr_plan': {}
+        }
+
+        put_user_resp = self.client.put(
+            reverse('detail_user', kwargs={'user_id': new_user.user_id}),
+            data=update_data,
+            format='json'
+        )
+        put_user_resp = put_user_resp.json()
+
+        self.assertEqual(put_user_resp['email'], 'newlegitemail@purdue.edu')
+
+    def test_update_user_id_invalid(self):
+        new_user_data = {
+            'name': 'Jess Zhang',
+            'password': 'graphsRox',
+            'email': 'jzhang@purdue.edu',
+            'degree': self.compe_degree,
+            'curr_plan': {}
+        }
+        new_user = User.objects.create(**new_user_data)
+
+        update_data = {'email': 'newlegitemail@purdue.edu'}
+
+        put_user_resp = self.client.put(
+            reverse('detail_user', kwargs={'user_id': new_user.user_id}),
+            data=update_data,
+            format='json'
+        )
+
+        self.assertEqual(put_user_resp.status_code, status.HTTP_400_BAD_REQUEST)
 
 
 class DegreeTests(APITestCase):

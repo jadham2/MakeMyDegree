@@ -117,6 +117,8 @@ class UserTests(APITestCase):
             data=update_data,
             format='json'
         )
+        self.assertEqual(put_user_resp.status_code, status.HTTP_200_OK)
+
         put_user_resp = put_user_resp.json()
 
         self.assertEqual(put_user_resp['email'], 'newlegitemail@purdue.edu')
@@ -140,6 +142,33 @@ class UserTests(APITestCase):
         )
 
         self.assertEqual(put_user_resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_delete_user_id_valid(self):
+        new_user_data = {
+            'name': 'Jess Zhang',
+            'password': 'graphsRox',
+            'email': 'jzhang@purdue.edu',
+            'degree': self.compe_degree,
+            'curr_plan': {}
+        }
+        new_user = User.objects.create(**new_user_data)
+        new_user_user_id = new_user.user_id
+
+        put_user_resp = self.client.delete(
+            reverse('detail_user', kwargs={'user_id': new_user.user_id}),
+            format='json'
+        )
+
+        self.assertEqual(put_user_resp.status_code, status.HTTP_200_OK)
+        self.assertFalse(User.objects.filter(user_id=new_user_user_id).exists())
+
+    def test_delete_user_id_invalid(self):
+        put_user_resp = self.client.delete(
+            reverse('detail_user', kwargs={'user_id': 12313252}),
+            format='json'
+        )
+
+        self.assertEqual(put_user_resp.status_code, status.HTTP_404_NOT_FOUND)
 
 
 class DegreeTests(APITestCase):

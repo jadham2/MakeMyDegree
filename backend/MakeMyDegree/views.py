@@ -66,3 +66,27 @@ def create_get_degrees(request) -> Response:
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+@csrf_exempt
+def detail_degree(request, degree_id) -> Response:
+    try:
+        queried_degree = Degree.objects.get(pk=degree_id)
+    except Degree.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = DegreeSerializer(queried_degree)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    if request.method == 'PUT':
+        serializer = DegreeSerializer(queried_degree, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'DELETE':
+        queried_degree.delete()
+        return Response(status=status.HTTP_200_OK)

@@ -322,7 +322,6 @@ class DegreeTests(APITestCase):
         self.assertEqual(delete_degree_resp.status_code, status.HTTP_200_OK)
         self.assertFalse(Degree.objects.filter(degree_id=new_degree_id).exists())
 
-       
     def test_delete_degree_id_invalid(self):
         delete_degree_resp = self.client.delete(
             reverse('detail_degree', kwargs={'degree_id': 12313252}),

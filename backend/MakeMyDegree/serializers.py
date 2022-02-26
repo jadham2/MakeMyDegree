@@ -14,6 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
             'curr_plan'
         )
 
+
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
@@ -25,6 +26,7 @@ class CourseSerializer(serializers.ModelSerializer):
             'description',
             'terms'
         )
+
 
 class DegreeSerializer(serializers.ModelSerializer):
     class Meta:

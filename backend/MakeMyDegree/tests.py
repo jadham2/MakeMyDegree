@@ -322,13 +322,14 @@ class DegreeTests(APITestCase):
         self.assertEqual(delete_degree_resp.status_code, status.HTTP_200_OK)
         self.assertFalse(Degree.objects.filter(degree_id=new_degree_id).exists())
 
-    def test_delete_user_id_invalid(self):
+    def test_delete_degree_id_invalid(self):
         delete_degree_resp = self.client.delete(
             reverse('detail_degree', kwargs={'degree_id': 12313252}),
             format='json'
         )
 
         self.assertEqual(delete_degree_resp.status_code, status.HTTP_404_NOT_FOUND)
+
 
 class CourseTests(APITestCase):
     def setUp(self):
@@ -375,14 +376,25 @@ class CourseTests(APITestCase):
 
         self.assertEqual(course_resp.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_get_all_courses_nonempty(self):
+    def test_get_all_courses_update(self):
+        update_test_course_data = {
+            'course_name': 'Electrical Engineering Fundamentals I',
+            'course_tag': 'ECE 20001',
+            'course_credits': 3,
+            'description': 'This course covers fundamental concepts and applications for electrical and computer engineers.',
+            'terms': ['Fa2021']
+        }
+
+        test_course = Course.objects.create(**update_test_course_data)
+        test_course.save()
+
         get_courses_resp = self.client.get(
             reverse('create_get_courses'),
             format='json'
         )
         get_courses_resp = get_courses_resp.json()
 
-        self.assertEqual(len(get_courses_resp), 1)
+        self.assertEqual(len(get_courses_resp), 2)
 
     def test_get_course_id_valid(self):
         get_course_resp = self.client.get(
@@ -400,3 +412,79 @@ class CourseTests(APITestCase):
         )
 
         self.assertEqual(get_course_resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_update_course_id_valid(self):
+        new_course_data = {
+            'course_name': 'Electrical Engineering Fundamentals II',
+            'course_tag': 'ECE 20002',
+            'course_credits': 3,
+            'description': 'This course covers fundamental concepts and applications for electrical and computer engineers.',
+            'terms': ['Fa2021']
+        }
+        new_course = Course.objects.create(**new_course_data)
+
+        update_data = {
+            'course_name': 'Electrical Engineering Fundamentals I Lab',
+            'course_tag': 'ECE 20007',
+            'course_credits': 1,
+            'description': 'This course covers fundamental concepts and applications for electrical and computer engineers.',
+            'terms': ['Fa2021']
+        }
+
+        put_course_resp = self.client.put(
+            reverse('detail_course', kwargs={'course_id': new_course.course_id}),
+            data=update_data,
+            format='json'
+        )
+        self.assertEqual(put_course_resp.status_code, status.HTTP_200_OK)
+
+        put_course_resp = put_course_resp.json()
+
+        self.assertEqual(put_course_resp['course_tag'], update_data['course_tag'])
+
+    def test_update_course_id_invalid(self):
+        new_course_data = {
+            'course_name': 'Electrical Engineering Fundamentals II',
+            'course_tag': 'ECE 20002',
+            'course_credits': 3,
+            'description': 'This course covers fundamental concepts and applications for electrical and computer engineers.',
+            'terms': ['Fa2021']
+        }
+        new_course = Course.objects.create(**new_course_data)
+
+        update_data = {'course_name': 'Not an ECE class'}
+
+        put_course_resp = self.client.put(
+            reverse('detail_course', kwargs={'course_id': new_course.course_id}),
+            data=update_data,
+            format='json'
+        )
+
+        self.assertEqual(put_course_resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_delete_course_id_valid(self):
+        new_course_data = {
+            'course_name': 'Electrical Engineering Fundamentals II',
+            'course_tag': 'ECE 20002',
+            'course_credits': 3,
+            'description': 'This course covers fundamental concepts and applications for electrical and computer engineers.',
+            'terms': ['Fa2021']
+        }
+        new_course = Course.objects.create(**new_course_data)
+        new_course_id = new_course.course_id
+
+        delete_course_resp = self.client.delete(
+            reverse('detail_course', kwargs={'course_id': new_course.course_id}),
+            format='json'
+        )
+
+        self.assertEqual(delete_course_resp.status_code, status.HTTP_200_OK)
+        self.assertFalse(Course.objects.filter(course_id=new_course_id).exists())
+
+    def test_delete_course_id_invalid(self):
+        delete_course_resp = self.client.delete(
+            reverse('detail_course', kwargs={'course_id': 123132}),
+            format='json'
+        )
+
+        self.assertEqual(delete_course_resp.status_code, status.HTTP_404_NOT_FOUND)

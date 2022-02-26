@@ -15,6 +15,19 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
 
+class CourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = (
+            'course_id',
+            'course_name',
+            'course_tag',
+            'course_credits',
+            'description',
+            'terms'
+        )
+
+
 class DegreeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Degree

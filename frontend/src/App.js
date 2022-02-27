@@ -1,23 +1,9 @@
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import VerticalDragList from './vertical-dnd.component';
-import MultipleDragList from './multiple-list-dnd.component';
-
-const courses = [
-  {
-    id: 'ECE40400',
-    name: 'Introduction to Computer Security',
-  },
-  {
-    id: 'ECE20001',
-    name: 'Linear Circuit Analysis I'
-  },
-  {
-    id: 'ECE27000',
-    name: 'Digital Systems Design'
-  }
-]
-
+import VerticalDragList from './vertical';
+import MultipleDragList from './mult_vertical';
+import reorder from './mult_vertical';
+import courses from './courses.js';
 
 function ClassList() {
   return (
@@ -60,14 +46,11 @@ function App() {
     return (
       <Container fluid>
         <Row>
-          <Col>
-            <VerticalDragList />
-          </Col>
-          <Col xs={6}>
+          <Col xs={12} md={8}>
             <MultipleDragList />
           </Col>
-          <Col>
-            3 of 3
+          <Col xs={6} md={4}>
+            <VerticalDragList />
           </Col>
         </Row>
       </Container>

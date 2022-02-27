@@ -1,42 +1,7 @@
 import React, { Component } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
-// Create data for list
-const getItems = (count, offset = 0) =>[
-  {
-  id: 'ECE20001',
-  content: 'Linear Circuit Analysis I'
-  },
-  {
-  id: 'ECE20002',
-  content: 'Linear Circuit Analysis II'
-  },
-  {
-  id: 'ECE27000',
-  content: 'Digital Systems Design'
-  },
-  {
-  id: 'ECE36200',
-  content: 'Microprocessor Systems and Interfacing'
-  },
-  {
-  id: 'ECE36900',
-  content: 'Discrete Mathematics'
-  },
-  {
-  id: 'ECE40400',
-  content: 'Introduction to Computer Security',
-  }
-];
-
-// Reorder the list items
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result;
-};
+import reorder from './mult_vertical';
+import courses from './courses.js';
 
 const grid = 10;
 
@@ -58,7 +23,7 @@ class VerticalDragList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: getItems()
+      items: courses
     };
     this.onDragEnd = this.onDragEnd.bind(this);
   }

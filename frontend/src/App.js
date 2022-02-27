@@ -1,5 +1,7 @@
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import VerticalDragList from './vertical-dnd.component';
+import MultipleDragList from './multiple-list-dnd.component';
 
 const courses = [
   {
@@ -55,23 +57,21 @@ function CourseCard(props) {
 }
 
 function App() {
-  return (
-    <Container fluid>
-      <Row>
-        <DragDropContext>
-        <Col>
-          <ClassList />
-        </Col>
-        <Col>
-          2 of 2
-        </Col>
-        <Col>
-          3 of 2
-        </Col>
-        </DragDropContext>
-      </Row>
-    </Container>
-  );
+    return (
+      <Container fluid>
+        <Row>
+          <Col>
+            <VerticalDragList />
+          </Col>
+          <Col xs={6}>
+            <MultipleDragList />
+          </Col>
+          <Col>
+            3 of 3
+          </Col>
+        </Row>
+      </Container>
+    );
 }
 
 export default App;

@@ -1,3 +1,4 @@
+import { Container, Row, Col, Card } from 'react-bootstrap';
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import courses from './courses.js';
@@ -8,12 +9,12 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   userSelect: "none",
   padding: grid * 2,
   margin: `0 0 ${grid}px 0`,
-  background: isDragging ? 'lightgreen' : 'white',
+  background: isDragging ? 'lightgreen' : 'lightgrey',
   ...draggableStyle
 });
 
 const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? 'lightblue' : 'lightgrey',
+  background: isDraggingOver ? 'lightblue' : 'white',
   padding: grid,
   width: 250
 });
@@ -28,31 +29,35 @@ const reorder = (list, startIndex, endIndex) => {
 
 const verticalList = (items, provided, snapshot) => {
   return (
-  <div
-    ref={provided.innerRef}
-    style={getListStyle(snapshot.isDraggingOver)}>
-    {items.map((item, index) => (
-      <Draggable
-        key={item.id}
-        draggableId={item.id}
-        index={index}>
-        {(provided, snapshot) => (
-          <div
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-            style={getItemStyle(
-              snapshot.isDragging,
-              provided.draggableProps.style
-            )}>
-              <div><b>{item.id}</b></div>
-              <div>{item.content}</div>
-          </div>
-        )}
-      </Draggable>
-    ))}
-    {provided.placeholder}
-  </div>
+    <Card border="primary" className="m-3" 
+      style={getListStyle(snapshot.isDraggingOver)} 
+      {...provided.droppableProps} 
+      ref={provided.innerRef}>
+      <Card.Body>
+        {'Hello'}
+        {items.map((item, index) => (
+          <Draggable
+            key={item.id}
+            draggableId={item.id}
+            index={index}>
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                style={getItemStyle(
+                  snapshot.isDragging,
+                  provided.draggableProps.style
+                )}>
+                  <div><b>{item.id}</b></div>
+                  <div>{item.content}</div>
+              </div>
+            )}
+          </Draggable>
+        ))}
+      </Card.Body>
+      {provided.placeholder}
+    </Card>
   );
 }
 

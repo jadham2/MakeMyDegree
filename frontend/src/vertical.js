@@ -24,7 +24,7 @@ function VerticalDragList() {
   const onDragEnd = (result) => {
     if(!result.destination) return;
 
-    const newCourses = Array.from(courses);
+    const newCourses = Array.from(courseStates);
     const [reorderedCourses] = newCourses.splice(result.source.index, 1);
     newCourses.splice(result.destination.index, 0, reorderedCourses);
 

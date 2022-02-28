@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import reorder from './mult_vertical';
 import courses from './courses.js';
 
 const grid = 10;
@@ -19,15 +18,49 @@ const getListStyle = isDraggingOver => ({
   width: 250
 });
 
+// reorder items within a list
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+  return result;
+};
+
+const verticalList = (items, provided, snapshot) => {
+  return (
+  <div
+    ref={provided.innerRef}
+    style={getListStyle(snapshot.isDraggingOver)}>
+    {items.map((item, index) => (
+      <Draggable
+        key={item.id}
+        draggableId={item.id}
+        index={index}>
+        {(provided, snapshot) => (
+          <div
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            style={getItemStyle(
+              snapshot.isDragging,
+              provided.draggableProps.style
+            )}>
+              <div><b>{item.id}</b></div>
+              <div>{item.content}</div>
+          </div>
+        )}
+      </Draggable>
+    ))}
+    {provided.placeholder}
+  </div>
+  );
+}
+
 function VerticalDragList() {
   const [courseStates, setCourses] = useState(courses);
   const onDragEnd = (result) => {
     if(!result.destination) return;
-
-    const newCourses = Array.from(courseStates);
-    const [reorderedCourses] = newCourses.splice(result.source.index, 1);
-    newCourses.splice(result.destination.index, 0, reorderedCourses);
-
+    const newCourses = reorder(courseStates, result.source.index, result.destination.index);
     setCourses(newCourses);
   }
 
@@ -35,31 +68,8 @@ function VerticalDragList() {
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable">
         {(provided, snapshot) => (
-          <div
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            style={getListStyle(snapshot.isDraggingOver)}
-          >
-            {courseStates.map((item, index) => (
-              <Draggable key={item.id} draggableId={item.id} index={index}>
-                {(provided, snapshot) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    style={getItemStyle(
-                      snapshot.isDragging,
-                      provided.draggableProps.style
-                    )}
-                  >
-                    {item.content}
-                  </div>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
+          verticalList(courseStates, provided, snapshot)
+        )} 
       </Droppable>
     </DragDropContext>
   );
@@ -67,3 +77,4 @@ function VerticalDragList() {
 
 
 export default VerticalDragList;
+export {reorder, getItemStyle, getListStyle, verticalList};

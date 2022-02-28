@@ -2,9 +2,9 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import VerticalDragList from './vertical';
 import MultipleDragList from './mult_vertical';
-import reorder from './mult_vertical';
 import courses from './courses.js';
 
+/* bootstrap stuff, not in use rn */
 function ClassList() {
   return (
     <Droppable droppableId="courseList">
@@ -41,6 +41,7 @@ function CourseCard(props) {
     </Draggable>
   );
 }
+/* end of bootstrap stuff, not in use rn */
 
 function App() {
     return (

@@ -17,6 +17,7 @@ function CourseCard (props) {
     userSelect: 'none',
     padding: grid * 2,
     margin: `0 0 ${grid}px 0`,
+    height: 150,
     background: isDragging ? 'lightgreen' : 'lightgrey',
     ...draggableStyle
   })
@@ -28,7 +29,7 @@ function CourseCard (props) {
         index={index}
       >
         {(provided, snapshot) => (
-          <Card
+          <div
             border="dark"
             ref={provided.innerRef}
             {...provided.draggableProps}
@@ -40,7 +41,7 @@ function CourseCard (props) {
           >
             <Card.Title style={{ fontSize: '16px' }}>{id}</Card.Title>
             <Card.Body style={{ fontSize: '14px' }}>{content}</Card.Body>
-          </Card>
+          </div>
         )}
       </Draggable>
   )

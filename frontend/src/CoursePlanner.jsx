@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
 import { DragDropContext } from 'react-beautiful-dnd'
 import VerticalList from './VerticalList'
+import HorizontalList from './HorizontalList'
 import courses from './courses'
 
 function CoursePlanner () {
@@ -66,7 +68,12 @@ function CoursePlanner () {
         <div style={{ display: 'flex' }}>
           <DragDropContext onDragEnd={onDragEnd}>
             <VerticalList id="allCourses" initialCourses={courseStates.allCourses} />
-            <VerticalList id="Fa2019" initialCourses={courseStates.Fa2019} />
+            <Row>
+              <HorizontalList id="Fa2019" initialCourses={courseStates.Fa2019} />
+              <HorizontalList id="Sp2020" initialCourses={courseStates.Sp2020} />
+              <HorizontalList id="Fa2020" initialCourses={courseStates.Fa2020} />
+              <HorizontalList id="Sp2021" initialCourses={courseStates.Sp2021} />
+           </Row>
           </DragDropContext>
         </div>
       </Col>

@@ -13,9 +13,9 @@ function CourseCard (props) {
 
   const getItemStyle = (isDragging, draggableStyle) => ({
     userSelect: 'none',
-    margin: '0 0px 10px 0',
+    margin: '10px',
     width: '175px',
-    height: '150px',
+    height: '125px',
     background: isDragging ? 'lightgreen' : 'lightgrey',
     ...draggableStyle
   })

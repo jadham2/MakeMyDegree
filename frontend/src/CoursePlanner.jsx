@@ -76,33 +76,37 @@ function CoursePlanner () {
       <Col>
         <div style={{ display: 'flex' }}>
           <DragDropContext onDragEnd={onDragEnd}>
-            <Col xs={3} lg={2}>
+            <Col xs={4} lg={2}>
             <VerticalList id="allCourses" initialCourses={courseStates.allCourses} />
             </Col>
-            <Col xs={6} lg={8}>
+            <Col xs={4} lg={8}>
               <Row>
                 <Col>
                   <Row>
-                    <Card border="primary" className="m-3" style={{ 'flex-grow': 1, overflow: 'auto', 'max-height': 620 }}>
-                      {Object.keys(courseStates).slice(1).map((id, index) => (
-                        <>
-                        <h5>{id}</h5>
-                        <HorizontalList key={index} id={id} initialCourses={courseStates[id]} />
-                        </>
-                      ))}
-                    </Card>
+                    <Col>
+                      <Card border="primary" className="m-3 p-3" style={{ 'flex-grow': 1, overflow: 'auto', 'max-height': 620 }}>
+                        {Object.keys(courseStates).slice(1).map((id, index) => (
+                          <>
+                          <h5><strong>{id}</strong></h5>
+                          <HorizontalList key={index} id={id} initialCourses={courseStates[id]} />
+                          </>
+                        ))}
+                      </Card>
+                    </Col>
                   </Row>
-                  <Row lg={200}>
-                    <Card border="primary" className="m-3" style={{ 'flex-grow': 1, overflow: 'auto', height: 180 }}>
-                      <Card.Body>
-                        {exampleDescription}
-                      </Card.Body>
-                    </Card>
+                  <Row>
+                    <Col>
+                      <Card border="primary" className="m-3" style={{ 'flex-grow': 1, overflow: 'auto', height: 180 }}>
+                        <Card.Body>
+                          {exampleDescription}
+                        </Card.Body>
+                      </Card>
+                    </Col>
                   </Row>
                 </Col>
               </Row>
             </Col>
-            <Col xs={3} lg={2}>
+            <Col xs={4} lg={2}>
               <Card border="primary" className="m-3" style={{ 'flex-grow': 1, overflow: 'auto', maxHeight: '820px' }}>
                 <Card.Body>
                   {exampleDegree}

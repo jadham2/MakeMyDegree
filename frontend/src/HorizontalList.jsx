@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   padding: $10px;
   user-select: none;
   transition: background-color 0.1s ease;
-  margin: $10px 0;
+  margin: $10px;
 `
 
 const DropZone = styled.div`
@@ -26,9 +26,9 @@ const DropZone = styled.div`
   */
   align-items: start;
   /* stop the list collapsing when empty */
-  min-width: 600px;
+  min-width: 100px;
   /* stop the list collapsing when it has no items */
-  min-height: 60px;
+  min-height: 150px;
 `
 
 const ScrollContainer = styled.div`

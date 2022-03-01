@@ -11,11 +11,10 @@ function VerticalList (props) {
     initialCourses
   } = props
 
-  const grid = 10
+  // const grid = 10
 
   const getListStyle = (isDraggingOver) => ({
     background: isDraggingOver ? 'lightblue' : 'white',
-    padding: grid,
     width: '250px',
     overflowY: 'auto',
     maxHeight: '820px'

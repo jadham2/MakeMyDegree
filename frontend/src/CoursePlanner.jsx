@@ -96,7 +96,7 @@ function CoursePlanner () {
               <Row>
                 <Col>
                   <Card border="primary" className="m-3 p-3" style={{ flexGrow: 1, overflowY: 'auto', maxHeight: 620 }}>
-                    {Object.keys(courseStates).slice(1).map((id, index) => (
+                    {Object.keys(courseStates).slice(1).map((id) => (
                       <React.Fragment key={id}>
                         <h5><strong>{termMapper(id)}</strong></h5>
                         <HorizontalList id={id} initialCourses={courseStates[id]} />

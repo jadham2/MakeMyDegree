@@ -22,6 +22,26 @@ const courses = [
   {
     id: 'ECE40400',
     content: 'Introduction to Computer Security'
+  },
+  {
+    id: 'ECE26400',
+    content: 'Advanced C Programming'
+  },
+  {
+    id: 'ECE36800',
+    content: 'Data Structures'
+  },
+  {
+    id: 'ECE46100',
+    content: 'Software Engineering'
+  },
+  {
+    id: 'ECE30100',
+    content: 'Signals and Systems'
+  },
+  {
+    id: 'ECE30200',
+    content: 'Probabilistic Methods in ECE'
   }
 ]
 

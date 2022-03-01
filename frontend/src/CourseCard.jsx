@@ -11,13 +11,12 @@ function CourseCard (props) {
     index
   } = props
 
-  const grid = 10
-
   const getItemStyle = (isDragging, draggableStyle) => ({
     userSelect: 'none',
-    padding: grid * 2,
-    margin: `0 0 ${grid}px 0`,
-    height: 150,
+    margin: '0 0 10px 0',
+    width: '175px',
+    height: '150px',
+    'max-width': '175px',
     background: isDragging ? 'lightgreen' : 'lightgrey',
     ...draggableStyle
   })
@@ -29,7 +28,7 @@ function CourseCard (props) {
         index={index}
       >
         {(provided, snapshot) => (
-          <div
+          <Card
             border="dark"
             ref={provided.innerRef}
             {...provided.draggableProps}
@@ -39,9 +38,11 @@ function CourseCard (props) {
               provided.draggableProps.style
             )}
           >
-            <Card.Title style={{ fontSize: '16px' }}>{id}</Card.Title>
-            <Card.Body style={{ fontSize: '14px' }}>{content}</Card.Body>
-          </div>
+            <Card.Body>
+              <Card.Title style={{ 'text-align': 'center', fontSize: '16px' }}><strong>{id}</strong></Card.Title>
+              <Card.Text style={{ 'text-align': 'center' }}>{content}</Card.Text>
+            </Card.Body>
+          </Card>
         )}
       </Draggable>
   )

@@ -1,10 +1,50 @@
 import React from 'react'
 import Card from 'react-bootstrap/Card'
-import Stack from 'react-bootstrap/Stack'
+import styled from '@emotion/styled'
+// import Stack from 'react-bootstrap/Stack'
 import { Droppable } from 'react-beautiful-dnd'
 import CourseCard from './CourseCard'
 
 /* eslint-disable react/prop-types */
+
+const Wrapper = styled.div`
+  background-color: ${({ isDraggingOver }) =>
+    isDraggingOver ? 'lightblue' : 'white'};
+  display: flex;
+  flex-direction: column;
+  padding: $10px;
+  user-select: none;
+  transition: background-color 0.1s ease;
+  margin: $10px 0;
+`
+
+const DropZone = styled.div`
+  display: flex;
+  /*
+    Needed to avoid growth in list due to lifting the first item
+    Caused by display: inline-flex strangeness
+  */
+  align-items: start;
+  /* stop the list collapsing when empty */
+  min-width: 600px;
+  /* stop the list collapsing when it has no items */
+  min-height: 60px;
+`
+
+const ScrollContainer = styled.div`
+  overflow: auto;
+`
+
+// $ExpectError - not sure why
+const Container = styled.div`
+  /* flex child */
+  flex-grow: 1;
+  /*
+    flex parent
+    needed to allow width to grow greater than body
+  */
+  display: inline-flex;
+`
 
 function HorizontalList (props) {
   const {
@@ -12,33 +52,28 @@ function HorizontalList (props) {
     initialCourses
   } = props
 
-  const grid = 10
-
-  const getListStyle = (isDraggingOver) => ({
-    background: isDraggingOver ? 'lightblue' : 'white',
-    padding: grid,
-    width: 500,
-    height: 200,
-    'overflow-x': 'auto',
-    'overflow-y': 'hidden'
-  })
-
   return (
       <Droppable droppableId={id} direction='horizontal'>
         {(provided, snapshot) => (
           <Card
             border="primary"
             className="m-3"
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            style={getListStyle(snapshot.isDraggingOver)}
           >
-            <Stack direction="horizontal" gap={3}>
-              {initialCourses.map(({ id, content }, index) => (
-                <CourseCard key={id} id={id} content={content} index={index} />
-              ))}
-            </Stack>
-            {provided.placeholder}
+            <Wrapper
+              isDraggingOver={snapshot.isDraggingOver}
+              {...provided.droppableProps}
+              >
+                <ScrollContainer>
+                  <Container>
+                    <DropZone ref={provided.innerRef}>
+                      {initialCourses.map(({ id, content }, index) => (
+                        <CourseCard key={id} id={id} content={content} index={index} />
+                      ))}
+                      {provided.placeholder}
+                    </DropZone>
+                  </Container>
+                </ScrollContainer>
+              </Wrapper>
           </Card>
         )}
       </Droppable>

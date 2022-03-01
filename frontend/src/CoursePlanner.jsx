@@ -22,8 +22,7 @@ function CoursePlanner () {
     Sp2022: [],
     Sm2022: [],
     Fa2022: [],
-    Sp2023: [],
-    noCourses: []
+    Sp2023: []
   })
 
   const move = (allLists, source, destination, droppableSource, droppableDestination) => {
@@ -82,39 +81,25 @@ function CoursePlanner () {
             </Col>
             <Col xs={6} lg={8}>
               <Row>
-                <Row lg={600}>
-                  <Card border="primary" className="m-3" style={{ 'flex-grow': 1, overflow: 'auto', 'max-height': 620 }}>
-                    <h5>Fa2019</h5>
-                    <HorizontalList id="Fa2019" initialCourses={courseStates.Fa2019} />
-                    <h5>Sp2020</h5>
-                    <HorizontalList id="Sp2020" initialCourses={courseStates.Sp2020} />
-                    <h5>Sm2020</h5>
-                    <HorizontalList id="Sm2020" initialCourses={courseStates.Sm2020} />
-                    <h5>Fa2020</h5>
-                    <HorizontalList id="Fa2020" initialCourses={courseStates.Fa2020} />
-                    <h5>Sp2021</h5>
-                    <HorizontalList id="Sp2021" initialCourses={courseStates.Sp2021} />
-                    <h5>Sm2021</h5>
-                    <HorizontalList id="Sm2021" initialCourses={courseStates.Sm2021} />
-                    <h5>Fa2021</h5>
-                    <HorizontalList id="Fa2021" initialCourses={courseStates.Fa2021} />
-                    <h5>Sp2022</h5>
-                    <HorizontalList id="Sp2022" initialCourses={courseStates.Sp2022} />
-                    <h5>Sm2022</h5>
-                    <HorizontalList id="Sm2022" initialCourses={courseStates.Sm2022} />
-                    <h5>Fa2022</h5>
-                    <HorizontalList id="Fa2022" initialCourses={courseStates.Fa2022} />
-                    <h5>Sp2023</h5>
-                    <HorizontalList id="Sp2023" initialCourses={courseStates.Sp2023} />
-                  </Card>
-                </Row>
-                <Row lg={200}>
-                  <Card border="primary" className="m-3" style={{ 'flex-grow': 1, overflow: 'auto', height: 180 }}>
-                    <Card.Body>
-                      {exampleDescription}
-                    </Card.Body>
-                  </Card>
-                </Row>
+                <Col>
+                  <Row>
+                    <Card border="primary" className="m-3" style={{ 'flex-grow': 1, overflow: 'auto', 'max-height': 620 }}>
+                      {Object.keys(courseStates).slice(1).map((id, index) => (
+                        <>
+                        <h5>{id}</h5>
+                        <HorizontalList key={index} id={id} initialCourses={courseStates[id]} />
+                        </>
+                      ))}
+                    </Card>
+                  </Row>
+                  <Row lg={200}>
+                    <Card border="primary" className="m-3" style={{ 'flex-grow': 1, overflow: 'auto', height: 180 }}>
+                      <Card.Body>
+                        {exampleDescription}
+                      </Card.Body>
+                    </Card>
+                  </Row>
+                </Col>
               </Row>
             </Col>
             <Col xs={3} lg={2}>

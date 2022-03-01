@@ -16,9 +16,9 @@ function VerticalList (props) {
   const getListStyle = (isDraggingOver) => ({
     background: isDraggingOver ? 'lightblue' : 'white',
     padding: grid,
-    width: '210px',
+    width: '250px',
     overflowY: 'auto',
-    maxHeight: '700px'
+    maxHeight: '820px'
   })
 
   return (

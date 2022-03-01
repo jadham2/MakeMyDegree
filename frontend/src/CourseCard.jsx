@@ -13,10 +13,9 @@ function CourseCard (props) {
 
   const getItemStyle = (isDragging, draggableStyle) => ({
     userSelect: 'none',
-    margin: '0 0 10px 0',
+    margin: '0 0px 10px 0',
     width: '175px',
     height: '150px',
-    'max-width': '175px',
     background: isDragging ? 'lightgreen' : 'lightgrey',
     ...draggableStyle
   })
@@ -39,8 +38,8 @@ function CourseCard (props) {
             )}
           >
             <Card.Body>
-              <Card.Title style={{ 'text-align': 'center', fontSize: '16px' }}><strong>{id}</strong></Card.Title>
-              <Card.Text style={{ 'text-align': 'center' }}>{content}</Card.Text>
+              <Card.Title style={{ textAlign: 'center', fontSize: '16px' }}><strong>{id}</strong></Card.Title>
+              <Card.Text style={{ textAlign: 'center' }}>{content}</Card.Text>
             </Card.Body>
           </Card>
         )}

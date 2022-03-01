@@ -17,8 +17,8 @@ function VerticalList (props) {
     background: isDraggingOver ? 'lightblue' : 'white',
     padding: grid,
     width: '210px',
-    'overflow-y': 'auto',
-    'max-height': '700px'
+    overflowY: 'auto',
+    maxHeight: '700px'
   })
 
   return (

@@ -67,16 +67,16 @@ function CoursePlanner () {
       <Col>
         <div style={{ display: 'flex' }}>
           <DragDropContext onDragEnd={onDragEnd}>
-            <Col xs='auto'>
+            <Col xs={3} lg={2}>
             <VerticalList id="allCourses" initialCourses={courseStates.allCourses} />
             </Col>
-            <Col xs={8}>
+            <Col xs={6} lg={8}>
               <HorizontalList id="Fa2019" initialCourses={courseStates.Fa2019} />
               <HorizontalList id="Sp2020" initialCourses={courseStates.Sp2020} />
               <HorizontalList id="Fa2020" initialCourses={courseStates.Fa2020} />
               <HorizontalList id="Sp2021" initialCourses={courseStates.Sp2021} />
             </Col>
-            <Col xs='auto'>
+            <Col xs={3} lg={2}>
             <VerticalList id="noCourses" initialCourses={courseStates.noCourses} />
             </Col>
           </DragDropContext>

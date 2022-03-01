@@ -5,7 +5,7 @@ const exampleDescription =
   <h3>ECE 30100 - Signals and Systems</h3>
   <h4>Course Details</h4>
   <p>
-    <span>Lecture Hours: 3</span>
+    <span>Lecture Hours: 3 </span>
     <span>Credits: 3</span>
   </p>
   <div>

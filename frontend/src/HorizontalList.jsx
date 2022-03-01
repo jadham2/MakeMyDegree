@@ -1,7 +1,6 @@
 import React from 'react'
 import Card from 'react-bootstrap/Card'
 import styled from '@emotion/styled'
-// import Stack from 'react-bootstrap/Stack'
 import { Droppable } from 'react-beautiful-dnd'
 import CourseCard from './CourseCard'
 

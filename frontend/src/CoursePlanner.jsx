@@ -25,6 +25,19 @@ function CoursePlanner () {
     Sp2023: []
   })
 
+  const termMapper = (term) => {
+    switch (term.substring(0, 2)) {
+      case 'Fa':
+        return 'Fall ' + term.substring(2)
+      case 'Sp':
+        return 'Spring ' + term.substring(2)
+      case 'Sm':
+        return 'Summer ' + term.substring(2)
+      default:
+        return term
+    }
+  }
+
   const move = (allLists, source, destination, droppableSource, droppableDestination) => {
     const sourceClone = Array.from(source)
     const destClone = Array.from(destination)
@@ -85,7 +98,7 @@ function CoursePlanner () {
                   <Card border="primary" className="m-3 p-3" style={{ flexGrow: 1, overflowY: 'auto', maxHeight: 620 }}>
                     {Object.keys(courseStates).slice(1).map((id, index) => (
                       <React.Fragment key={id}>
-                        <h5><strong>{id}</strong></h5>
+                        <h5><strong>{termMapper(id)}</strong></h5>
                         <HorizontalList id={id} initialCourses={courseStates[id]} />
                       </React.Fragment>
                     ))}

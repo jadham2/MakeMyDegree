@@ -1,5 +1,6 @@
 import React from 'react'
 import Card from 'react-bootstrap/Card'
+import Form from 'react-bootstrap/Form'
 import { Droppable } from 'react-beautiful-dnd'
 import CourseCard from './CourseCard'
 
@@ -29,6 +30,10 @@ function VerticalList (props) {
             style={getListStyle(snapshot.isDraggingOver)}
           >
             <Card.Body>
+              <Form.Group className="mb-3">
+                <Form.Label><b>Search Class</b></Form.Label>
+                <Form.Control placeholder="Enter Class Name"/>
+              </Form.Group>
               {initialCourses.map(({ id, content }, index) => (
                 <CourseCard key={id} id={id} content={content} index={index} />
               ))}

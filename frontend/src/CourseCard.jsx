@@ -1,8 +1,18 @@
 import React from 'react'
 import Card from 'react-bootstrap/Card'
+import styled from '@emotion/styled'
 import { Draggable } from 'react-beautiful-dnd'
 
 /* eslint-disable react/prop-types */
+
+const CardWrapper = styled(Card)`
+  user-select: none;
+  margin: 10px;
+  width: 175px;
+  height: 125px;
+  background: ${props => props.isDragging ? 'lightgreen' : 'lightgrey'};
+  ${props => props.draggableStyle};
+`
 
 function CourseCard (props) {
   const {
@@ -11,15 +21,6 @@ function CourseCard (props) {
     index
   } = props
 
-  const getItemStyle = (isDragging, draggableStyle) => ({
-    userSelect: 'none',
-    margin: '10px',
-    width: '175px',
-    height: '125px',
-    background: isDragging ? 'lightgreen' : 'lightgrey',
-    ...draggableStyle
-  })
-
   return (
       <Draggable
         key={id}
@@ -27,21 +28,19 @@ function CourseCard (props) {
         index={index}
       >
         {(provided, snapshot) => (
-          <Card
+          <CardWrapper
             border="dark"
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            style={getItemStyle(
-              snapshot.isDragging,
-              provided.draggableProps.style
-            )}
+            isDragging={snapshot.isDragging}
+            draggableStyle={provided.draggableProps.style}
           >
             <Card.Body>
               <Card.Title style={{ textAlign: 'center', fontSize: '16px' }}><strong>{id}</strong></Card.Title>
               <Card.Text style={{ textAlign: 'center' }}>{content}</Card.Text>
             </Card.Body>
-          </Card>
+          </CardWrapper>
         )}
       </Draggable>
   )

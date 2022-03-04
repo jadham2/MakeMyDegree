@@ -25,7 +25,7 @@ const DropZone = styled.div`
   */
   align-items: start;
   /* stop the list collapsing when empty */
-  min-width: 100px;
+  min-width: inherit;
   /* stop the list collapsing when it has no items */
   min-height: 150px;
 `
@@ -34,7 +34,6 @@ const ScrollContainer = styled.div`
   overflow: auto;
 `
 
-// $ExpectError - not sure why
 const Container = styled.div`
   /* flex child */
   flex-grow: 1;
@@ -43,6 +42,7 @@ const Container = styled.div`
     needed to allow width to grow greater than body
   */
   display: inline-flex;
+  min-width: 100%;
 `
 
 function HorizontalList (props) {

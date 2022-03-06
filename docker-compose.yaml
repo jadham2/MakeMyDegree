@@ -1,5 +1,27 @@
 version: "3.2"
 services:
+  postgres:
+    image: postgres:13.1
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD="${DB_PASS}"
+      - APP_DB_NAME="${DB_NAME}"
+      - APP_DB_USER="${DB_USER}"
+      - APP_DB_PASS="${DB_PASS}"
+    logging:
+      options:
+          max-size: 10m
+          max-file: "3"
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./backend/db:/docker-entrypoint-initdb.d/
   backend:
     container_name: backend
     env_file:
@@ -18,4 +40,5 @@ services:
       - "3000:3000"
     depends_on:
       - backend
+    
 

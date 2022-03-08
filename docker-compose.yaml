@@ -1,6 +1,7 @@
 version: "3.2"
 services:
   postgres:
+    container_name: postgres
     image: postgres:13.1
     healthcheck:
       test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
@@ -9,11 +10,11 @@ services:
       retries: 10
     restart: always
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD="${DB_PASS}"
-      - APP_DB_NAME="${DB_NAME}"
-      - APP_DB_USER="${DB_USER}"
-      - APP_DB_PASS="${DB_PASS}"
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - APP_DB_NAME=${DB_NAME}
+      - APP_DB_USER=${DB_USER}
+      - APP_DB_PASS=${DB_PASS}
     logging:
       options:
           max-size: 10m
@@ -30,7 +31,9 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "0.0.0.0:8000:8000"
+    depends_on:
+      - postgres
   frontend:
     container_name: frontend
     build:
@@ -40,5 +43,3 @@ services:
       - "3000:3000"
     depends_on:
       - backend
-    
-

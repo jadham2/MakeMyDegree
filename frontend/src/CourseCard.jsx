@@ -10,8 +10,8 @@ const CardWrapper = styled(Card)`
   margin: 10px;
   width: 175px;
   height: 125px;
-  background: ${props => props.isDragging ? 'lightgreen' : 'lightgrey'};
-  ${props => props.draggableStyle};
+  background: ${props => props.isdragging ? 'lightgreen' : 'lightgrey'};
+  ${props => props.draggablestyle};
 `
 
 function CourseCard (props) {
@@ -33,8 +33,8 @@ function CourseCard (props) {
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            isDragging={snapshot.isDragging}
-            draggableStyle={provided.draggableProps.style}
+            isdragging={snapshot.isDragging ? 1 : 0}
+            draggablestyle={provided.draggableProps.style}
           >
             <Card.Body>
               <Card.Title style={{ textAlign: 'center', fontSize: '16px' }}><strong>{id}</strong></Card.Title>

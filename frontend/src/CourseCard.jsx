@@ -7,10 +7,11 @@ import { Draggable } from 'react-beautiful-dnd'
 
 const CardWrapper = styled(Card)`
   user-select: none;
+  box-shadow: 2px 1px 2px 1px rgba(0, 0, 0, 0.17);
   margin: 10px;
   width: 175px;
   height: 125px;
-  background: ${props => props.isdragging ? 'lightgreen' : 'lightgrey'};
+  background: ${props => props.isdragging ? 'lightgreen' : 'white'};
   ${props => props.draggablestyle};
 `
 
@@ -29,7 +30,6 @@ function CourseCard (props) {
       >
         {(provided, snapshot) => (
           <CardWrapper
-            border="dark"
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}

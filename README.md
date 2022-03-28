@@ -29,8 +29,8 @@ There are also paid solutions that help students plan each semester and track av
 ### Roadmap and current status:
 * **University agnostic**: 
   * Currently scrapped only the Purdue ECE degree plan
-  * By April 1, scrap all degree plans from Purdue
-  * By April 10, scrap degree plans from vaious universities
+  * By April 1, scrape all degree plans from Purdue
+  * By April 10, scrape degree plans from vaious universities
 * **Schedule validation**: 
   * Currently, preliminary DB, API in shape
   * By April 10, complete DB, API (including validation logic) 

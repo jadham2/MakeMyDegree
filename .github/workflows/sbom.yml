@@ -1,7 +1,7 @@
 name: Software Bill of Materials
 on:
   push:
-    branches: [ main ]
+    branches: [ jl/sbom ]
     
 jobs:
   create_sbom:

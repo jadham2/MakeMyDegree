@@ -49,5 +49,3 @@ jobs:
           git commit -m "Auto-update sbom_node.json and sbom_py.json" -a
       - name: push changes
         uses: ad-m/github-push-action@master
-          with:
-            branch: ${{ github.ref }}

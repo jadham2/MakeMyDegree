@@ -17,6 +17,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
+      - name: install node project
+        run: |
+          cd ./frontend/
+          npm install
+          cd ..
       - name: install cyclonedx-node
         run: npm install -g @cyclonedx/bom
       - name: remove existing sbom_node
@@ -44,3 +49,5 @@ jobs:
           git commit -m "Auto-update sbom_node.json and sbom_py.json" -a
       - name: push changes
         uses: ad-m/github-push-action@master
+          with:
+            branch: ${{ github.ref }}

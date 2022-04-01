@@ -70,12 +70,13 @@ paths:
           required: true
           schema:
             type: string
-        - name: body
-          in: query
-          description: The user to be updated.
-          required: true
-          schema:
-            $ref: '#/components/schemas/User'
+      requestBody:
+        description: Updated user object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
       responses:
         200:
           description: The user with the given user_id.
@@ -222,12 +223,13 @@ paths:
           required: true
           schema:
             type: string
-        - name: body
-          in: query
-          description: The degree to be updated.
-          required: true
-          schema:
-            $ref: '#/components/schemas/Degree'
+      requestBody:
+        description: The degree to be updated.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Degree'
       responses:
         200:
           description: The degree with the given degree_id.
@@ -336,12 +338,13 @@ paths:
           required: true
           schema:
             type: string
-        - name: body
-          in: query
-          description: The course to be updated.
-          required: true
-          schema:
-            $ref: '#/components/schemas/Course'
+      requestBody:
+        description: The course to be updated.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
       responses:
         200:
           description: The course with the given course_id.
@@ -448,12 +451,13 @@ paths:
           required: true
           schema:
             type: string
-        - name: body
-          in: query
-          description: The tag to be updated.
-          required: true
-          schema:
-            $ref: '#/components/schemas/Tag'
+      requestBody:
+        description: The tag to be updated.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tag'
       responses:
         200:
           description: The tag with the given tag_id.
@@ -560,12 +564,13 @@ paths:
           required: true
           schema:
             type: string
-        - name: body
-          in: query
-          description: The course_tag to be updated.
-          required: true
-          schema:
-            $ref: '#/components/schemas/CourseTag'
+      requestBody:
+        description: The course_tag to be updated.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseTag'
       responses:
         200:
           description: The course_tag with the given course_tag_id.
@@ -672,12 +677,13 @@ paths:
           required: true
           schema:
             type: string
-        - name: body
-          in: query
-          description: The requisite to be updated.
-          required: true
-          schema:
-            $ref: '#/components/schemas/Requisite'
+      requestBody:
+        description: The requisite to be updated.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Requisite'
       responses:
         200:
           description: The requisite with the given requisite_id.

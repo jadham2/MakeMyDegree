@@ -26,12 +26,13 @@ class Course(models.Model):
 
 
 class Requisite(models.Model):
+    requisite_id = models.AutoField(primary_key=True)
     course_id = models.ForeignKey(
         'Course',
         on_delete=models.CASCADE,
         related_name="courses"
     )
-    requisite = models.ForeignKey(
+    course_requisites = models.ForeignKey(
         'Course',
         on_delete=models.CASCADE,
         related_name="requisites"
@@ -58,6 +59,7 @@ class Tag(models.Model):
 
 
 class CourseTag(models.Model):
+    course_tag_id = models.AutoField(primary_key=True)
     tag_id = models.ForeignKey(
         'Tag',
         on_delete=models.CASCADE,

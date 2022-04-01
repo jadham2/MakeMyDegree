@@ -60,7 +60,7 @@ def create_get_courses(request) -> Response:
         serializer = CourseSerializer(courses, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     if request.method == 'POST':
-        data = JSONParser().parse(request)
+        data = request.data
         serializer = CourseSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -100,7 +100,7 @@ def create_get_degrees(request) -> Response:
         serializer = DegreeSerializer(degrees, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     if request.method == 'POST':
-        data = JSONParser().parse(request)
+        data = request.data
         serializer = DegreeSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -129,4 +129,79 @@ def detail_degree(request, degree_id) -> Response:
 
     if request.method == 'DELETE':
         queried_degree.delete()
+        return Response(status=status.HTTP_200_OK)
+
+@api_view(['GET', 'POST'])
+def create_get_tags(request) -> Response:
+    if request.method == 'GET':
+        tags = Tag.objects.all()
+        serializer = TagSerializer(tags, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    if request.method == 'POST':
+        data = request.data
+        serializer = TagSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def detail_tags(request, tag_id) -> Response:
+    try:
+        queried_tag = Tag.objects.get(pk=tag_id)
+    except Tag.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = TagSerializer(queried_tag)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    if request.method == 'PUT':
+        serializer = TagSerializer(queried_tag, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'DELETE':
+        queried_tag.delete()
+        return Response(status=status.HTTP_200_OK)
+
+
+@api_view(['GET', 'POST'])
+def create_get_courses_tags(request) -> Response:
+    if request.method == 'GET':
+        course_tags = CourseTag.objects.all()
+        serializer = CourseTagSerializer(course_tags, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    if request.method == 'POST':
+        data = request.data
+        serializer = CourseTagSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def detail_course_tags(request, course_tag_id) -> Response:
+    try:
+        queried_course_tag = CourseTag.objects.get(pk=course_tag_id)
+    except CourseTag.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = CourseTagSerializer(queried_course_tag)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    if request.method == 'PUT':
+        serializer = CourseTagSerializer(queried_course_tag, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'DELETE':
+        queried_course_tag.delete()
         return Response(status=status.HTTP_200_OK)

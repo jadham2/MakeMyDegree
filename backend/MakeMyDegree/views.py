@@ -131,6 +131,7 @@ def detail_degree(request, degree_id) -> Response:
         queried_degree.delete()
         return Response(status=status.HTTP_200_OK)
 
+
 @api_view(['GET', 'POST'])
 def create_get_tags(request) -> Response:
     if request.method == 'GET':
@@ -147,7 +148,7 @@ def create_get_tags(request) -> Response:
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def detail_tags(request, tag_id) -> Response:
+def detail_tag(request, tag_id) -> Response:
     try:
         queried_tag = Tag.objects.get(pk=tag_id)
     except Tag.DoesNotExist:
@@ -170,7 +171,7 @@ def detail_tags(request, tag_id) -> Response:
 
 
 @api_view(['GET', 'POST'])
-def create_get_courses_tags(request) -> Response:
+def create_get_course_tags(request) -> Response:
     if request.method == 'GET':
         course_tags = CourseTag.objects.all()
         serializer = CourseTagSerializer(course_tags, many=True)
@@ -185,7 +186,7 @@ def create_get_courses_tags(request) -> Response:
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def detail_course_tags(request, course_tag_id) -> Response:
+def detail_course_tag(request, course_tag_id) -> Response:
     try:
         queried_course_tag = CourseTag.objects.get(pk=course_tag_id)
     except CourseTag.DoesNotExist:
@@ -204,4 +205,42 @@ def detail_course_tags(request, course_tag_id) -> Response:
 
     if request.method == 'DELETE':
         queried_course_tag.delete()
+        return Response(status=status.HTTP_200_OK)
+
+
+@api_view(['GET', 'POST'])
+def create_get_requisites(request) -> Response:
+    if request.method == 'GET':
+        requisites = Requisite.objects.all()
+        serializer = RequisiteSerializer(requisites, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    if request.method == 'POST':
+        data = request.data
+        serializer = RequisiteSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def detail_requisite(request, requisite_id) -> Response:
+    try:
+        queried_requisite = Requisite.objects.get(pk=requisite_id)
+    except Requisite.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = RequisiteSerializer(queried_requisite)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    if request.method == 'PUT':
+        serializer = RequisiteSerializer(queried_requisite, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'DELETE':
+        queried_requisite.delete()
         return Response(status=status.HTTP_200_OK)

@@ -858,3 +858,193 @@ class CourseTagTests(APITestCase):
         )
 
         self.assertEqual(delete_course_tag_resp.status_code, status.HTTP_404_NOT_FOUND)
+
+
+class RequisiteTests(APITestCase):
+    def setUp(self):
+        self.compe_course1 = Course.objects.create(
+            course_name='Linear Circuit Analysis I',
+            course_tag='ECE 20001',
+            course_credits=3,
+            description='Second Year Circuits Course.',
+            terms=['Fa2019', 'Fa2020', 'Fa2021']
+        )
+        self.compe_course1.save()
+
+        self.compe_course2 = Course.objects.create(
+            course_name='Linear Circuit Analysis II',
+            course_tag='ECE 20002',
+            course_credits=3,
+            description='Second Year Circuits Course.',
+            terms=['Sp2020', 'Sp2021', 'Sp2022']
+        )
+        self.compe_course2.save()
+
+    def test_create_requisite_valid(self):
+        test_requisite_data = {
+            'course_id': self.compe_course2.course_id,
+            'course_requisite': self.compe_course1.course_id,
+            'requisite_type': 'Pre'
+        }
+
+        requisite = self.client.post(
+            reverse('create_get_requisites'),
+            data=test_requisite_data,
+            format='json'
+        )
+
+        self.assertEqual(requisite.status_code, status.HTTP_201_CREATED)
+
+        requisite = requisite.json()
+
+        self.assertEqual(requisite['course_requisite'], self.compe_course1.course_id)
+        self.assertEqual(requisite['course_id'], self.compe_course2.course_id)
+
+    def test_create_requisite_invalid(self):
+        test_requisite_data = {
+            'course_id': 1231312,
+            'course_requisite': self.compe_course1.course_id,
+            'requisite_type': 'Pre'
+        }
+
+        requisite = self.client.post(
+            reverse('create_get_requisites'),
+            data=test_requisite_data,
+            format='json'
+        )
+
+        self.assertEqual(requisite.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_get_requisite_id_valid(self):
+        test_requisite_data = {
+            'course_id': self.compe_course2.course_id,
+            'course_requisite': self.compe_course1.course_id,
+            'requisite_type': 'Pre'
+        }
+
+        requisite = self.client.post(
+            reverse('create_get_requisites'),
+            data=test_requisite_data,
+            format='json'
+        )
+
+        self.assertEqual(requisite.status_code, status.HTTP_201_CREATED)
+
+        requisite = requisite.json()
+
+        get_requisite_resp = self.client.get(
+            reverse('detail_requisite', kwargs={'requisite_id': requisite['requisite_id']}),
+            format='json'
+        )
+
+        self.assertEqual(get_requisite_resp.status_code, status.HTTP_200_OK)
+
+        get_requisite_resp = get_requisite_resp.json()
+
+        self.assertEqual(get_requisite_resp['course_id'], self.compe_course2.course_id)
+        self.assertEqual(get_requisite_resp['course_requisite'], self.compe_course1.course_id)
+
+    def test_get_requisite_id_invalid(self):
+        get_requisite_resp = self.client.get(
+            reverse('detail_requisite', kwargs={'requisite_id': 123132}),
+            format='json'
+        )
+
+        self.assertEqual(get_requisite_resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_update_requisite_id_valid(self):
+        test_requisite_data = {
+            'course_id': self.compe_course2.course_id,
+            'course_requisite': self.compe_course1.course_id,
+            'requisite_type': 'Pre'
+        }
+
+        requisite = self.client.post(
+            reverse('create_get_requisites'),
+            data=test_requisite_data,
+            format='json'
+        )
+
+        self.assertEqual(requisite.status_code, status.HTTP_201_CREATED)
+
+        requisite = requisite.json()
+
+        update_requisite_resp = self.client.put(
+            reverse('detail_requisite', kwargs={'requisite_id': requisite['requisite_id']}),
+            data={'course_id': self.compe_course1.course_id, 'course_requisite': self.compe_course2.course_id, 'requisite_type': 'Pre'},
+            format='json'
+        )
+
+        self.assertEqual(update_requisite_resp.status_code, status.HTTP_200_OK)
+
+        update_requisite_resp = update_requisite_resp.json()
+
+        self.assertEqual(update_requisite_resp['course_id'], self.compe_course1.course_id)
+        self.assertEqual(update_requisite_resp['course_requisite'], self.compe_course2.course_id)
+
+    def test_update_requisite_id_invalid(self):
+        update_requisite_resp = self.client.put(
+            reverse('detail_requisite', kwargs={'requisite_id': 123132}),
+            data={'course_id': self.compe_course1.course_id, 'course_requisite': self.compe_course2.course_id, 'requisite_type': 'Pre'},
+            format='json'
+        )
+
+        self.assertEqual(update_requisite_resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_delete_requisite_id_valid(self):
+        test_requisite_data = {
+            'course_id': self.compe_course2.course_id,
+            'course_requisite': self.compe_course1.course_id,
+            'requisite_type': 'Pre'
+        }
+
+        requisite = self.client.post(
+            reverse('create_get_requisites'),
+            data=test_requisite_data,
+            format='json'
+        )
+
+        self.assertEqual(requisite.status_code, status.HTTP_201_CREATED)
+
+        requisite = requisite.json()
+
+        delete_requisite_resp = self.client.delete(
+            reverse('detail_requisite', kwargs={'requisite_id': requisite['requisite_id']}),
+            format='json'
+        )
+
+        self.assertEqual(delete_requisite_resp.status_code, status.HTTP_200_OK)
+
+    def test_delete_requisite_id_invalid(self):
+        delete_requisite_resp = self.client.delete(
+            reverse('detail_requisite', kwargs={'requisite_id': 123132}),
+            format='json'
+        )
+
+        self.assertEqual(delete_requisite_resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_delete_requisite_foreign_key(self):
+
+        cs_course_data = {
+            'course_name': 'Data Structures',
+            'course_tag': 'ECE 20001',
+            'course_credits': 3,
+            'description': 'Second Year Circuits Course.',
+            'terms': ['Fa2019', 'Fa2020', 'Fa2021']
+        }
+
+        cs_course = Course.objects.create(**cs_course_data)
+        cs_course.save()
+
+        test_requisite_data = {
+            'course_id': cs_course,
+            'course_requisite': self.compe_course1,
+            'requisite_type': 'Pre'
+        }
+
+        requisite = Requisite.objects.create(**test_requisite_data)
+        requisite.save()
+
+        cs_course.delete()
+
+        self.assertFalse(Requisite.objects.filter(requisite_id=requisite.requisite_id).exists())

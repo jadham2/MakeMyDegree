@@ -67,6 +67,6 @@ class RequisiteSerializer(serializers.ModelSerializer):
         fields = (
             'requisite_id',
             'course_id',
-            'course_requisites',
+            'course_requisite',
             'requisite_type'
         )

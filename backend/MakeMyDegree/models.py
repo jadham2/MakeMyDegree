@@ -32,12 +32,12 @@ class Requisite(models.Model):
         on_delete=models.CASCADE,
         related_name="courses"
     )
-    course_requisites = models.ForeignKey(
+    course_requisite = models.ForeignKey(
         'Course',
         on_delete=models.CASCADE,
         related_name="requisites"
     )
-    requisite_type = models.CharField(max_length=50)
+    requisite_type = models.CharField(max_length=3)
 
 
 class Degree(models.Model):

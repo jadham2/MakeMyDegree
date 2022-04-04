@@ -272,6 +272,29 @@ paths:
                 $ref: '#/components/schemas/Error'
   /degrees/{degree_id}/rules:
     summary: Query the rules of the degree with the given degree_id.
+    get:
+      parameters:
+        - name: degree_id
+          in: path
+          description: The degree_id of the degree to be queried.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The rules of the degree with the given degree_id.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rule'
+        404:
+          description: The degree with the given degree_id does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /courses:
     summary: Register and query courses.
     get:

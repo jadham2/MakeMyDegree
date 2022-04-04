@@ -117,7 +117,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /users/{user_id}/plan/update:
+  /users/{user_id}/update:
     summary: Update the plan of the user with the given user_id.
     put:
       summary: Update the plan and get audit response.
@@ -128,6 +128,13 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        description: Updated plan object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Plan'
       responses:
         200:
           description: Plan was updated and audit info was retrieved.
@@ -270,8 +277,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /degrees/{degree_id}/rules:
-    summary: Query the rules of the degree with the given degree_id.
+  /degrees/{degree_id}/tags:
+    summary: Query the tags of the degree with the given degree_id.
     get:
       parameters:
         - name: degree_id
@@ -282,13 +289,13 @@ paths:
             type: string
       responses:
         200:
-          description: The rules of the degree with the given degree_id.
+          description: The Tags of the degree with the given degree_id.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Rule'
+                  $ref: '#/components/schemas/Tag'
         404:
           description: The degree with the given degree_id does not exist.
           content:
@@ -921,6 +928,7 @@ components:
       - ID
       - TagID
       - CourseID
+      type: object
       properties:
         ID:
           type: integer
@@ -934,3 +942,21 @@ components:
           type: integer
           description: "ID for the course in the course-tag map."
           example: 342
+    Plan:
+      required:
+      - Term
+      type: object
+      example:
+        "Fa2019": [ 321, 123, 32 ]
+        "Sp2020": [ 123, 421, 23 ]
+      properties:
+        Term:
+          type: object
+          description: "Term for the plan."
+          properties:
+            Courses:
+              type: array
+              items:
+                type: integer
+              description: "Courses in the plan."
+              example: [ 342, 123 ]

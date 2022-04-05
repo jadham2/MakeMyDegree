@@ -2,6 +2,9 @@ name: Software Bill of Materials
 on:
   push:
     branches: [ main ]
+    paths: 
+      - 'backend/requirements.txt'
+      - 'frontend/package.json'
     
 jobs:
   create_sbom:

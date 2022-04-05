@@ -38,3 +38,35 @@ class DegreeSerializer(serializers.ModelSerializer):
             'school',
             'term'
         )
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = (
+            'tag_id',
+            'degree_id',
+            'name',
+            'rule'
+        )
+
+
+class CourseTagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseTag
+        fields = (
+            'course_tag_id',
+            'tag_id',
+            'course_id'
+        )
+
+
+class RequisiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Requisite
+        fields = (
+            'requisite_id',
+            'course_id',
+            'course_requisite',
+            'requisite_type'
+        )

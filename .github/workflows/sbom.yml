@@ -5,6 +5,7 @@ on:
     paths: 
       - 'backend/requirements.txt'
       - 'frontend/package.json'
+      - 'frontend/package-lock.json'
     
 jobs:
   create_sbom:

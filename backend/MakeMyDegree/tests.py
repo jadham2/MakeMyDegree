@@ -503,7 +503,7 @@ class TagTests(APITestCase):
 
     def test_create_tag_valid(self):
         test_tag_data = {
-            'degree_id': self.compe_degree.degree_id,
+            'degree': self.compe_degree.degree_id,
             'name': 'General Education',
             'rule': '>= 17'
         }
@@ -519,11 +519,11 @@ class TagTests(APITestCase):
         tag_resp = tag_resp.json()
 
         self.assertEqual(tag_resp['name'], test_tag_data['name'])
-        self.assertEqual(tag_resp['degree_id'], self.compe_degree.degree_id)
+        self.assertEqual(tag_resp['degree'], self.compe_degree.degree_id)
 
     def test_create_tag_invalid_degree(self):
         test_tag_data = {
-            'degree_id': '25325234',
+            'degree': 25325234,
             'name': 'General Education',
             'rule': '>= 17'
         }
@@ -538,7 +538,7 @@ class TagTests(APITestCase):
 
     def test_get_all_tags_valid(self):
         test_tag_data = {
-            'degree_id': self.compe_degree,
+            'degree': self.compe_degree,
             'name': 'General Education',
             'rule': '>= 17'
         }
@@ -546,7 +546,7 @@ class TagTests(APITestCase):
         test_tag.save()
 
         test_tag_data = {
-            'degree_id': self.compe_degree,
+            'degree': self.compe_degree,
             'name': 'Selectives',
             'rule': '>= 16'
         }
@@ -573,7 +573,7 @@ class TagTests(APITestCase):
 
     def test_get_tag_id_valid(self):
         test_tag_data = {
-            'degree_id': self.compe_degree,
+            'degree': self.compe_degree,
             'name': 'General Education',
             'rule': '>= 17'
         }
@@ -590,7 +590,7 @@ class TagTests(APITestCase):
         get_tag_resp = get_tag_resp.json()
 
         self.assertEqual(get_tag_resp['name'], test_tag_data['name'])
-        self.assertEqual(get_tag_resp['degree_id'], self.compe_degree.degree_id)
+        self.assertEqual(get_tag_resp['degree'], self.compe_degree.degree_id)
 
     def test_get_tag_id_invalid(self):
         get_tag_resp = self.client.get(
@@ -602,7 +602,7 @@ class TagTests(APITestCase):
 
     def test_update_tag_id_valid(self):
         test_tag_data = {
-            'degree_id': self.compe_degree,
+            'degree': self.compe_degree,
             'name': 'General Education',
             'rule': '>= 17'
         }
@@ -610,7 +610,7 @@ class TagTests(APITestCase):
         test_tag.save()
 
         update_data = {
-            'degree_id': self.compe_degree.degree_id,
+            'degree': self.compe_degree.degree_id,
             'name': 'Selectives',
             'rule': '>= 16'
         }
@@ -626,7 +626,7 @@ class TagTests(APITestCase):
         put_tag_resp = put_tag_resp.json()
 
         self.assertEqual(put_tag_resp['name'], update_data['name'])
-        self.assertEqual(put_tag_resp['degree_id'], self.compe_degree.degree_id)
+        self.assertEqual(put_tag_resp['degree'], self.compe_degree.degree_id)
 
     def test_update_tag_id_invalid(self):
         update_data = {'name': 'Selectives'}
@@ -641,7 +641,7 @@ class TagTests(APITestCase):
 
     def test_delete_tag_id_valid(self):
         test_tag_data = {
-            'degree_id': self.compe_degree,
+            'degree': self.compe_degree,
             'name': 'General Education',
             'rule': '>= 17'
         }
@@ -674,7 +674,7 @@ class TagTests(APITestCase):
         cs_degree.save()
 
         test_tag_data = {
-            'degree_id': cs_degree,
+            'degree': cs_degree,
             'name': 'General Education',
             'rule': '>= 17'
         }
@@ -708,7 +708,7 @@ class CourseTagTests(APITestCase):
         self.compe_course.save()
 
         self.compe_tag = Tag.objects.create(
-            degree_id=self.compe_degree,
+            degree=self.compe_degree,
             name='General Education',
             rule='>= 17'
         )
@@ -1048,3 +1048,72 @@ class RequisiteTests(APITestCase):
         cs_course.delete()
 
         self.assertFalse(Requisite.objects.filter(requisite_id=requisite.requisite_id).exists())
+
+
+class UpdateTests(APITestCase):
+    def setUp(self):
+        compe_degree_data = {
+            'degree_type': 'BS',
+            'degree_name': 'Computer Engineering',
+            'school': 'ECE',
+            'term': 'Fa2019'
+        }
+        self.compe_degree = Degree.objects.create(**compe_degree_data)
+        self.compe_degree.save()
+
+        test_student_data = {
+            'name': 'Jude Lei',
+            'password': 'HelloWorld!@#',
+            'email': 'jadham@purdue.edu',
+            'degree': self.compe_degree,
+            'curr_plan': {'Fa2019': [], 'Sp2020': [], 'Su2020': [], 'Fa2020': [], 'Sp2021': [], 'Su2021': []}
+        }
+        self.test_student = User.objects.create(**test_student_data)
+        self.test_student.save()
+
+        test_tag_1 = {
+            'degree': self.compe_degree,
+            'name': 'General Education',
+            'rule': '>= 17'
+        }
+        self.test_tag_1 = Tag.objects.create(**test_tag_1)
+        self.test_tag_1.save()
+
+        test_tag_2 = {
+            'degree': self.compe_degree,
+            'name': 'Selectives',
+            'rule': '>= 16'
+        }
+        self.test_tag_2 = Tag.objects.create(**test_tag_2)
+        self.test_tag_2.save()
+
+        test_course_1 = {
+            'course_name': 'Linear Circuit Analysis',
+            'course_tag': 'ECE 20001',
+            'course_credits': 3,
+            'description': 'First Year Circuits Course.',
+            'terms': ['Fa2019', 'Fa2020', 'Fa2021']
+        }
+        self.test_course_1 = Course.objects.create(**test_course_1)
+        self.test_course_1.save()
+
+        test_course_2 = {
+            'course_name': 'Linear Circuit Analysis II',
+            'course_tag': 'ECE 20002',
+            'course_credits': 3,
+            'description': 'Second Year Circuits Course.',
+            'terms': ['Sp2020', 'Sp2021']
+        }
+        self.test_course_2 = Course.objects.create(**test_course_2)
+        self.test_course_2.save()
+
+    def test_query_plan(self):
+        degree_tags = Tag.objects.filter(degree=self.test_student.degree)
+        print([tag.name for tag in degree_tags])
+
+        response = self.client.put(
+            reverse('update_plan', kwargs={'user_id': self.test_student.user_id}),
+            data={'Fa2019': [self.test_course_1.course_id], 'Sp2020': [self.test_course_2.course_id], 'Su2020': []}
+        )
+
+        print(response.status_code)

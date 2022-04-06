@@ -244,3 +244,42 @@ def detail_requisite(request, requisite_id) -> Response:
     if request.method == 'DELETE':
         queried_requisite.delete()
         return Response(status=status.HTTP_200_OK)
+
+
+@api_view(['PUT'])
+def update_plan(request, user_id) -> Response:
+    """
+    We want to grab the user's plan given their user_id.
+    This plan is a json object with the following format:
+    { "Term 1": [ course_ids ], "Term 2": [ course_ids ]}
+    where the keys and values are placeholders. A real example may
+    look like this:
+    { "Fa2019": [123, 551, 2, 3], "Sp2020": [234, 4, 3, 124]}
+    """
+
+    try:
+        queried_user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    queried_user.curr_plan = request.data
+    queried_user.save()
+
+    # Create an audit response to track conflicting requisites and
+    # missing degree requirements based on tags.
+    AuditResponse = {"requisites": {}, "degree": {}}
+
+    # Get all the tags associated with the user's degree.
+    degree_tags = Tag.objects.filter(degree=queried_user.degree)
+
+    for tag in degree_tags:
+        print(tag.name)
+
+    # Iterate through each term of the plan and check term by term for missing pre/co requisites.
+    # If a course is missing a pre/co requisite, add it to the audit response.
+    # For each course, increment the credit of the tag associated with the course.
+    term_sort_map = {'Sp': '1', 'Su': '2', 'Fa': '3'}
+    for term in sorted(queried_user.curr_plan, key=lambda x: x[2:] + term_sort_map[x[:2]]):
+        print(term)
+
+    return Response(status.HTTP_200_OK)

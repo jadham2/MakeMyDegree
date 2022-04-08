@@ -1073,7 +1073,7 @@ class UpdateTests(APITestCase):
 
         test_tag_1 = {
             'degree': self.compe_degree,
-            'name': 'General Education',
+            'name': 'Core Courses',
             'rule': '>= 17'
         }
         self.test_tag_1 = Tag.objects.create(**test_tag_1)
@@ -1098,22 +1098,107 @@ class UpdateTests(APITestCase):
         self.test_course_1.save()
 
         test_course_2 = {
-            'course_name': 'Linear Circuit Analysis II',
-            'course_tag': 'ECE 20002',
+            'course_name': 'Artificial Intelligence',
+            'course_tag': 'ECE 57000',
             'course_credits': 3,
-            'description': 'Second Year Circuits Course.',
+            'description': 'Graduate AI course.',
             'terms': ['Sp2020', 'Sp2021']
         }
         self.test_course_2 = Course.objects.create(**test_course_2)
         self.test_course_2.save()
 
-    def test_query_plan(self):
-        degree_tags = Tag.objects.filter(degree=self.test_student.degree)
-        print([tag.name for tag in degree_tags])
+        test_course_3 = {
+            'course_name': 'Data Structures',
+            'course_tag': 'ECE 36800',
+            'course_credits': 3,
+            'description': 'Data Structures and Algorithms.',
+            'terms': ['Fa2019', 'Sp2020', 'Su2020', 'Fa2020', 'Sp2021', 'Su2021']
+        }
+        self.test_course_3 = Course.objects.create(**test_course_3)
+        self.test_course_3.save()
+
+        test_course_4 = {
+            'course_name': 'Digital Systems Design',
+            'course_tag': 'ECE 27000',
+            'course_credits': 4,
+            'description': 'Digital Systems Design.',
+            'terms': ['Fa2019', 'Sp2020', 'Su2020', 'Fa2020', 'Sp2021', 'Su2021']
+        }
+        self.test_course_4 = Course.objects.create(**test_course_4)
+        self.test_course_4.save()
+
+        test_course_5 = {
+            'course_name': 'Operating Systems',
+            'course_tag': 'ECE 46900',
+            'course_credits': 4,
+            'description': 'Operating Systems.',
+            'terms': ['Fa2019', 'Sp2020', 'Su2020', 'Fa2020', 'Sp2021', 'Su2021']
+        }
+        self.test_course_5 = Course.objects.create(**test_course_5)
+        self.test_course_5.save()
+
+        course_tag_1 = {
+            'course_id': self.test_course_1,
+            'tag_id': self.test_tag_1
+        }
+        self.course_tag_1 = CourseTag.objects.create(**course_tag_1)
+        self.course_tag_1.save()
+
+        course_tag_2 = {
+            'course_id': self.test_course_2,
+            'tag_id': self.test_tag_2
+        }
+        self.course_tag_2 = CourseTag.objects.create(**course_tag_2)
+        self.course_tag_2.save()
+
+        course_tag_3 = {
+            'course_id': self.test_course_3,
+            'tag_id': self.test_tag_1
+        }
+        self.course_tag_3 = CourseTag.objects.create(**course_tag_3)
+        self.course_tag_3.save()
+
+        course_tag_4 = {
+            'course_id': self.test_course_4,
+            'tag_id': self.test_tag_1
+        }
+        self.course_tag_4 = CourseTag.objects.create(**course_tag_4)
+        self.course_tag_4.save()
+
+        course_tag_5 = {
+            'course_id': self.test_course_5,
+            'tag_id': self.test_tag_2
+        }
+        self.course_tag_5 = CourseTag.objects.create(**course_tag_5)
+        self.course_tag_5.save()
+
+        requisite_1 = {
+            'course_id': self.test_course_2,
+            'course_requisite': self.test_course_3,
+            'requisite_type': 'pre'
+        }
+        self.requisite_1 = Requisite.objects.create(**requisite_1)
+        self.requisite_1.save()
+
+        requisite_2 = {
+            'course_id': self.test_course_5,
+            'course_requisite': self.test_course_3,
+            'requisite_type': 'pre'
+        }
+        self.requisite_2 = Requisite.objects.create(**requisite_2)
+        self.requisite_2.save()
+
+    def test_update_plan(self):
+        plan_data = {
+            'Fa2019': [self.test_course_1.course_id, self.test_course_3.course_id],
+            'Sp2020': [self.test_course_2.course_id],
+            'Su2020': [self.test_course_4.course_id, self.test_course_5.course_id],
+            'Fa2020': []
+        }
 
         response = self.client.put(
             reverse('update_plan', kwargs={'user_id': self.test_student.user_id}),
-            data={'Fa2019': [self.test_course_1.course_id], 'Sp2020': [self.test_course_2.course_id], 'Su2020': []}
+            data=plan_data
         )
 
-        print(response.status_code)
+        print(response.status_code, response.json())

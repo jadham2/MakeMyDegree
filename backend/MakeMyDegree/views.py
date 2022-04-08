@@ -265,11 +265,11 @@ def update_plan(request, user_id) -> Response:
     queried_user.curr_plan = request.data
     queried_user.save()
 
-    plan = queried_user.curr_plan
+    plan = dict(queried_user.curr_plan.lists())
     for term in plan:
         for i, course_id in enumerate(plan[term]):
             try:
-                queried_course = Course.objects.get(pk=course_id)
+                queried_course = Course.objects.get(pk=int(course_id))
             except Course.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
             plan[term][i] = queried_course
@@ -298,8 +298,8 @@ def update_plan(request, user_id) -> Response:
         for course in plan[term]:
             # First, increment the credit of each tag associated with the course.
             # This will be included in the audit response.
-            for tag in CourseTag.objects.select_related('tag').filter(course=course):
-                audit_response[tag.tag_id] += course.course_credits
+            for course_tag in CourseTag.objects.select_related('tag_id').filter(course_id=course):
+                audit_response['degree'][course_tag.tag_id.tag_id] += course.course_credits
 
             # Then, check if the course has any pre/co requisite violations.
             # If so, add it to the audit response.

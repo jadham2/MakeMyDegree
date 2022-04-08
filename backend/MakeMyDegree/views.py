@@ -265,21 +265,58 @@ def update_plan(request, user_id) -> Response:
     queried_user.curr_plan = request.data
     queried_user.save()
 
-    # Create an audit response to track conflicting requisites and
-    # missing degree requirements based on tags.
-    AuditResponse = {"requisites": {}, "degree": {}}
+    plan = queried_user.curr_plan
+    for term in plan:
+        for i, course_id in enumerate(plan[term]):
+            try:
+                queried_course = Course.objects.get(pk=course_id)
+            except Course.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            plan[term][i] = queried_course
 
     # Get all the tags associated with the user's degree.
     degree_tags = Tag.objects.filter(degree=queried_user.degree)
 
-    for tag in degree_tags:
-        print(tag.name)
+    # Create an audit response to track conflicting requisites and
+    # missing degree requirements based on tags.
+    audit_response = {
+        "requisites": {},
+        "degree": {
+            x.tag_id: 0 for x in degree_tags
+        }
+    }
 
     # Iterate through each term of the plan and check term by term for missing pre/co requisites.
     # If a course is missing a pre/co requisite, add it to the audit response.
     # For each course, increment the credit of the tag associated with the course.
     term_sort_map = {'Sp': '1', 'Su': '2', 'Fa': '3'}
-    for term in sorted(queried_user.curr_plan, key=lambda x: x[2:] + term_sort_map[x[:2]]):
-        print(term)
+    # The idea for requisite is to keep a moving set of encountered courses as we go through
+    # plans sequentially.
+    courses_encountered = set()
+    for term in sorted(plan, key=lambda x: x[2:] + term_sort_map[x[:2]]):
+        current_courses = set(plan[term])
+        for course in plan[term]:
+            # First, increment the credit of each tag associated with the course.
+            # This will be included in the audit response.
+            for tag in CourseTag.objects.select_related('tag').filter(course=course):
+                audit_response[tag.tag_id] += course.course_credits
 
-    return Response(status.HTTP_200_OK)
+            # Then, check if the course has any pre/co requisite violations.
+            # If so, add it to the audit response.
+            for requisite in Requisite.objects.filter(course_id=course):
+                if requisite.requisite_type == 'pre':
+                    if requisite.course_requisite not in courses_encountered:
+                        if course.course_id not in audit_response['requisites']:
+                            audit_response['requisites'][course.course_id] = {'pre': []}
+                        audit_response['requisites'][course.course_id]['pre'].append(requisite.course_requisite.course_id)
+                elif requisite.requisite_type == 'co':
+                    if requisite.requisite_id not in courses_encountered or current_courses:
+                        if course.course_id not in audit_response['requisites']:
+                            audit_response['requisites'][course.course_id] = {'co': []}
+                        audit_response['requisites'][course.course_id]['co'].append(requisite.course_requisite.course_id)
+
+        # Once we finish with the term we are on, add the term's courses
+        # to the overall set for future pre-requisites checks.
+        courses_encountered.update(current_courses)
+
+    return Response(audit_response, status.HTTP_200_OK)

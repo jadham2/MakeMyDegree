@@ -131,6 +131,7 @@ def detail_degree(request, degree_id) -> Response:
         queried_degree.delete()
         return Response(status=status.HTTP_200_OK)
 
+
 @api_view(['GET'])
 @csrf_exempt
 def fetch_degree_tags(request, degree_id) -> Response:

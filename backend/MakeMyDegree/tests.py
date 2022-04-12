@@ -330,6 +330,82 @@ class DegreeTests(APITestCase):
 
         self.assertEqual(delete_degree_resp.status_code, status.HTTP_404_NOT_FOUND)
 
+    def test_fetch_degree_tags_id_valid(self):
+        cs_degree_data = {
+            'degree_type': 'BS',
+            'degree_name': 'Computer Science',
+            'school': 'CS',
+            'term': 'Fa2020'
+        }
+        cs_degree = Degree.objects.create(**cs_degree_data)
+        cs_degree.save()
+
+        test_tag_data_1 = {
+            'degree_id': cs_degree,
+            'name': 'General Education 1',
+            'rule': '>= 17'
+        }
+        test_tag_data_2 = {
+            'degree_id': cs_degree,
+            'name': 'General Education 2',
+            'rule': '>= 17'
+        }
+        test_tag_1 = Tag.objects.create(**test_tag_data_1)
+        test_tag_2 = Tag.objects.create(**test_tag_data_2)
+        test_tag_1.save()
+        test_tag_2.save()
+
+        degree_tags_resp = self.client.get(
+            reverse('fetch_degree_tags', kwargs={'degree_id': cs_degree.degree_id}),
+            format='json'
+        )
+
+        self.assertEqual(degree_tags_resp.status_code, status.HTTP_200_OK)
+        self.assertTrue(test_tag_data_1['name'] in str(degree_tags_resp.content))
+        self.assertTrue(test_tag_data_2['name'] in str(degree_tags_resp.content))
+
+        cs_degree.delete()
+
+    def test_fetch_degree_tags_id_invalid(self):
+        cs_degree_data = {
+            'degree_type': 'BS',
+            'degree_name': 'Computer Science',
+            'school': 'CS',
+            'term': 'Fa2020'
+        }
+        cs_degree = Degree.objects.create(**cs_degree_data)
+        cs_degree.save()
+
+        test_tag_data_1 = {
+            'degree_id': cs_degree,
+            'name': 'General Education 1',
+            'rule': '>= 17'
+        }
+        test_tag_data_2 = {
+            'degree_id': cs_degree,
+            'name': 'General Education 2',
+            'rule': '>= 17'
+        }
+        test_tag_1 = Tag.objects.create(**test_tag_data_1)
+        test_tag_2 = Tag.objects.create(**test_tag_data_2)
+        test_tag_1.save()
+        test_tag_2.save()
+
+        fake_degree_data = {
+            'degree_type': 'BS',
+            'degree_name': 'Not a real degree',
+            'school': 'Business',
+            'term': 'Fa2020'
+        }
+        fake_degree = Degree.objects.create(**fake_degree_data)
+        degree_tags_resp = self.client.get(
+            reverse('fetch_degree_tags', kwargs={'degree_id': fake_degree.degree_id}),
+            format='json'
+        )
+        self.assertEqual(degree_tags_resp.status_code, status.HTTP_404_NOT_FOUND)
+
+        cs_degree.delete()
+
 
 class CourseTests(APITestCase):
     def setUp(self):

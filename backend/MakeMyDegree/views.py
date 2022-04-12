@@ -132,6 +132,22 @@ def detail_degree(request, degree_id) -> Response:
         return Response(status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+@csrf_exempt
+def fetch_degree_tags(request, degree_id) -> Response:
+    try:
+        queried_degree = Degree.objects.get(pk=degree_id)
+    except Degree.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        tags = Tag.objects.filter(degree_id=queried_degree)
+        serializer = TagSerializer(tags, many=True)
+        if (serializer.data == []):
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 @api_view(['GET', 'POST'])
 def create_get_tags(request) -> Response:
     if request.method == 'GET':

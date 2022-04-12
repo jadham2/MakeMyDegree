@@ -1,5 +1,5 @@
 from hashlib import sha256
-from sys import api_version
+from sys import api_version, audit
 
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
@@ -318,5 +318,29 @@ def update_plan(request, user_id) -> Response:
         # Once we finish with the term we are on, add the term's courses
         # to the overall set for future pre-requisites checks.
         courses_encountered.update(current_courses)
+
+    for tag_id, creds in audit_response['degree'].copy().items():
+        rule_sign, rule_credits = Tag.objects.get(pk=tag_id).rule.split()
+        rule_credits = int(rule_credits)
+
+        credit_delta = creds - int(rule_credits)
+
+        keep_flag = False
+
+        if rule_sign == "<=":
+            if credit_delta > 0:
+                audit_response['degree'][tag_id] = credit_delta
+                keep_flag = True
+        elif rule_sign == ">=":
+            if credit_delta < 0:
+                audit_response['degree'][tag_id] = credit_delta
+                keep_flag = True
+        elif rule_sign == "==":
+            if credit_delta != 0:
+                audit_response['degree'][tag_id] = credit_delta
+                keep_flag = True
+
+        if not keep_flag:
+            audit_response['degree'].pop(tag_id)
 
     return Response(audit_response, status.HTTP_200_OK)

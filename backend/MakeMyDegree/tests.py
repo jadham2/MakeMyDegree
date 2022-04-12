@@ -1082,7 +1082,7 @@ class UpdateTests(APITestCase):
         test_tag_2 = {
             'degree': self.compe_degree,
             'name': 'Selectives',
-            'rule': '>= 16'
+            'rule': '<= 8'
         }
         self.test_tag_2 = Tag.objects.create(**test_tag_2)
         self.test_tag_2.save()
@@ -1137,6 +1137,26 @@ class UpdateTests(APITestCase):
         self.test_course_5 = Course.objects.create(**test_course_5)
         self.test_course_5.save()
 
+        test_course_6 = {
+            'course_name': 'Microprocessor Systems & Interfacing',
+            'course_tag': 'ECE 36200',
+            'course_credits': 4,
+            'description': 'Microprocessor Systems & Interfacing.',
+            'terms': ['Fa2019', 'Sp2020', 'Fa2020', 'Sp2021']
+        }
+        self.test_course_6 = Course.objects.create(**test_course_6)
+        self.test_course_6.save()
+
+        test_coures_7 = {
+            'course_name': 'Signals and Systems',
+            'course_tag': 'ECE 30100',
+            'course_credits': 3,
+            'description': 'Signals and Systems.',
+            'terms': ['Fa2019', 'Sp2020', 'Su2020', 'Fa2020', 'Sp2021', 'Su2021']
+        }
+        self.test_course_7 = Course.objects.create(**test_coures_7)
+        self.test_course_7.save()
+
         course_tag_1 = {
             'course_id': self.test_course_1,
             'tag_id': self.test_tag_1
@@ -1172,6 +1192,20 @@ class UpdateTests(APITestCase):
         self.course_tag_5 = CourseTag.objects.create(**course_tag_5)
         self.course_tag_5.save()
 
+        course_tag_6 = {
+            'course_id': self.test_course_6,
+            'tag_id': self.test_tag_1
+        }
+        self.course_tag_6 = CourseTag.objects.create(**course_tag_6)
+        self.course_tag_6.save()
+
+        course_tag_7 = {
+            'course_id': self.test_course_7,
+            'tag_id': self.test_tag_1
+        }
+        self.course_tag_7 = CourseTag.objects.create(**course_tag_7)
+        self.course_tag_7.save()
+
         requisite_1 = {
             'course_id': self.test_course_2,
             'course_requisite': self.test_course_3,
@@ -1188,7 +1222,50 @@ class UpdateTests(APITestCase):
         self.requisite_2 = Requisite.objects.create(**requisite_2)
         self.requisite_2.save()
 
-    def test_update_plan(self):
+        requisite_3 = {
+            'course_id': self.test_course_6,
+            'course_requisite': self.test_course_4,
+            'requisite_type': 'pre'
+        }
+        self.requisite_3 = Requisite.objects.create(**requisite_3)
+        self.requisite_3.save()
+
+        requisite_4 = {
+            'course_id': self.test_course_7,
+            'course_requisite': self.test_course_1,
+            'requisite_type': 'pre'
+        }
+        self.requisite_4 = Requisite.objects.create(**requisite_4)
+        self.requisite_4.save()
+
+    def test_create_empty_plan(self):
+        plan_data = {}
+
+        response = self.client.put(
+            reverse('update_plan', kwargs={'user_id': self.test_student.user_id}),
+            data=plan_data
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), {'degree': {str(self.test_tag_1.tag_id): -int(self.test_tag_1.rule.split()[1])}, 'requisites': {}})
+
+    def test_valid_plan(self):
+        plan_data = {
+            'Fa2019': [self.test_course_1.course_id, self.test_course_3.course_id],
+            'Sp2020': [self.test_course_2.course_id],
+            'Su2020': [self.test_course_4.course_id, self.test_course_5.course_id],
+            'Fa2020': [self.test_course_6.course_id, self.test_course_7.course_id]
+        }
+
+        response = self.client.put(
+            reverse('update_plan', kwargs={'user_id': self.test_student.user_id}),
+            data=plan_data
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), {'degree': {}, 'requisites': {}})
+
+    def test_missing_core_classes(self):
         plan_data = {
             'Fa2019': [self.test_course_1.course_id, self.test_course_3.course_id],
             'Sp2020': [self.test_course_2.course_id],
@@ -1201,4 +1278,39 @@ class UpdateTests(APITestCase):
             data=plan_data
         )
 
-        print(response.status_code, response.json())
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), {'degree': {str(self.test_tag_1.tag_id): -7}, 'requisites': {}})
+
+    def test_overflow_selectives(self):
+        new_selective = {
+            'course_name': 'Intro to Computer Security',
+            'course_tag': 'ECE 40400',
+            'course_credits': 3,
+            'description': 'Intro to Computer Security.',
+            'terms': ['Fa2019', 'Sp2020', 'Su2020', 'Fa2020']
+        }
+        new_selective = Course.objects.create(**new_selective)
+        new_selective.save()
+
+        selective_course_tag = {
+            'course_id': new_selective,
+            'tag_id': self.test_tag_2
+        }
+        selective_course_tag = CourseTag.objects.create(**selective_course_tag)
+        selective_course_tag.save()
+
+        plan_data = {
+            'Fa2019': [self.test_course_1.course_id, self.test_course_3.course_id],
+            'Sp2020': [self.test_course_2.course_id],
+            'Su2020': [self.test_course_4.course_id, self.test_course_5.course_id],
+            'Fa2020': [self.test_course_6.course_id, self.test_course_7.course_id, new_selective.course_id]
+        }
+        response = self.client.put(
+            reverse('update_plan', kwargs={'user_id': self.test_student.user_id}),
+            data=plan_data
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), {'degree': {str(self.test_tag_2.tag_id): 2}, 'requisites': {}})
+
+    # TODO: Add test for missing prerequisites, missing corequisites, both, missing core and overflow selectives, and everything altogether.

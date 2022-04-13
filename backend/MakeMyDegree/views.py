@@ -310,7 +310,7 @@ def update_plan(request, user_id) -> Response:
                             audit_response['requisites'][course.course_id] = {'pre': []}
                         audit_response['requisites'][course.course_id]['pre'].append(requisite.course_requisite.course_id)
                 elif requisite.requisite_type == 'co':
-                    if requisite.requisite_id not in courses_encountered or current_courses:
+                    if requisite.course_requisite not in courses_encountered and requisite.course_requisite not in current_courses:
                         if course.course_id not in audit_response['requisites']:
                             audit_response['requisites'][course.course_id] = {'co': []}
                         audit_response['requisites'][course.course_id]['co'].append(requisite.course_requisite.course_id)
@@ -321,7 +321,6 @@ def update_plan(request, user_id) -> Response:
 
     for tag_id, creds in audit_response['degree'].copy().items():
         rule_sign, rule_credits = Tag.objects.get(pk=tag_id).rule.split()
-        rule_credits = int(rule_credits)
 
         credit_delta = creds - int(rule_credits)
 

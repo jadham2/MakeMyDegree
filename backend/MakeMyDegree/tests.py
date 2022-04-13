@@ -1074,7 +1074,7 @@ class UpdateTests(APITestCase):
         test_tag_1 = {
             'degree': self.compe_degree,
             'name': 'Core Courses',
-            'rule': '>= 17'
+            'rule': '>= 14'
         }
         self.test_tag_1 = Tag.objects.create(**test_tag_1)
         self.test_tag_1.save()
@@ -1087,152 +1087,152 @@ class UpdateTests(APITestCase):
         self.test_tag_2 = Tag.objects.create(**test_tag_2)
         self.test_tag_2.save()
 
-        test_course_1 = {
+        circuits_1_course = {
             'course_name': 'Linear Circuit Analysis',
             'course_tag': 'ECE 20001',
             'course_credits': 3,
             'description': 'First Year Circuits Course.',
             'terms': ['Fa2019', 'Fa2020', 'Fa2021']
         }
-        self.test_course_1 = Course.objects.create(**test_course_1)
-        self.test_course_1.save()
+        self.circuits_1_course = Course.objects.create(**circuits_1_course)
+        self.circuits_1_course.save()
 
-        test_course_2 = {
+        ai_course = {
             'course_name': 'Artificial Intelligence',
             'course_tag': 'ECE 57000',
             'course_credits': 3,
             'description': 'Graduate AI course.',
             'terms': ['Sp2020', 'Sp2021']
         }
-        self.test_course_2 = Course.objects.create(**test_course_2)
-        self.test_course_2.save()
+        self.ai_course = Course.objects.create(**ai_course)
+        self.ai_course.save()
 
-        test_course_3 = {
+        data_structures_course = {
             'course_name': 'Data Structures',
             'course_tag': 'ECE 36800',
             'course_credits': 3,
             'description': 'Data Structures and Algorithms.',
             'terms': ['Fa2019', 'Sp2020', 'Su2020', 'Fa2020', 'Sp2021', 'Su2021']
         }
-        self.test_course_3 = Course.objects.create(**test_course_3)
-        self.test_course_3.save()
+        self.data_structures_course = Course.objects.create(**data_structures_course)
+        self.data_structures_course.save()
 
-        test_course_4 = {
+        dig_systems_course = {
             'course_name': 'Digital Systems Design',
             'course_tag': 'ECE 27000',
             'course_credits': 4,
             'description': 'Digital Systems Design.',
             'terms': ['Fa2019', 'Sp2020', 'Su2020', 'Fa2020', 'Sp2021', 'Su2021']
         }
-        self.test_course_4 = Course.objects.create(**test_course_4)
-        self.test_course_4.save()
+        self.dig_systems_course = Course.objects.create(**dig_systems_course)
+        self.dig_systems_course.save()
 
-        test_course_5 = {
+        os_course = {
             'course_name': 'Operating Systems',
             'course_tag': 'ECE 46900',
             'course_credits': 4,
             'description': 'Operating Systems.',
             'terms': ['Fa2019', 'Sp2020', 'Su2020', 'Fa2020', 'Sp2021', 'Su2021']
         }
-        self.test_course_5 = Course.objects.create(**test_course_5)
-        self.test_course_5.save()
+        self.os_course = Course.objects.create(**os_course)
+        self.os_course.save()
 
-        test_course_6 = {
+        microprocessor_course = {
             'course_name': 'Microprocessor Systems & Interfacing',
             'course_tag': 'ECE 36200',
             'course_credits': 4,
             'description': 'Microprocessor Systems & Interfacing.',
             'terms': ['Fa2019', 'Sp2020', 'Fa2020', 'Sp2021']
         }
-        self.test_course_6 = Course.objects.create(**test_course_6)
-        self.test_course_6.save()
+        self.microprocessor_course = Course.objects.create(**microprocessor_course)
+        self.microprocessor_course.save()
 
-        test_coures_7 = {
+        signals_course = {
             'course_name': 'Signals and Systems',
             'course_tag': 'ECE 30100',
             'course_credits': 3,
             'description': 'Signals and Systems.',
             'terms': ['Fa2019', 'Sp2020', 'Su2020', 'Fa2020', 'Sp2021', 'Su2021']
         }
-        self.test_course_7 = Course.objects.create(**test_coures_7)
-        self.test_course_7.save()
+        self.signals_course = Course.objects.create(**signals_course)
+        self.signals_course.save()
 
         course_tag_1 = {
-            'course_id': self.test_course_1,
+            'course_id': self.circuits_1_course,
             'tag_id': self.test_tag_1
         }
         self.course_tag_1 = CourseTag.objects.create(**course_tag_1)
         self.course_tag_1.save()
 
         course_tag_2 = {
-            'course_id': self.test_course_2,
+            'course_id': self.ai_course,
             'tag_id': self.test_tag_2
         }
         self.course_tag_2 = CourseTag.objects.create(**course_tag_2)
         self.course_tag_2.save()
 
         course_tag_3 = {
-            'course_id': self.test_course_3,
+            'course_id': self.data_structures_course,
             'tag_id': self.test_tag_1
         }
         self.course_tag_3 = CourseTag.objects.create(**course_tag_3)
         self.course_tag_3.save()
 
         course_tag_4 = {
-            'course_id': self.test_course_4,
+            'course_id': self.dig_systems_course,
             'tag_id': self.test_tag_1
         }
         self.course_tag_4 = CourseTag.objects.create(**course_tag_4)
         self.course_tag_4.save()
 
         course_tag_5 = {
-            'course_id': self.test_course_5,
+            'course_id': self.os_course,
             'tag_id': self.test_tag_2
         }
         self.course_tag_5 = CourseTag.objects.create(**course_tag_5)
         self.course_tag_5.save()
 
         course_tag_6 = {
-            'course_id': self.test_course_6,
+            'course_id': self.microprocessor_course,
             'tag_id': self.test_tag_1
         }
         self.course_tag_6 = CourseTag.objects.create(**course_tag_6)
         self.course_tag_6.save()
 
         course_tag_7 = {
-            'course_id': self.test_course_7,
+            'course_id': self.signals_course,
             'tag_id': self.test_tag_1
         }
         self.course_tag_7 = CourseTag.objects.create(**course_tag_7)
         self.course_tag_7.save()
 
         requisite_1 = {
-            'course_id': self.test_course_2,
-            'course_requisite': self.test_course_3,
+            'course_id': self.ai_course,
+            'course_requisite': self.data_structures_course,
             'requisite_type': 'pre'
         }
         self.requisite_1 = Requisite.objects.create(**requisite_1)
         self.requisite_1.save()
 
         requisite_2 = {
-            'course_id': self.test_course_5,
-            'course_requisite': self.test_course_3,
+            'course_id': self.os_course,
+            'course_requisite': self.data_structures_course,
             'requisite_type': 'pre'
         }
         self.requisite_2 = Requisite.objects.create(**requisite_2)
         self.requisite_2.save()
 
         requisite_3 = {
-            'course_id': self.test_course_6,
-            'course_requisite': self.test_course_4,
+            'course_id': self.microprocessor_course,
+            'course_requisite': self.dig_systems_course,
             'requisite_type': 'pre'
         }
         self.requisite_3 = Requisite.objects.create(**requisite_3)
         self.requisite_3.save()
 
         requisite_4 = {
-            'course_id': self.test_course_7,
-            'course_requisite': self.test_course_1,
+            'course_id': self.signals_course,
+            'course_requisite': self.circuits_1_course,
             'requisite_type': 'pre'
         }
         self.requisite_4 = Requisite.objects.create(**requisite_4)
@@ -1251,10 +1251,10 @@ class UpdateTests(APITestCase):
 
     def test_valid_plan(self):
         plan_data = {
-            'Fa2019': [self.test_course_1.course_id, self.test_course_3.course_id],
-            'Sp2020': [self.test_course_2.course_id],
-            'Su2020': [self.test_course_4.course_id, self.test_course_5.course_id],
-            'Fa2020': [self.test_course_6.course_id, self.test_course_7.course_id]
+            'Fa2019': [self.circuits_1_course.course_id, self.data_structures_course.course_id],
+            'Sp2020': [self.ai_course.course_id],
+            'Su2020': [self.dig_systems_course.course_id, self.os_course.course_id],
+            'Fa2020': [self.microprocessor_course.course_id, self.signals_course.course_id]
         }
 
         response = self.client.put(
@@ -1267,9 +1267,9 @@ class UpdateTests(APITestCase):
 
     def test_missing_core_classes(self):
         plan_data = {
-            'Fa2019': [self.test_course_1.course_id, self.test_course_3.course_id],
-            'Sp2020': [self.test_course_2.course_id],
-            'Su2020': [self.test_course_4.course_id, self.test_course_5.course_id],
+            'Fa2019': [self.circuits_1_course.course_id, self.data_structures_course.course_id],
+            'Sp2020': [self.ai_course.course_id],
+            'Su2020': [self.dig_systems_course.course_id, self.os_course.course_id],
             'Fa2020': []
         }
 
@@ -1279,7 +1279,7 @@ class UpdateTests(APITestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.json(), {'degree': {str(self.test_tag_1.tag_id): -7}, 'requisites': {}})
+        self.assertEqual(response.json(), {'degree': {str(self.test_tag_1.tag_id): -4}, 'requisites': {}})
 
     def test_overflow_selectives(self):
         new_selective = {
@@ -1300,10 +1300,10 @@ class UpdateTests(APITestCase):
         selective_course_tag.save()
 
         plan_data = {
-            'Fa2019': [self.test_course_1.course_id, self.test_course_3.course_id],
-            'Sp2020': [self.test_course_2.course_id],
-            'Su2020': [self.test_course_4.course_id, self.test_course_5.course_id],
-            'Fa2020': [self.test_course_6.course_id, self.test_course_7.course_id, new_selective.course_id]
+            'Fa2019': [self.circuits_1_course.course_id, self.data_structures_course.course_id],
+            'Sp2020': [self.ai_course.course_id],
+            'Su2020': [self.dig_systems_course.course_id, self.os_course.course_id],
+            'Fa2020': [self.microprocessor_course.course_id, self.signals_course.course_id, new_selective.course_id]
         }
         response = self.client.put(
             reverse('update_plan', kwargs={'user_id': self.test_student.user_id}),
@@ -1313,4 +1313,195 @@ class UpdateTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), {'degree': {str(self.test_tag_2.tag_id): 2}, 'requisites': {}})
 
-    # TODO: Add test for missing prerequisites, missing corequisites, both, missing core and overflow selectives, and everything altogether.
+    def test_missing_prereqs(self):
+        plan_data = {
+            'Fa2019': [self.circuits_1_course.course_id],
+            'Sp2020': [self.ai_course.course_id],
+            'Su2020': [self.dig_systems_course.course_id, self.os_course.course_id],
+            'Fa2020': [self.microprocessor_course.course_id, self.signals_course.course_id]
+        }
+
+        response = self.client.put(
+            reverse('update_plan', kwargs={'user_id': self.test_student.user_id}),
+            data=plan_data
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.json(),
+            {
+                'degree': {},
+                'requisites': {
+                    str(self.ai_course.course_id): {
+                        'pre': [self.data_structures_course.course_id],
+                    },
+                    str(self.os_course.course_id): {
+                        'pre': [self.data_structures_course.course_id]
+                    }
+                }
+            }
+        )
+
+    def test_missing_corequisites(self):
+        networking_course = {
+            'course_name': 'Computer Networking',
+            'course_tag': 'ECE 54700',
+            'course_credits': 3,
+            'description': 'Computer Networking.',
+            'terms': ['Fa2019', 'Sp2020', 'Su2020', 'Fa2020']
+        }
+        networking_course = Course.objects.create(**networking_course)
+        networking_course.save()
+
+        test_coreq = {
+            'course_id': networking_course,
+            'course_requisite': self.signals_course,
+            'requisite_type': 'co'
+        }
+        test_coreq = Requisite.objects.create(**test_coreq)
+        test_coreq.save()
+
+        plan_data = {
+            'Fa2019': [self.circuits_1_course.course_id, self.data_structures_course.course_id],
+            'Sp2020': [self.ai_course.course_id],
+            'Su2020': [self.dig_systems_course.course_id, self.os_course.course_id],
+            'Fa2020': [self.microprocessor_course.course_id, networking_course.course_id]
+        }
+
+        response = self.client.put(
+            reverse('update_plan', kwargs={'user_id': self.test_student.user_id}),
+            data=plan_data
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.json(),
+            {
+                'degree': {},
+                'requisites': {
+                    str(networking_course.course_id): {
+                        'co': [self.signals_course.course_id]
+                    }
+                }
+            }
+        )
+
+    def test_missing_pre_and_co_requisites(self):
+        networking_course = {
+            'course_name': 'Computer Networking',
+            'course_tag': 'ECE 54700',
+            'course_credits': 3,
+            'description': 'Computer Networking.',
+            'terms': ['Fa2019', 'Sp2020', 'Su2020', 'Fa2020']
+        }
+        networking_course = Course.objects.create(**networking_course)
+        networking_course.save()
+
+        test_coreq = {
+            'course_id': networking_course,
+            'course_requisite': self.signals_course,
+            'requisite_type': 'co'
+        }
+        test_coreq = Requisite.objects.create(**test_coreq)
+        test_coreq.save()
+
+        plan_data = {
+            'Fa2019': [self.circuits_1_course.course_id],
+            'Sp2020': [self.ai_course.course_id],
+            'Su2020': [self.dig_systems_course.course_id, self.os_course.course_id],
+            'Fa2020': [self.microprocessor_course.course_id, networking_course.course_id, self.data_structures_course.course_id]
+        }
+
+        response = self.client.put(
+            reverse('update_plan', kwargs={'user_id': self.test_student.user_id}),
+            data=plan_data
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.json(),
+            {
+                'degree': {},
+                'requisites': {
+                    str(self.ai_course.course_id): {
+                        'pre': [self.data_structures_course.course_id],
+                    },
+                    str(self.os_course.course_id): {
+                        'pre': [self.data_structures_course.course_id]
+                    },
+                    str(networking_course.course_id): {
+                        'co': [self.signals_course.course_id]
+                    }
+                }
+            }
+        )
+
+    def test_all_audit_requirements(self):
+        networking_course = {
+            'course_name': 'Computer Networking',
+            'course_tag': 'ECE 54700',
+            'course_credits': 3,
+            'description': 'Computer Networking.',
+            'terms': ['Fa2019', 'Sp2020', 'Su2020', 'Fa2020']
+        }
+        networking_course = Course.objects.create(**networking_course)
+        networking_course.save()
+
+        test_coreq = {
+            'course_id': networking_course,
+            'course_requisite': self.signals_course,
+            'requisite_type': 'co'
+        }
+        test_coreq = Requisite.objects.create(**test_coreq)
+        test_coreq.save()
+
+        new_selective = {
+            'course_name': 'Intro to Computer Security',
+            'course_tag': 'ECE 40400',
+            'course_credits': 3,
+            'description': 'Intro to Computer Security.',
+            'terms': ['Fa2019', 'Sp2020', 'Su2020', 'Fa2020']
+        }
+        new_selective = Course.objects.create(**new_selective)
+        new_selective.save()
+
+        selective_course_tag = {
+            'course_id': new_selective,
+            'tag_id': self.test_tag_2
+        }
+        selective_course_tag = CourseTag.objects.create(**selective_course_tag)
+        selective_course_tag.save()
+
+        plan_data = {
+            'Fa2019': [self.circuits_1_course.course_id],
+            'Sp2020': [self.ai_course.course_id],
+            'Su2020': [self.dig_systems_course.course_id, self.os_course.course_id, new_selective.course_id],
+            'Fa2020': [networking_course.course_id, self.data_structures_course.course_id]
+        }
+
+        response = self.client.put(
+            reverse('update_plan', kwargs={'user_id': self.test_student.user_id}),
+            data=plan_data
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.json(),
+            {
+                'degree': {
+                    str(self.test_tag_1.tag_id): -4,
+                    str(self.test_tag_2.tag_id): 2
+                },
+                'requisites': {
+                    str(self.ai_course.course_id): {
+                        'pre': [self.data_structures_course.course_id],
+                    },
+                    str(self.os_course.course_id): {
+                        'pre': [self.data_structures_course.course_id]
+                    },
+                    str(networking_course.course_id): {
+                        'co': [self.signals_course.course_id]
+                    }
+                }
+            }
+        )

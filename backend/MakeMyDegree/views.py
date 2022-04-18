@@ -140,7 +140,7 @@ def fetch_degree_tags(request, degree_id) -> Response:
     except Degree.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
-        tags = Tag.objects.filter(degree_id=queried_degree)
+        tags = Tag.objects.filter(degree=queried_degree)
         serializer = TagSerializer(tags, many=True)
         if (serializer.data == []):
             return Response(status=status.HTTP_404_NOT_FOUND)

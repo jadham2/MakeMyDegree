@@ -341,12 +341,12 @@ class DegreeTests(APITestCase):
         cs_degree.save()
 
         test_tag_data_1 = {
-            'degree_id': cs_degree,
+            'degree': cs_degree,
             'name': 'General Education 1',
             'rule': '>= 17'
         }
         test_tag_data_2 = {
-            'degree_id': cs_degree,
+            'degree': cs_degree,
             'name': 'General Education 2',
             'rule': '>= 17'
         }
@@ -377,12 +377,12 @@ class DegreeTests(APITestCase):
         cs_degree.save()
 
         test_tag_data_1 = {
-            'degree_id': cs_degree,
+            'degree': cs_degree,
             'name': 'General Education 1',
             'rule': '>= 17'
         }
         test_tag_data_2 = {
-            'degree_id': cs_degree,
+            'degree': cs_degree,
             'name': 'General Education 2',
             'rule': '>= 17'
         }

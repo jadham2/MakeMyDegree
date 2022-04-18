@@ -1,5 +1,5 @@
 from hashlib import sha256
-from sys import api_version
+from sys import api_version, audit
 
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
@@ -260,3 +260,102 @@ def detail_requisite(request, requisite_id) -> Response:
     if request.method == 'DELETE':
         queried_requisite.delete()
         return Response(status=status.HTTP_200_OK)
+
+
+@api_view(['PUT'])
+def update_plan(request, user_id) -> Response:
+    """
+    We want to grab the user's plan given their user_id.
+    This plan is a json object with the following format:
+    { "Term 1": [ course_ids ], "Term 2": [ course_ids ]}
+    where the keys and values are placeholders. A real example may
+    look like this:
+    { "Fa2019": [123, 551, 2, 3], "Sp2020": [234, 4, 3, 124]}
+    """
+
+    try:
+        queried_user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    queried_user.curr_plan = request.data
+    queried_user.save()
+
+    plan = dict(queried_user.curr_plan.lists())
+    for term in plan:
+        for i, course_id in enumerate(plan[term]):
+            try:
+                queried_course = Course.objects.get(pk=int(course_id))
+            except Course.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            plan[term][i] = queried_course
+
+    # Get all the tags associated with the user's degree.
+    degree_tags = Tag.objects.filter(degree=queried_user.degree)
+
+    # Create an audit response to track conflicting requisites and
+    # missing degree requirements based on tags.
+    audit_response = {
+        "requisites": {},
+        "degree": {
+            x.tag_id: 0 for x in degree_tags
+        }
+    }
+
+    # Iterate through each term of the plan and check term by term for missing pre/co requisites.
+    # If a course is missing a pre/co requisite, add it to the audit response.
+    # For each course, increment the credit of the tag associated with the course.
+    term_sort_map = {'Sp': '1', 'Su': '2', 'Fa': '3'}
+    # The idea for requisite is to keep a moving set of encountered courses as we go through
+    # plans sequentially.
+    courses_encountered = set()
+    for term in sorted(plan, key=lambda x: x[2:] + term_sort_map[x[:2]]):
+        current_courses = set(plan[term])
+        for course in plan[term]:
+            # First, increment the credit of each tag associated with the course.
+            # This will be included in the audit response.
+            for course_tag in CourseTag.objects.select_related('tag_id').filter(course_id=course):
+                audit_response['degree'][course_tag.tag_id.tag_id] += course.course_credits
+
+            # Then, check if the course has any pre/co requisite violations.
+            # If so, add it to the audit response.
+            for requisite in Requisite.objects.filter(course_id=course):
+                if requisite.requisite_type == 'pre':
+                    if requisite.course_requisite not in courses_encountered:
+                        if course.course_id not in audit_response['requisites']:
+                            audit_response['requisites'][course.course_id] = {'pre': []}
+                        audit_response['requisites'][course.course_id]['pre'].append(requisite.course_requisite.course_id)
+                elif requisite.requisite_type == 'co':
+                    if requisite.course_requisite not in courses_encountered and requisite.course_requisite not in current_courses:
+                        if course.course_id not in audit_response['requisites']:
+                            audit_response['requisites'][course.course_id] = {'co': []}
+                        audit_response['requisites'][course.course_id]['co'].append(requisite.course_requisite.course_id)
+
+        # Once we finish with the term we are on, add the term's courses
+        # to the overall set for future pre-requisites checks.
+        courses_encountered.update(current_courses)
+
+    for tag_id, creds in audit_response['degree'].copy().items():
+        rule_sign, rule_credits = Tag.objects.get(pk=tag_id).rule.split()
+
+        credit_delta = creds - int(rule_credits)
+
+        keep_flag = False
+
+        if rule_sign == "<=":
+            if credit_delta > 0:
+                audit_response['degree'][tag_id] = credit_delta
+                keep_flag = True
+        elif rule_sign == ">=":
+            if credit_delta < 0:
+                audit_response['degree'][tag_id] = credit_delta
+                keep_flag = True
+        elif rule_sign == "==":
+            if credit_delta != 0:
+                audit_response['degree'][tag_id] = credit_delta
+                keep_flag = True
+
+        if not keep_flag:
+            audit_response['degree'].pop(tag_id)
+
+    return Response(audit_response, status.HTTP_200_OK)

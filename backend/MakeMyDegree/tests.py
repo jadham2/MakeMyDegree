@@ -437,6 +437,24 @@ class CourseTests(APITestCase):
         course_resp = course_resp.json()
         self.assertTrue('course_id' in course_resp)
 
+    def test_create_course_empty_term(self):
+        test_course_data = {
+            'course_name': 'Electrical Engineering Fundamentals I',
+            'course_tag': 'ECE 20001',
+            'course_credits': 3,
+            'description': 'This course covers fundamental concepts and applications for electrical and computer engineers.',
+            'terms': []
+        }
+        course_resp = self.client.post(
+            reverse('create_get_courses'),
+            data=test_course_data,
+            format='json'
+        )
+
+        self.assertEqual(course_resp.status_code, status.HTTP_201_CREATED)
+        course_resp = course_resp.json()
+        self.assertTrue('course_id' in course_resp)
+
     def test_create_course_invalid(self):
         test_course_data = {
             'course_name': 'Electrical Engineering Fundamentals I',

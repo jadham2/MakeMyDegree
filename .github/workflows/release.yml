@@ -23,7 +23,7 @@ jobs:
       - name: create release body
         run: |
           git fetch --depth=1 origin +refs/tags/*:refs/tags/*
-          git tag -l --format='%(contents:subject)'${GITHUB_REF#refs/*/}) > ./release_body.md
+          git tag -l --format='%(contents:subject)'${GITHUB_REF#refs/*/} > ./release_body.md
       - name: create release
         uses: actions/create-release@v1
         env:

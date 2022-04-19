@@ -12,9 +12,14 @@ jobs:
         uses: actions/checkout@v2
       - name: save binaries
         run: |
-          docker compose --env-file ./backend/.env up -d --force-recreate
+          cd ./backend
+          docker build -f ./Dockerfile --force-rm .
+          cd ..
+          cd ./frontend
+          docker build -f ./Dockerfile --force-rm .
+          cd ..
           docker save makemydegree_backend:latest | gzip > makemydegree_backend.tar.gz
-          docker save makemydegree_frontend:latest | gzip > makemydegree_frontend.tar.gz
+          docker save makemydegree_frontend:latest | gzip > makemydegree_frontdocend.tar.gz
       - name: Build project
         run: |
           zip --junk-paths MakeMyDegree 
@@ -32,15 +37,6 @@ jobs:
           body_path: ./release_body.md
           draft: false
           prerelease: true
-      - name: upload release zip asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./MakeMyDegree.zip
-          asset_name: MakeMyDegree.zip
-          asset_content_type: application/zip
       - name: upload release backend tar
         uses: actions/upload-release-asset@v1
         env:
@@ -59,4 +55,3 @@ jobs:
           asset_path: ./makemydegree_frontend.tar.gz
           asset_name: makemydegree_frontend.tar.gz
           asset_content_type: application/gzip
-          

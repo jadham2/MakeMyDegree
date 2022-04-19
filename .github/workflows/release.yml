@@ -1,0 +1,62 @@
+name: Create Release
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+      - name: save binaries
+        run: |
+          docker compose --env-file ./backend/.env up -d --force-recreate
+          docker save makemydegree_backend:latest | gzip > makemydegree_backend.tar.gz
+          docker save makemydegree_frontend:latest | gzip > makemydegree_frontend.tar.gz
+      - name: Build project
+        run: |
+          zip --junk-paths MakeMyDegree 
+      - name: create release body
+        run: |
+          git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+          git tag -l --format='%(contents:subject)'${GITHUB_REF#refs/*/}) > ./release_body.md
+      - name: create release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body_path: ./release_body.md
+          draft: false
+          prerelease: true
+      - name: upload release zip asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./MakeMyDegree.zip
+          asset_name: MakeMyDegree.zip
+          asset_content_type: application/zip
+      - name: upload release backend tar
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./makemydegree_backend.tar.gz
+          asset_name: makemydegree_backend.tar.gz
+          asset_content_type: application/gzip
+      - name: upload release frontend tar
+        uses: actions/upload-release_asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./makemydegree_frontend.tar.gz
+          asset_name: makemydegree_frontend.tar.gz
+          asset_content_type: application/gzip
+          

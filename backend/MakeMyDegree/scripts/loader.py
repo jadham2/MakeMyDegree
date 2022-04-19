@@ -4,6 +4,7 @@ import json
 from rest_framework import status
 from rest_framework.test import APIClient
 
+
 # insert all Purdue courses
 def all_purdue_courses_setup():
     with open("MakeMyDegree/fixture/purdue_all_courses.json", "r") as f:
@@ -19,6 +20,7 @@ def all_purdue_courses_setup():
         if (course_resp.status_code == status.HTTP_400_BAD_REQUEST):
             print(a_course)
 
+
 def get_all_course_ids():
     client = APIClient()
     get_courses_resp = client.get(
@@ -31,9 +33,11 @@ def get_all_course_ids():
         all_course_ids[a_course["course_tag"]] = a_course["course_id"]
     return all_course_ids
 
+
 # insert all Purdue course pre and co-requisites
 def all_purdue_requisites_setup():
     return
+
 
 # insert a sample degree
 def ece_degree_setup(all_course_ids):
@@ -86,15 +90,38 @@ def ece_degree_setup(all_course_ids):
                     print(test_course_tag_data)
             except Exception as e: 
                 print(e)
-                
+    return ece_degree_id
+
+
 # insert a test user
-def test_user_setup():
-    return
+def test_user_setup(ece_degree_id, all_course_ids):
+    test_student_data = {
+        'name': 'John XYZ',
+        'password': '123456',
+        'email': 'xyz@purdue.edu',
+        'degree': ece_degree_id,
+        'curr_plan': {
+            'Fa2019': [all_course_ids["CS 15900"], all_course_ids["ECE 20001"], all_course_ids["ECE 20007"]], 
+            'Sp2020': [all_course_ids["ECE 26400"], all_course_ids["ECE 20875"]], 
+            'Su2020': [all_course_ids["ECE 36800"]], 
+            'Fa2020': [], 
+            'Sp2021': [], 
+            'Su2021': []
+        }
+    }
+    client = APIClient()
+    user_resp = client.post(
+        reverse('create_get_users'),
+        data=test_student_data,
+        format='json'
+    )
+    if (user_resp.status_code == status.HTTP_400_BAD_REQUEST):
+        print(test_student_data)
 
 
 def run():
     all_purdue_courses_setup()
     all_course_ids = get_all_course_ids()
     all_purdue_requisites_setup()
-    ece_degree_setup(all_course_ids)
-    test_user_setup()
+    ece_degree_id = ece_degree_setup(all_course_ids)
+    test_user_setup(ece_degree_id, all_course_ids)

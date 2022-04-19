@@ -21,7 +21,9 @@ class Course(models.Model):
     course_credits = models.IntegerField()
     description = models.TextField()
     terms = ArrayField(
-        models.CharField(max_length=6)
+        base_field=models.CharField(max_length=6),
+        default=list,
+        blank=True
     )
 
 

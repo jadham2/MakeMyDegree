@@ -20,9 +20,6 @@ jobs:
           cd ..
           docker save makemydegree_backend:latest | gzip > makemydegree_backend.tar.gz
           docker save makemydegree_frontend:latest | gzip > makemydegree_frontdocend.tar.gz
-      - name: Build project
-        run: |
-          zip --junk-paths MakeMyDegree 
       - name: create release body
         run: |
           git fetch --depth=1 origin +refs/tags/*:refs/tags/*

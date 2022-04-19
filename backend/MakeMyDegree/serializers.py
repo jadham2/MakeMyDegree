@@ -45,7 +45,7 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = (
             'tag_id',
-            'degree_id',
+            'degree',
             'name',
             'rule'
         )

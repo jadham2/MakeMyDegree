@@ -21,7 +21,9 @@ class Course(models.Model):
     course_credits = models.IntegerField()
     description = models.TextField()
     terms = ArrayField(
-        models.CharField(max_length=6)
+        base_field=models.CharField(max_length=6),
+        default=list,
+        blank=True
     )
 
 
@@ -50,7 +52,7 @@ class Degree(models.Model):
 
 class Tag(models.Model):
     tag_id = models.AutoField(primary_key=True)
-    degree_id = models.ForeignKey(
+    degree = models.ForeignKey(
         'Degree',
         on_delete=models.CASCADE,
     )

@@ -9,7 +9,6 @@ class UserSerializer(serializers.ModelSerializer):
             'user_id',
             'name',
             'password',
-            'email',
             'degree',
             'curr_plan'
         )

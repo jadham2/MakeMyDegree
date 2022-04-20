@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { DragDropContext } from 'react-beautiful-dnd'
 import VerticalList from './VerticalList'
 import HorizontalList from './HorizontalList'
-import courses from './courses'
 import Card from 'react-bootstrap/Card'
 import exampleDescription from './exampleDescription'
 import exampleDegree from './exampleDegree'
+import axios from 'axios'
 
 const termMapper = (term) => {
   switch (term.substring(0, 2)) {
@@ -45,7 +45,7 @@ const reorder = (list, startIndex, endIndex) => {
 
 function CoursePlanner () {
   const [courseStates, setCourseStates] = useState({
-    allCourses: courses,
+    allCourses: [],
     Fa2019: [],
     Sp2020: [],
     Sm2020: [],
@@ -58,6 +58,25 @@ function CoursePlanner () {
     Fa2022: [],
     Sp2023: []
   })
+
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/courses').then(res => {
+      setCourseStates({
+        allCourses: res.data,
+        Fa2019: [],
+        Sp2020: [],
+        Sm2020: [],
+        Fa2020: [],
+        Sp2021: [],
+        Sm2021: [],
+        Fa2021: [],
+        Sp2022: [],
+        Sm2022: [],
+        Fa2022: [],
+        Sp2023: []
+      })
+    })
+  }, [])
 
   const onDragEnd = (result) => {
     if (!result.destination) return
@@ -87,41 +106,41 @@ function CoursePlanner () {
 
   return (
       <Col className="d-flex">
-          <DragDropContext onDragEnd={onDragEnd}>
-            <Col xs={4} lg={2}>
-              <VerticalList id="allCourses" initialCourses={courseStates.allCourses} />
-            </Col>
-            <Col xs={4} lg={8}>
-              <Row>
-                <Col>
-                  <Card border="primary" className="m-3 p-3" style={{ flexGrow: 1, overflowY: 'auto', maxHeight: 620 }}>
-                    {Object.keys(courseStates).slice(1).map((id) => (
-                      <React.Fragment key={id}>
-                        <h5 style={{ marginLeft: '17px' }}><strong>{termMapper(id)}</strong></h5>
-                        <HorizontalList id={id} initialCourses={courseStates[id]} />
-                      </React.Fragment>
-                    ))}
-                  </Card>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Card border="primary" className="m-3" style={{ flexGrow: 1, overflow: 'auto', height: 180 }}>
-                    <Card.Body>
-                      {exampleDescription}
-                    </Card.Body>
-                  </Card>
-                </Col>
-              </Row>
-            </Col>
-            <Col xs={4} lg={2}>
-              <Card border="primary" className="m-3" style={{ flexGrow: 1, overflow: 'auto', height: '832px', maxHeight: '832px' }}>
-                <Card.Body>
-                  {exampleDegree}
-                </Card.Body>
-              </Card>
-            </Col>
-          </DragDropContext>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Col xs={4} lg={2}>
+            <VerticalList id="allCourses" initialCourses={courseStates.allCourses} />
+          </Col>
+          <Col xs={4} lg={8}>
+            <Row>
+              <Col>
+                <Card border="primary" className="m-3 p-3" style={{ flexGrow: 1, overflowY: 'auto', maxHeight: 620 }}>
+                  {Object.keys(courseStates).slice(1).map((id) => (
+                    <React.Fragment key={id}>
+                      <h5 style={{ marginLeft: '17px' }}><strong>{termMapper(id)}</strong></h5>
+                      <HorizontalList id={id} initialCourses={courseStates[id]} />
+                    </React.Fragment>
+                  ))}
+                </Card>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Card border="primary" className="m-3" style={{ flexGrow: 1, overflow: 'auto', height: 180 }}>
+                  <Card.Body>
+                    {exampleDescription}
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          </Col>
+          <Col xs={4} lg={2}>
+            <Card border="primary" className="m-3" style={{ flexGrow: 1, overflow: 'auto', height: '832px', maxHeight: '832px' }}>
+              <Card.Body>
+                {exampleDegree}
+              </Card.Body>
+            </Card>
+          </Col>
+        </DragDropContext>
       </Col>
   )
 }

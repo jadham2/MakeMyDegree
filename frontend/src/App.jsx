@@ -1,12 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Container, Row, Col, Button
 } from 'react-bootstrap'
 import CoursePlanner from './CoursePlanner'
+import Login from './Login'
 
 /* eslint-disable react/prop-types */
 
 function App () {
+  const [userID, setUserID] = useState()
+
+  if (!userID) {
+    return <Login setUserID={setUserID} />
+  }
+
   return (
     <Container fluid>
       <Row>

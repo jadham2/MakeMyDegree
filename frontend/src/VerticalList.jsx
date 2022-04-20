@@ -6,6 +6,7 @@ import { Droppable } from 'react-beautiful-dnd'
 import CourseCard from './CourseCard'
 
 /* eslint-disable react/prop-types */
+/* eslint-disable camelcase */
 
 const scrollContainerHeight = 712
 
@@ -51,8 +52,8 @@ function InnerCourseList (props) {
 
   return (
   <DropZone ref={provided.innerRef}>
-    {courses.map(({ id, content }, index) => (
-      <CourseCard key={id} id={id} content={content} index={index} />
+    {courses.map(({ course_id, course_tag, course_name }, index) => (
+      <CourseCard key={course_id} id={course_id} tag={course_tag} name={course_name} index={index} />
     ))}
     {provided.placeholder}
   </DropZone>

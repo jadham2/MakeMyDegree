@@ -5,7 +5,6 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework.parsers import JSONParser
 
 from MakeMyDegree.models import *
 from MakeMyDegree.serializers import *
@@ -359,3 +358,22 @@ def update_plan(request, user_id) -> Response:
             audit_response['degree'].pop(tag_id)
 
     return Response(audit_response, status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def login_user(request) -> Response:
+    data = request.data
+    username, password, degree = data['user_name'], data['password'], data['degree']
+    password = sha256(password.encode()).hexdigest()
+    degree = Degree.objects.get(pk=degree)
+
+    try:
+        user = User.objects.get(name=username)
+    except User.DoesNotExist:
+        user = User.objects.create(name=username, password=password, degree=degree, curr_plan={})
+        user.save()
+
+    if user.password != password:
+        return Response({'status': 'failure'}, status.HTTP_200_OK)
+
+    return Response({'status': 'success', 'user_id': user.user_id}, status.HTTP_200_OK)

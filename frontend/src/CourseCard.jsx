@@ -17,16 +17,16 @@ const CardWrapper = styled(Card)`
 
 function CourseCard (props) {
   const {
-    id,
-    tag,
-    name,
+    course,
+    setSelectedCourse,
     index
   } = props
 
   return (
+    <div onClick={() => setSelectedCourse(course)}>
       <Draggable
-        key={id}
-        draggableId={id.toString()}
+        key={course.course_id}
+        draggableId={course.course_id.toString()}
         index={index}
       >
         {(provided, snapshot) => (
@@ -38,12 +38,13 @@ function CourseCard (props) {
             draggablestyle={provided.draggableProps.style}
           >
             <Card.Body>
-              <Card.Title style={{ textAlign: 'center', fontSize: '16px' }}><strong>{tag}</strong></Card.Title>
-              <Card.Text style={{ textAlign: 'center' }}>{name}</Card.Text>
+              <Card.Title style={{ textAlign: 'center', fontSize: '16px' }}><strong>{course.course_tag}</strong></Card.Title>
+              <Card.Text style={{ textAlign: 'center' }}>{course.course_name}</Card.Text>
             </Card.Body>
           </CardWrapper>
         )}
       </Draggable>
+    </div>
   )
 }
 

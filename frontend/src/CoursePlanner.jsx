@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
+import { Col, Row, Card } from 'react-bootstrap'
 import { DragDropContext } from 'react-beautiful-dnd'
 import VerticalList from './VerticalList'
 import HorizontalList from './HorizontalList'
-import Card from 'react-bootstrap/Card'
-import exampleDescription from './exampleDescription'
-import exampleDegree from './exampleDegree'
 import axios from 'axios'
+
+/* eslint-disable react/prop-types */
 
 const termMapper = (term) => {
   switch (term.substring(0, 2)) {
@@ -43,7 +41,15 @@ const reorder = (list, startIndex, endIndex) => {
   return result
 }
 
-function CoursePlanner () {
+function CoursePlanner (props) {
+  const {
+    userID,
+    // userPlan,
+    // setUserPlan,
+    degreeID
+  } = props
+
+  const [degree, setDegree] = useState({})
   const [courseStates, setCourseStates] = useState({
     allCourses: [],
     Fa2019: [],
@@ -58,25 +64,34 @@ function CoursePlanner () {
     Fa2022: [],
     Sp2023: []
   })
+  const [tags, setTags] = useState({})
+  const [selectedCourse, setSelectedCourse] = useState({})
+  const [selectedCourseTags, setSelectedCourseTags] = useState([])
+  const [selectedCourseRequisites, setSelectedCourseRequisites] = useState({})
 
   useEffect(() => {
+    axios.get(`http://localhost:8000/api/degrees/${degreeID}`).then(res => {
+      setDegree(res.data)
+    })
     axios.get('http://localhost:8000/api/courses').then(res => {
-      setCourseStates({
-        allCourses: res.data,
-        Fa2019: [],
-        Sp2020: [],
-        Sm2020: [],
-        Fa2020: [],
-        Sp2021: [],
-        Sm2021: [],
-        Fa2021: [],
-        Sp2022: [],
-        Sm2022: [],
-        Fa2022: [],
-        Sp2023: []
-      })
+      setCourseStates({ ...courseStates, allCourses: res.data })
+    })
+    axios.get(`http://localhost:8000/api/users/${userID}/fetch_user_degree`).then(res => {
+      setTags(res.data)
     })
   }, [])
+
+  useEffect(() => {
+    if (selectedCourse.course_id) {
+      axios.get(`http://localhost:8000/api/courses/${selectedCourse.course_id}/fetch_tags_from_course`).then(res => {
+        setSelectedCourseTags(res.data.tags)
+      })
+      axios.get(`http://localhost:8000/api/courses/${selectedCourse.course_id}/fetch_requisites_from_course`).then(res => {
+        console.log(res.data)
+        setSelectedCourseRequisites(res.data)
+      })
+    }
+  }, [selectedCourse])
 
   const onDragEnd = (result) => {
     if (!result.destination) return
@@ -108,7 +123,7 @@ function CoursePlanner () {
       <Col className="d-flex">
         <DragDropContext onDragEnd={onDragEnd}>
           <Col xs={4} lg={2}>
-            <VerticalList id="allCourses" initialCourses={courseStates.allCourses} />
+            <VerticalList id="allCourses" setSelectedCourse={setSelectedCourse} initialCourses={courseStates.allCourses} />
           </Col>
           <Col xs={4} lg={8}>
             <Row>
@@ -117,7 +132,7 @@ function CoursePlanner () {
                   {Object.keys(courseStates).slice(1).map((id) => (
                     <React.Fragment key={id}>
                       <h5 style={{ marginLeft: '17px' }}><strong>{termMapper(id)}</strong></h5>
-                      <HorizontalList id={id} initialCourses={courseStates[id]} />
+                      <HorizontalList id={id} setSelectedCourse={setSelectedCourse} initialCourses={courseStates[id]} />
                     </React.Fragment>
                   ))}
                 </Card>
@@ -127,7 +142,44 @@ function CoursePlanner () {
               <Col>
                 <Card border="primary" className="m-3" style={{ flexGrow: 1, overflow: 'auto', height: 180 }}>
                   <Card.Body>
-                    {exampleDescription}
+                    {Object.keys(selectedCourse).length > 0
+                      ? <React.Fragment>
+                          <h3>{selectedCourse.course_name}</h3>
+                          <h4>Course Details</h4>
+                          <h5>Associated Tags:</h5>
+                          <ul>
+                            {selectedCourseTags.map((tag, index) => (
+                              <li key={index}>{tag}</li>
+                            ))}
+                          </ul>
+                          <h5>Normally Offered:</h5>
+                          <p>
+                            {selectedCourse.terms.map((term, index) => (
+                              <span key={index}>{termMapper(term)}{index !== (selectedCourse.terms.length - 1) && ', '}</span>
+                            ))}
+                          </p>
+                          <h5>Requisites:</h5>
+                          <ul>
+                            <li>Pre
+                              <ul>
+                              {Object.keys(selectedCourseRequisites).length > 0 && selectedCourseRequisites.requisites.pre.map((requisite, index) => (
+                                <li key={index}>{requisite}</li>
+                              ))}
+                              </ul>
+                            </li>
+                            <li>Co
+                              <ul>
+                              {Object.keys(selectedCourseRequisites).length > 0 && selectedCourseRequisites.requisites.co.map((requisite, index) => (
+                                <li key={index}>{requisite}</li>
+                              ))}
+                              </ul>
+                            </li>
+                          </ul>
+                          <h5>Catalog Description</h5>
+                          <p>{selectedCourse.description}</p>
+                        </React.Fragment>
+                      : <h3>Select a course to view details</h3>
+                    }
                   </Card.Body>
                 </Card>
               </Col>
@@ -136,7 +188,13 @@ function CoursePlanner () {
           <Col xs={4} lg={2}>
             <Card border="primary" className="m-3" style={{ flexGrow: 1, overflow: 'auto', height: '832px', maxHeight: '832px' }}>
               <Card.Body>
-                {exampleDegree}
+                <h3>{degree.degree_name}</h3>
+                {Object.entries(tags).map(([key, value]) => (
+                  <React.Fragment key={key}>
+                    <h5>{value.tag_name}</h5>
+                    <p>{value.user_credits}/{value.total_credits} credits</p>
+                  </React.Fragment>
+                ))}
               </Card.Body>
             </Card>
           </Col>

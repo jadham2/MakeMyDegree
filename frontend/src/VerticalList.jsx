@@ -47,13 +47,14 @@ const ScrollContainer = styled.div`
 function InnerCourseList (props) {
   const {
     courses,
+    setSelectedCourse,
     provided
   } = props
 
   return (
   <DropZone ref={provided.innerRef}>
-    {courses.map(({ course_id, course_tag, course_name }, index) => (
-      <CourseCard key={course_id} id={course_id} tag={course_tag} name={course_name} index={index} />
+    {courses.map((course, index) => (
+      <CourseCard key={course.course_id} course={course} setSelectedCourse={setSelectedCourse} index={index} />
     ))}
     {provided.placeholder}
   </DropZone>
@@ -63,6 +64,7 @@ function InnerCourseList (props) {
 function VerticalList (props) {
   const {
     id,
+    setSelectedCourse,
     initialCourses
   } = props
 
@@ -83,7 +85,7 @@ function VerticalList (props) {
               {...provided.droppableProps}
             >
               <ScrollContainer>
-                <InnerCourseList courses={initialCourses} provided={provided} />
+                <InnerCourseList courses={initialCourses} setSelectedCourse={setSelectedCourse} provided={provided} />
               </ScrollContainer>
             </Wrapper>
           )}

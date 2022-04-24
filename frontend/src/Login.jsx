@@ -31,9 +31,6 @@ function Login (props) {
       password: password,
       degree: userDegree
     }).then(res => {
-      console.log('hi')
-      console.log(res)
-      console.log(res.data)
       if (res.data.status === 'success') {
         props.setUserID(res.data.user_id)
       } else {
@@ -75,7 +72,7 @@ function Login (props) {
                   <Form.Select onChange={(e) => setUserDegree(e.target.value)}>
                     <option>Select a degree</option>
                     {degrees.map(degree => (
-                      <option key={degree.degree_id} value={degree.degree_id}>{degree.degree_type}, {degree.degree_name}, {degree.term}</option>
+                      <option key={degree.degree_id} value={degree.degree_id}>{degree.degree_name}, {degree.degree_type}, {degree.term}</option>
                     ))}
                   </Form.Select>
                 </Form.Group>

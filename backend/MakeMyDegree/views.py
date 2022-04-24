@@ -389,7 +389,6 @@ def fetch_user_degree(request, user_id) -> Response:
         for course in plan[term]:
             for course_tag in CourseTag.objects.select_related('tag_id').filter(course_id=course):
                 response[course_tag.tag_id.tag_id]['user_credits'] += course.course_credits
-    print(response)
     return Response(response, status.HTTP_200_OK)
 
 
@@ -410,3 +409,31 @@ def login_user(request) -> Response:
         return Response({'status': 'failure'}, status.HTTP_200_OK)
 
     return Response({'status': 'success', 'user_id': user.user_id}, status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def fetch_tags_from_course(request, course_id) -> Response:
+    try:
+        queried_course = Course.objects.get(pk=int(course_id))
+    except Course.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    tags = CourseTag.objects.filter(course_id=queried_course)
+    return Response({'tags': [x.tag_id.name for x in tags]}, status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def fetch_requisites_from_course(request, course_id) -> Response:
+    try:
+        queried_course = Course.objects.get(pk=int(course_id))
+    except Course.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    pre_requisites = Requisite.objects.filter(course_id=queried_course, requisite_type='pre')
+    co_requisites = Requisite.objects.filter(course_id=queried_course, requisite_type='co')
+    return Response({
+        'requisites': {
+            'co': [x.course_requisite.course_tag for x in co_requisites],
+            'pre': [x.course_requisite.course_tag for x in pre_requisites]
+        }
+    }, status.HTTP_200_OK)

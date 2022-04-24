@@ -50,6 +50,7 @@ const Container = styled.div`
 function HorizontalList (props) {
   const {
     id,
+    setSelectedCourse,
     initialCourses
   } = props
 
@@ -67,8 +68,8 @@ function HorizontalList (props) {
                 <ScrollContainer>
                   <Container>
                     <DropZone ref={provided.innerRef}>
-                      {initialCourses.map(({ course_id, course_tag, course_name }, index) => (
-                        <CourseCard key={course_id} id={course_id} tag={course_tag} name={course_name} index={index} />
+                      {initialCourses.map((course, index) => (
+                        <CourseCard key={course.course_id} course={course} setSelectedCourse={setSelectedCourse} index={index} />
                       ))}
                       {provided.placeholder}
                     </DropZone>

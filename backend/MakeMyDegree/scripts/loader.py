@@ -139,7 +139,7 @@ def test_user_setup(ece_degree_id, all_course_ids):
 
 
 def run():
-    # all_purdue_courses_setup()
+    all_purdue_courses_setup()
     all_course_ids = get_all_course_ids()
     all_purdue_requisites_setup(all_course_ids)
     ece_degree_id = ece_degree_setup(all_course_ids)

@@ -35,8 +35,27 @@ def get_all_course_ids():
 
 
 # insert all Purdue course pre and co-requisites
-def all_purdue_requisites_setup():
-    return
+# TODO: So far only ECE requisites are available
+def all_purdue_requisites_setup(all_course_ids):
+    with open("MakeMyDegree/fixture/ece_requisites.json", "r") as f:
+        ece_reqs = json.load(f)
+    client = APIClient()
+    for a_req in ece_reqs:
+        if a_req in all_course_ids:
+            for a_req_course in ece_reqs[a_req]:
+                if (a_req_course in all_course_ids):
+                    test_requisite_data = {
+                        'course_id': all_course_ids[a_req],
+                        'course_requisite': all_course_ids[a_req_course],
+                        'requisite_type': ece_reqs[a_req][a_req_course]
+                    }
+                    requisite_resp = client.post(
+                        reverse('create_get_requisites'),
+                        data=test_requisite_data,
+                        format='json'
+                    )
+                    if (requisite_resp.status_code == status.HTTP_400_BAD_REQUEST):
+                        print(test_requisite_data)
 
 
 # insert a sample degree
@@ -120,8 +139,8 @@ def test_user_setup(ece_degree_id, all_course_ids):
 
 
 def run():
-    all_purdue_courses_setup()
+    # all_purdue_courses_setup()
     all_course_ids = get_all_course_ids()
-    all_purdue_requisites_setup()
+    all_purdue_requisites_setup(all_course_ids)
     ece_degree_id = ece_degree_setup(all_course_ids)
     test_user_setup(ece_degree_id, all_course_ids)

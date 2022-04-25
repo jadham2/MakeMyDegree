@@ -45,7 +45,7 @@ function CoursePlanner (props) {
   const {
     userID,
     userPlan,
-    // setUserPlan,
+    setUserPlan,
     degreeID
   } = props
 
@@ -61,7 +61,11 @@ function CoursePlanner (props) {
       setDegree(res.data)
     })
     axios.get('http://localhost:8000/api/courses').then(res => {
-      setCourseStates({ ...courseStates, allCourses: res.data })
+      let allCourses = res.data
+      Object.values(courseStates).forEach(toRemove => {
+        allCourses = allCourses.filter(ar => !toRemove.find(rm => (rm.course_id === ar.course_id)))
+      })
+      setCourseStates({ ...courseStates, allCourses: allCourses })
     })
     axios.get(`http://localhost:8000/api/users/${userID}/fetch_user_degree`).then(res => {
       setTags(res.data)
@@ -78,6 +82,10 @@ function CoursePlanner (props) {
       })
     }
   }, [selectedCourse])
+
+  useEffect(() => {
+    setUserPlan(courseStates)
+  }, [courseStates])
 
   const onDragEnd = (result) => {
     if (!result.destination) return
@@ -153,14 +161,14 @@ function CoursePlanner (props) {
                           </p>
                           <h5>Requisites:</h5>
                           <ul>
-                            <li>Pre
+                            <li>Prerequisites
                               <ul>
                               {Object.keys(selectedCourseRequisites).length > 0 && selectedCourseRequisites.requisites.pre.map((requisite, index) => (
                                 <li key={index}>{requisite}</li>
                               ))}
                               </ul>
                             </li>
-                            <li>Co
+                            <li>Corequisites
                               <ul>
                               {Object.keys(selectedCourseRequisites).length > 0 && selectedCourseRequisites.requisites.co.map((requisite, index) => (
                                 <li key={index}>{requisite}</li>

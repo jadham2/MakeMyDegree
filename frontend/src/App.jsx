@@ -24,6 +24,19 @@ function App () {
     }
   }, [userID])
 
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    const relevantCourses = { ...userPlan }
+    delete relevantCourses.allCourses
+
+    axios.put(`http://localhost:8000/api/users/${userID}/update`, {
+      relevantCourses
+    }).then(res => {
+      console.log(res.data)
+    })
+  }
+
   if (!userID) {
     return <Login setUserID={setUserID} />
   } else {
@@ -40,7 +53,7 @@ function App () {
               <h1>MakeMyDegree</h1>
             </Col>
             <Col xs={4} lg={2} className="d-flex align-items-end justify-content-center">
-              <Button className="w-75" variant="primary">Submit Plan</Button>
+              <Button onClick={handleSubmit} className="w-75" variant="primary">Submit Plan</Button>
             </Col>
           </Row>
           <Row>

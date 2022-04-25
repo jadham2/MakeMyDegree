@@ -277,14 +277,15 @@ def update_plan(request, user_id) -> Response:
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    queried_user.curr_plan = request.data
+    queried_user.curr_plan = request.data['relevantCourses']
+    print(request.data)
     queried_user.save()
 
-    plan = dict(queried_user.curr_plan.lists())
+    plan = queried_user.curr_plan
     for term in plan:
-        for i, course_id in enumerate(plan[term]):
+        for i, course in enumerate(plan[term]):
             try:
-                queried_course = Course.objects.get(pk=int(course_id))
+                queried_course = Course.objects.get(pk=int(course['course_id']))
             except Course.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
             plan[term][i] = queried_course
@@ -374,9 +375,9 @@ def fetch_user_degree(request, user_id) -> Response:
 
     plan = queried_user.curr_plan
     for term in plan:
-        for i, course_id in enumerate(plan[term]):
+        for i, course in enumerate(plan[term]):
             try:
-                queried_course = Course.objects.get(pk=int(course_id))
+                queried_course = Course.objects.get(pk=int(course['course_id']))
             except Course.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
             plan[term][i] = queried_course

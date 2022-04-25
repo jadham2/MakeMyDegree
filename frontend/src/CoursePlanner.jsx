@@ -13,7 +13,7 @@ const termMapper = (term) => {
       return 'Fall ' + term.substring(2)
     case 'Sp':
       return 'Spring ' + term.substring(2)
-    case 'Sm':
+    case 'Su':
       return 'Summer ' + term.substring(2)
     default:
       return term
@@ -44,26 +44,13 @@ const reorder = (list, startIndex, endIndex) => {
 function CoursePlanner (props) {
   const {
     userID,
-    // userPlan,
+    userPlan,
     // setUserPlan,
     degreeID
   } = props
 
   const [degree, setDegree] = useState({})
-  const [courseStates, setCourseStates] = useState({
-    allCourses: [],
-    Fa2019: [],
-    Sp2020: [],
-    Sm2020: [],
-    Fa2020: [],
-    Sp2021: [],
-    Sm2021: [],
-    Fa2021: [],
-    Sp2022: [],
-    Sm2022: [],
-    Fa2022: [],
-    Sp2023: []
-  })
+  const [courseStates, setCourseStates] = useState({ allCourses: [], ...userPlan })
   const [tags, setTags] = useState({})
   const [selectedCourse, setSelectedCourse] = useState({})
   const [selectedCourseTags, setSelectedCourseTags] = useState([])
@@ -87,7 +74,6 @@ function CoursePlanner (props) {
         setSelectedCourseTags(res.data.tags)
       })
       axios.get(`http://localhost:8000/api/courses/${selectedCourse.course_id}/fetch_requisites_from_course`).then(res => {
-        console.log(res.data)
         setSelectedCourseRequisites(res.data)
       })
     }
@@ -119,6 +105,13 @@ function CoursePlanner (props) {
     }
   }
 
+  const sortedTerms = Object.keys(courseStates).slice(1).sort((a, b) => {
+    const seasonToNum = { Sp: '1', Su: '2', Fa: '3' }
+    const aSeason = a.substring(0, 2)
+    const bSeason = b.substring(0, 2)
+    return Number(a.substring(2) + seasonToNum[aSeason]) - Number(b.substring(2) + seasonToNum[bSeason])
+  })
+
   return (
       <Col className="d-flex">
         <DragDropContext onDragEnd={onDragEnd}>
@@ -129,7 +122,7 @@ function CoursePlanner (props) {
             <Row>
               <Col>
                 <Card border="primary" className="m-3 p-3" style={{ flexGrow: 1, overflowY: 'auto', maxHeight: 620 }}>
-                  {Object.keys(courseStates).slice(1).map((id) => (
+                  {sortedTerms.map((id) => (
                     <React.Fragment key={id}>
                       <h5 style={{ marginLeft: '17px' }}><strong>{termMapper(id)}</strong></h5>
                       <HorizontalList id={id} setSelectedCourse={setSelectedCourse} initialCourses={courseStates[id]} />

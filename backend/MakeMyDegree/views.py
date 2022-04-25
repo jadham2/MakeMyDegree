@@ -402,7 +402,11 @@ def login_user(request) -> Response:
     try:
         user = User.objects.get(name=username)
     except User.DoesNotExist:
-        user = User.objects.create(name=username, password=password, degree=degree, curr_plan={})
+        seasons = ['Fa', 'Sp', 'Su']
+        template_plan = {x + str(y): [] for x in seasons for y in range(int(degree.term[2:]) + 1, int(degree.term[2:]) + 4)}
+        template_plan['Fa' + str(int(degree.term[2:]))] = []
+        template_plan['Sp' + str(int(degree.term[2:]) + 4)] = []
+        user = User.objects.create(name=username, password=password, degree=degree, curr_plan=template_plan)
         user.save()
 
     if user.password != password:

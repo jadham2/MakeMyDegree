@@ -5,24 +5,25 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import re
 import pickle
+import json
 
+# Setting up the scraping drivers and storage files
 options = Options()
 options.headless = True
 options.add_argument("--window-size=1920,1200")
 driver_service = Service(executable_path='../chromedriver.exe')
 driver = webdriver.Chrome(options=options, service=driver_service)
-f = open('all_courses.txt', 'w', encoding="utf-8")
+f_json = open('all_courses.json', 'w', encoding="utf-8")
 err = open('err_all_courses.txt', 'w', encoding="utf-8")
 course_name_pattern = re.compile(r'(([A-Z]+)\s(\d\d\d\d\d))\s\-\s((.)+)')
 term_offered_pattern = re.compile(r'Typically offered (.*)\.C')
 credits_pattern = re.compile(r'((Credits)|(Credit Hours)): (\d+)\.\d\d')
 all_courses = []
 
-# get all available courses from all pages
+# Get all available courses from all pages
 # using pdf version since its easier to deal with
 page_nums = range(1, 80)
 for page_num in page_nums:
-  # f.write(f"\n\n\n\n\n*******************page {page_num}*************************\n")
   url = f'https://catalog.purdue.edu/content.php?filter%5B27%5D=-1&filter%5B29%5D=&filter%5Bcourse_type%5D=-1&filter%5Bkeyword%5D=&filter%5B32%5D=1&filter%5Bcpage%5D={page_num}&cur_cat_oid=14&expand=1&navoid=16894&print=1&filter%5Bexact_match%5D=1#acalog_template_course_filter'
   driver.get(url)
   elem = driver.find_elements(by=By.CLASS_NAME, value='width')
@@ -51,17 +52,36 @@ for page_num in page_nums:
         new_course["description"] = description
         new_course["terms"] = term_offered
         all_courses.append(new_course)
-        f.write(new_course.__str__())
-        f.write('\n')
     except Exception as error:
       print(error)
       err.write(e.text)
 
-f_pkl = open('all_courses.pickle', 'wb')
-pickle.dump(all_courses, f_pkl)
+years = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025']
+model_fixtures = []
+for i, a_course in enumerate(all_courses):
+  terms = []
+  for x in a_course["terms"]:
+    if 'fall' in x.lower():
+      terms.extend(['Fa'+y for y in years])
+    elif 'spring' in x.lower():
+      terms.extend(['Sp'+y for y in years])
+    elif 'summer' in x.lower():
+      terms.extend(['Sm'+y for y in years])
+  a_course["terms"] = terms
+  model_courses = {
+    "model": "MakeMyDegree.Course",
+    "pk": i + 1,
+    "fields": a_course
+  }
+  model_fixtures.append(model_courses)
+with open("../../backend/MakeMyDegree/fixture/all_courses.json", "w") as f:
+  json.dump(model_fixtures, f)
+
+
+f_json = open('all_courses.json', 'w')
+json.dump(all_courses, f_json)
 
 # clean up
 driver.close()
-f.close()
 err.close()
-f_pkl.close()
+f_json.close()

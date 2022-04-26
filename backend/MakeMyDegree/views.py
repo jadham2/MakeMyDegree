@@ -278,7 +278,6 @@ def update_plan(request, user_id) -> Response:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     queried_user.curr_plan = request.data['relevantCourses']
-    print(request.data)
     queried_user.save()
 
     plan = queried_user.curr_plan
@@ -384,7 +383,7 @@ def fetch_user_degree(request, user_id) -> Response:
 
     get_total_credits = lambda x: int(x.rule.split()[1])
 
-    response = {x.tag_id: {'tag_name': x.name, 'user_credits': 0, 'total_credits': get_total_credits(x)} for x in tags}
+    response = {x.tag_id: {'tag_name': x.name, 'tag_rule': x.rule, 'user_credits': 0, 'total_credits': get_total_credits(x)} for x in tags}
 
     for term in plan:
         for course in plan[term]:

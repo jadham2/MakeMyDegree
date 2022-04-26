@@ -193,6 +193,7 @@ function CoursePlanner (props) {
                 {Object.entries(tags).map(([key, value]) => (
                   <React.Fragment key={key}>
                     <h5>{value.tag_name}</h5>
+                    Tag Rule: {value.tag_rule} credits
                     <p>{value.user_credits}/{value.total_credits} credits</p>
                   </React.Fragment>
                 ))}

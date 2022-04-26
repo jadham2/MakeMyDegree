@@ -33,7 +33,7 @@ function App () {
     axios.put(`http://localhost:8000/api/users/${userID}/update`, {
       relevantCourses
     }).then(res => {
-      console.log(res.data)
+      alert(JSON.stringify(res.data, null, 2))
     })
   }
 

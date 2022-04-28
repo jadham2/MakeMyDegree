@@ -55,17 +55,15 @@ function CoursePlanner (props) {
   const [selectedCourse, setSelectedCourse] = useState({})
   const [selectedCourseTags, setSelectedCourseTags] = useState([])
   const [selectedCourseRequisites, setSelectedCourseRequisites] = useState({})
+  const [selectedCourseDescription, setSelectedCourseDescription] = useState('')
+  const [selectedCourseTerms, setSelectedCourseTerms] = useState([])
 
   useEffect(() => {
     axios.get(`http://localhost:8000/api/degrees/${degreeID}`).then(res => {
       setDegree(res.data)
     })
     axios.get('http://localhost:8000/api/courses').then(res => {
-      let allCourses = res.data.map(function (x) {
-        delete x.description
-        delete x.terms
-        return x
-      })
+      let allCourses = res.data.map(({ description, terms, ...keepAttrs }) => keepAttrs)
       Object.values(courseStates).forEach(toRemove => {
         allCourses = allCourses.filter(ar => !toRemove.find(rm => (rm.course_id === ar.course_id)))
       })
@@ -83,6 +81,10 @@ function CoursePlanner (props) {
       })
       axios.get(`http://localhost:8000/api/courses/${selectedCourse.course_id}/fetch_requisites_from_course`).then(res => {
         setSelectedCourseRequisites(res.data)
+      })
+      axios.get(`http://localhost:8000/api/courses/${selectedCourse.course_id}`).then(res => {
+        setSelectedCourseDescription(res.data.description)
+        setSelectedCourseTerms(res.data.terms)
       })
     }
   }, [selectedCourse])
@@ -159,8 +161,8 @@ function CoursePlanner (props) {
                           </ul>
                           <h5>Normally Offered:</h5>
                           <p>
-                            {selectedCourse.terms.map((term, index) => (
-                              <span key={index}>{termMapper(term)}{index !== (selectedCourse.terms.length - 1) && ', '}</span>
+                            {selectedCourseTerms.map((term, index) => (
+                              <span key={index}>{termMapper(term)}{index !== (selectedCourseTerms.length - 1) && ', '}</span>
                             ))}
                           </p>
                           <h5>Requisites:</h5>
@@ -181,7 +183,7 @@ function CoursePlanner (props) {
                             </li>
                           </ul>
                           <h5>Catalog Description</h5>
-                          <p>{selectedCourse.description}</p>
+                          <p>{selectedCourseDescription}</p>
                         </React.Fragment>
                       : <h3>Select a course to view details</h3>
                     }

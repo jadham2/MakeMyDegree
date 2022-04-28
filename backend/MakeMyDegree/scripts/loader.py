@@ -12,9 +12,9 @@ def all_purdue_courses_setup():
     for a_course in all_courses:
         client = APIClient()
         course_resp = client.post(
-                reverse('create_get_courses'),
-                data=a_course,
-                format='json'
+            reverse('create_get_courses'),
+            data=a_course,
+            format='json'
         )
         if (course_resp.status_code == status.HTTP_400_BAD_REQUEST):
             print(a_course)
@@ -74,7 +74,7 @@ def ece_degree_setup(all_course_ids):
     )
     assert (ece_resp.status_code == status.HTTP_201_CREATED)
     ece_degree_id = ece_resp.json()["degree_id"]
-    
+
     # insert all ece degree tags, along with the course tags
     with open("MakeMyDegree/fixture/ece_tags.json", "r") as f:
         ece = json.load(f)
@@ -82,7 +82,7 @@ def ece_degree_setup(all_course_ids):
         a_ece_tag_data = {
             'degree': ece_degree_id,
             'name': a_tag["tag_name"],
-            'rule': '>='+str(a_tag["credits"])
+            'rule': '>=' + str(a_tag["credits"])
         }
         client = APIClient()
         tag_resp = client.post(
@@ -106,7 +106,7 @@ def ece_degree_setup(all_course_ids):
                 )
                 if (post_course_tag_resp.status_code == status.HTTP_400_BAD_REQUEST):
                     print(test_course_tag_data)
-            except Exception as e: 
+            except Exception as e:
                 print(e)
     return ece_degree_id
 
@@ -119,11 +119,11 @@ def test_user_setup(ece_degree_id, all_course_ids):
         'email': 'xyz@purdue.edu',
         'degree': ece_degree_id,
         'curr_plan': {
-            'Fa2019': [all_course_ids["CS 15900"], all_course_ids["ECE 20001"], all_course_ids["ECE 20007"]], 
-            'Sp2020': [all_course_ids["ECE 26400"], all_course_ids["ECE 20875"]], 
-            'Su2020': [all_course_ids["ECE 36800"]], 
-            'Fa2020': [], 
-            'Sp2021': [], 
+            'Fa2019': [all_course_ids["CS 15900"], all_course_ids["ECE 20001"], all_course_ids["ECE 20007"]],
+            'Sp2020': [all_course_ids["ECE 26400"], all_course_ids["ECE 20875"]],
+            'Su2020': [all_course_ids["ECE 36800"]],
+            'Fa2020': [],
+            'Sp2021': [],
             'Su2021': []
         }
     }

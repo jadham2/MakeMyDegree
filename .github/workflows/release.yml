@@ -1,0 +1,55 @@
+name: Create Release
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+      - name: save binaries
+        run: |
+          cd ./backend
+          docker build -f ./Dockerfile --force-rm .
+          cd ..
+          cd ./frontend
+          docker build -f ./Dockerfile --force-rm .
+          cd ..
+          docker save makemydegree_backend:latest | gzip > makemydegree_backend.tar.gz
+          docker save makemydegree_frontend:latest | gzip > makemydegree_frontend.tar.gz
+      - name: create release body
+        run: |
+          git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+          git tag -l --format='%(contents:subject)'${GITHUB_REF#refs/*/} > ./release_body.md
+      - name: create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body_path: ./release_body.md
+          draft: false
+          prerelease: true
+      - name: upload release backend tar
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./makemydegree_backend.tar.gz
+          asset_name: makemydegree_backend.tar.gz
+          asset_content_type: application/gzip
+      - name: upload release frontend tar
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./makemydegree_frontend.tar.gz
+          asset_name: makemydegree_frontend.tar.gz
+          asset_content_type: application/gzip

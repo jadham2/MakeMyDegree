@@ -9,7 +9,6 @@ from rest_framework.test import APIClient
 def all_purdue_courses_setup():
     with open("MakeMyDegree/fixture/purdue_all_courses.json", "r") as f:
         all_courses = json.load(f)
-    all_courses = [a_course["fields"] for a_course in all_courses]
     for a_course in all_courses:
         client = APIClient()
         course_resp = client.post(

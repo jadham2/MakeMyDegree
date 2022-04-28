@@ -41,8 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    'MakeMyDegree',
-    'django_extensions'
+    'MakeMyDegree'
 ]
 
 MIDDLEWARE = [

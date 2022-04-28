@@ -10,14 +10,15 @@ def all_purdue_courses_setup():
     with open("MakeMyDegree/fixture/purdue_all_courses.json", "r") as f:
         all_courses = json.load(f)
     for a_course in all_courses:
-        client = APIClient()
-        course_resp = client.post(
-            reverse('create_get_courses'),
-            data=a_course,
-            format='json'
-        )
-        if (course_resp.status_code == status.HTTP_400_BAD_REQUEST):
-            print(a_course)
+        if "ECE 20001" <= a_course['course_tag'] <= "ECE 60000":
+            client = APIClient()
+            course_resp = client.post(
+                reverse('create_get_courses'),
+                data=a_course,
+                format='json'
+            )
+            if (course_resp.status_code == status.HTTP_400_BAD_REQUEST):
+                print(a_course)
 
 
 def get_all_course_ids():
@@ -142,4 +143,4 @@ def run():
     all_course_ids = get_all_course_ids()
     all_purdue_requisites_setup(all_course_ids)
     ece_degree_id = ece_degree_setup(all_course_ids)
-    test_user_setup(ece_degree_id, all_course_ids)
+    # test_user_setup(ece_degree_id, all_course_ids)

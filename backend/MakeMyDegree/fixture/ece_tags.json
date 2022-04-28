@@ -3,47 +3,47 @@
     "tag_name": "Required Core Courses",
     "credits": 30,
     "course_list": [
+      "ECE 20875",
+      "ECE 27000",
+      "ECE 30100",
+      "ECE 26400",
+      "ECE 20007",
       "ECE 36200",
       "ECE 20002",
-      "ECE 26400",
-      "ECE 20001",
-      "ECE 27000",
       "ECE 30200",
-      "ECE 20875",
-      "ECE 20007",
       "ECE 36800",
-      "ECE 30100"
+      "ECE 20001"
     ]
   },
   {
     "tag_name": "Required Seminars",
     "credits": 3,
-    "course_list": ["ECE 49401", "ECE 29401", "ECE 39401"]
+    "course_list": ["ECE 29401", "ECE 39401", "ECE 49401"]
   },
   {
     "tag_name": "Senior Design Requirement - Choose One Option",
     "credits": 4,
-    "course_list": ["ECE 47700", "ECE41200", "ECE 49022"]
+    "course_list": ["ECE 47700", "ECE 49022", "ECE41200"]
   },
   {
     "tag_name": "Computer Engineering Selectives",
     "credits": 16,
     "course_list": [
-      "ECE 46800",
-      "ECE 47300",
-      "ECE 50863",
-      "ECE 46900",
-      "ECE 46100",
-      "ECE 30862",
-      "ECE 43700",
-      "ECE 46300",
-      "ECE 56800",
-      "ECE 57000",
       "ECE 57300",
-      "ECE 30834",
+      "ECE 30862",
       "ECE 40400",
+      "ECE 33700",
+      "ECE 43700",
+      "ECE 46100",
+      "ECE 46900",
       "ECE 40862",
-      "ECE 33700"
+      "ECE 30834",
+      "ECE 46800",
+      "ECE 56800",
+      "ECE 47300",
+      "ECE 57000",
+      "ECE 46300",
+      "ECE 50863"
     ]
   },
   { "tag_name": "C Programming", "credits": 72, "course_list": ["CS 15900"] },
@@ -51,21 +51,21 @@
     "tag_name": "Engineering Breadth Selective - Choose One",
     "credits": 3,
     "course_list": [
-      "ME 27000",
-      "EEE 35500",
-      "AAE 20300",
-      "ME 41300",
-      "NUCL 20000",
-      "MSE 23000",
-      "BME 20100",
-      "ME 20000",
-      "IE 33500",
-      "CE 29700",
-      "CE 35000",
-      "IE 33600",
-      "CE 35500",
       "CE 35300",
-      "CHE 20500"
+      "AAE 20300",
+      "IE 33600",
+      "CE 35000",
+      "BME 20100",
+      "MSE 23000",
+      "IE 33500",
+      "ME 27000",
+      "NUCL 20000",
+      "ME 20000",
+      "CHE 20500",
+      "CE 35500",
+      "CE 29700",
+      "ME 41300",
+      "EEE 35500"
     ]
   },
   {
@@ -77,13 +77,13 @@
     "tag_name": "Math Option 2",
     "credits": 14,
     "course_list": [
-      "MA 26100",
-      "MA 26200",
-      "ECE 36900",
-      "MA 30300",
-      "CS 31400",
       "MA 51000",
+      "ECE 36900",
+      "MA 26200",
+      "CS 31400",
       "MA 38500",
+      "MA 26100",
+      "MA 30300",
       "MA 42500"
     ]
   },
@@ -91,18 +91,18 @@
     "tag_name": "Science Requirement",
     "credits": 4,
     "course_list": [
-      "BIOL 13500",
-      "PHYS 31000",
-      "PHYS 34200",
-      "CHM 12400",
-      "BIOL 12100",
-      "CHM 11600",
-      "BIOL 13100",
       "PHYS 27200",
+      "BIOL 11000",
       "BIOL 11100",
-      "PHYS 34400",
+      "BIOL 12100",
+      "BIOL 13500",
+      "BIOL 13100",
+      "CHM 11600",
+      "CHM 12400",
+      "PHYS 31000",
       "PHYS 32200",
-      "BIOL 11000"
+      "PHYS 34200",
+      "PHYS 34400"
     ]
   },
   {

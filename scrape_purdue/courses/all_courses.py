@@ -1,10 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import re
-import pickle
 import json
 
 # Setting up the scraping drivers and storage files
@@ -13,8 +11,7 @@ options.headless = True
 options.add_argument("--window-size=1920,1200")
 driver_service = Service(executable_path='../chromedriver.exe')
 driver = webdriver.Chrome(options=options, service=driver_service)
-f_json = open('all_courses.json', 'w', encoding="utf-8")
-err = open('err_all_courses.txt', 'w', encoding="utf-8")
+f_json = open('../../backend/MakeMyDegree/fixture/purdue_all_courses.json', 'w', encoding="utf-8")
 course_name_pattern = re.compile(r'(([A-Z]+)\s(\d\d\d\d\d))\s\-\s((.)+)')
 term_offered_pattern = re.compile(r'Typically offered (.*)\.C')
 credits_pattern = re.compile(r'((Credits)|(Credit Hours)): (\d+)\.\d\d')
@@ -54,10 +51,9 @@ for page_num in page_nums:
         all_courses.append(new_course)
     except Exception as error:
       print(error)
-      err.write(e.text)
 
-years = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025']
-model_fixtures = []
+# pre-processing the course terms
+years = ['2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024']
 for i, a_course in enumerate(all_courses):
   terms = []
   for x in a_course["terms"]:
@@ -68,20 +64,10 @@ for i, a_course in enumerate(all_courses):
     elif 'summer' in x.lower():
       terms.extend(['Sm'+y for y in years])
   a_course["terms"] = terms
-  model_courses = {
-    "model": "MakeMyDegree.Course",
-    "pk": i + 1,
-    "fields": a_course
-  }
-  model_fixtures.append(model_courses)
-with open("../../backend/MakeMyDegree/fixture/all_courses.json", "w") as f:
-  json.dump(model_fixtures, f)
+  all_courses[i] = a_course
 
-
-f_json = open('all_courses.json', 'w')
+# load to json file in backend/MakeMyDegree/fixtures folder
 json.dump(all_courses, f_json)
 
 # clean up
 driver.close()
-err.close()
-f_json.close()

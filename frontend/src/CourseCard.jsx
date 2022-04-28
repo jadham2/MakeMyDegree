@@ -48,12 +48,12 @@ function CourseCard (props) {
   )
 }
 
-const areEqual = (prevProps, nextProps) => {
-  if (prevProps.course === nextProps.course) {
-    return true
-  }
-  return false
-}
+// const areEqual = (prevProps, nextProps) => {
+//   if (prevProps.course === nextProps.course) {
+//     return true
+//   }
+//   return false
+// }
 
-// export default CourseCard
-export default React.memo(CourseCard, areEqual)
+export default CourseCard
+// export default React.memo(CourseCard, areEqual)

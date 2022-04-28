@@ -13,7 +13,7 @@ const termMapper = (term) => {
       return 'Fall ' + term.substring(2)
     case 'Sp':
       return 'Spring ' + term.substring(2)
-    case 'Su':
+    case 'Sm':
       return 'Summer ' + term.substring(2)
     default:
       return term
@@ -61,7 +61,11 @@ function CoursePlanner (props) {
       setDegree(res.data)
     })
     axios.get('http://localhost:8000/api/courses').then(res => {
-      let allCourses = res.data
+      let allCourses = res.data.map(function (x) {
+        delete x.description
+        delete x.terms
+        return x
+      })
       Object.values(courseStates).forEach(toRemove => {
         allCourses = allCourses.filter(ar => !toRemove.find(rm => (rm.course_id === ar.course_id)))
       })

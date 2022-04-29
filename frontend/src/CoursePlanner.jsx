@@ -13,7 +13,7 @@ const termMapper = (term) => {
       return 'Fall ' + term.substring(2)
     case 'Sp':
       return 'Spring ' + term.substring(2)
-    case 'Sm':
+    case 'Su':
       return 'Summer ' + term.substring(2)
     default:
       return term
@@ -43,6 +43,7 @@ const reorder = (list, startIndex, endIndex) => {
 
 function CoursePlanner (props) {
   const {
+    update,
     userID,
     userPlan,
     setUserPlan,
@@ -80,6 +81,7 @@ function CoursePlanner (props) {
         setSelectedCourseTags(res.data.tags)
       })
       axios.get(`http://localhost:8000/api/courses/${selectedCourse.course_id}/fetch_requisites_from_course`).then(res => {
+        console.log(res.data)
         setSelectedCourseRequisites(res.data)
       })
       axios.get(`http://localhost:8000/api/courses/${selectedCourse.course_id}`).then(res => {
@@ -92,6 +94,12 @@ function CoursePlanner (props) {
   useEffect(() => {
     setUserPlan(courseStates)
   }, [courseStates])
+
+  useEffect(() => {
+    axios.get(`http://localhost:8000/api/users/${userID}/fetch_user_degree`).then(res => {
+      setTags(res.data)
+    })
+  }, [update])
 
   const onDragEnd = (result) => {
     if (!result.destination) return

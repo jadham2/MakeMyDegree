@@ -10,7 +10,7 @@ const CardWrapper = styled(Card)`
   box-shadow: 2px 1px 2px 1px rgba(0, 0, 0, 0.17);
   margin: 10px;
   width: 175px;
-  height: 125px;
+  min-height: 125px;
   background: ${props => props.isdragging ? 'lightgreen' : 'white'};
   ${props => props.draggablestyle};
 `

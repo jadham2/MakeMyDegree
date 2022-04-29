@@ -47,7 +47,7 @@ def all_purdue_requisites_setup(all_course_ids):
                     test_requisite_data = {
                         'course_id': all_course_ids[a_req],
                         'course_requisite': all_course_ids[a_req_course],
-                        'requisite_type': ece_reqs[a_req][a_req_course]
+                        'requisite_type': ece_reqs[a_req][a_req_course].lower()
                     }
                     requisite_resp = client.post(
                         reverse('create_get_requisites'),
@@ -83,7 +83,7 @@ def ece_degree_setup(all_course_ids):
         a_ece_tag_data = {
             'degree': ece_degree_id,
             'name': a_tag["tag_name"],
-            'rule': '>=' + str(a_tag["credits"])
+            'rule': '>= ' + str(a_tag["credits"])
         }
         client = APIClient()
         tag_resp = client.post(

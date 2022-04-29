@@ -322,12 +322,12 @@ def update_plan(request, user_id) -> Response:
                 if requisite.requisite_type == 'pre':
                     if requisite.course_requisite not in courses_encountered:
                         if course.course_id not in audit_response['requisites']:
-                            audit_response['requisites'][course.course_id] = {'pre': []}
+                            audit_response['requisites'][course.course_id] = {'co': [], 'pre': []}
                         audit_response['requisites'][course.course_id]['pre'].append(requisite.course_requisite.course_id)
                 elif requisite.requisite_type == 'co':
                     if requisite.course_requisite not in courses_encountered and requisite.course_requisite not in current_courses:
                         if course.course_id not in audit_response['requisites']:
-                            audit_response['requisites'][course.course_id] = {'co': []}
+                            audit_response['requisites'][course.course_id] = {'co': [], 'pre': []}
                         audit_response['requisites'][course.course_id]['co'].append(requisite.course_requisite.course_id)
 
         # Once we finish with the term we are on, add the term's courses

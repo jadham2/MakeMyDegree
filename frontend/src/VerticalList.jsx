@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import styled from '@emotion/styled'
@@ -48,16 +48,19 @@ function InnerCourseList (props) {
   const {
     courses,
     setSelectedCourse,
-    provided
+    provided,
+    searchText
   } = props
 
   return (
-  <DropZone ref={provided.innerRef}>
-    {courses.map((course, index) => (
-      <CourseCard key={course.course_id} course={course} setSelectedCourse={setSelectedCourse} index={index} />
-    ))}
-    {provided.placeholder}
-  </DropZone>
+    <DropZone ref={provided.innerRef}>
+      {courses.map((course, index) => (
+        course.course_name.toLowerCase().includes(searchText) || course.course_tag.toLowerCase().includes(searchText)
+          ? <CourseCard key={course.course_id} course={course} setSelectedCourse={setSelectedCourse} index={index} />
+          : null
+      ))}
+      {provided.placeholder}
+    </DropZone>
   )
 }
 
@@ -68,6 +71,12 @@ function VerticalList (props) {
     initialCourses
   } = props
 
+  const [searchText, setSearchText] = useState('')
+
+  const inputHandler = (e) => {
+    setSearchText(e.target.value.toLowerCase())
+  }
+
   return (
     <Card
       border="primary"
@@ -76,7 +85,7 @@ function VerticalList (props) {
       <Card.Body>
         <Form.Group className="mb-3">
           <Form.Label><b>Search Class</b></Form.Label>
-          <Form.Control placeholder="Enter Class Name"/>
+          <Form.Control onChange={inputHandler} placeholder="Enter Class Name"/>
         </Form.Group>
         <Droppable droppableId={id}>
           {(provided, snapshot) => (
@@ -85,7 +94,7 @@ function VerticalList (props) {
               {...provided.droppableProps}
             >
               <ScrollContainer>
-                <InnerCourseList courses={initialCourses} setSelectedCourse={setSelectedCourse} provided={provided} />
+                <InnerCourseList searchText={searchText} courses={initialCourses} setSelectedCourse={setSelectedCourse} provided={provided} />
               </ScrollContainer>
             </Wrapper>
           )}

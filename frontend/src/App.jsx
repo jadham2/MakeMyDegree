@@ -13,6 +13,7 @@ function App () {
   const [name, setName] = useState()
   const [degree, setDegree] = useState()
   const [userPlan, setUserPlan] = useState({})
+  const [update, forceUpdate] = useState(0)
 
   useEffect(() => {
     if (userID) {
@@ -35,6 +36,7 @@ function App () {
     }).then(res => {
       alert(JSON.stringify(res.data, null, 2))
     })
+    forceUpdate(update + 1)
   }
 
   if (!userID) {
@@ -58,7 +60,7 @@ function App () {
           </Row>
           <Row>
             {degree && userPlan
-              ? <CoursePlanner userID={userID} userPlan={userPlan} setUserPlan={setUserPlan} degreeID={degree} />
+              ? <CoursePlanner update={update} userID={userID} userPlan={userPlan} setUserPlan={setUserPlan} degreeID={degree} />
               : <h1>loading...</h1>
           }
           </Row>

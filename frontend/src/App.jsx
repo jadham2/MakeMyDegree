@@ -49,32 +49,34 @@ function App () {
   } else {
     return (
         <Container fluid>
-          <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Audit Results</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <h4>Requisite Conflicts</h4>
-              <p>
-                {Object.entries(audit.requisites).map(([key, value]) => (
-                  <div key={key}>
-                    <strong>{key}: </strong>
-                    {value.co.map((course, index) => (
-                      <span key={index}>{course} (corequisite){(index !== (value.co.length - 1) || value.pre.length > 0) && ', '}</span>
-                    ))}
-                    {value.pre.map((course, index) => (
-                      <span key={index}>{course} (prerequisite){index !== (value.pre.length - 1) && ', '}</span>
-                    ))}
-                  </div>
-                ))}
-              </p>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="primary" onClick={handleClose}>
-                Close
-              </Button>
-            </Modal.Footer>
-          </Modal>
+          {Object.keys(audit).length > 0 &&
+            <Modal show={show} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Audit Results</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <h4>Requisite Conflicts</h4>
+                <p>
+                  {Object.entries(audit.requisites).map(([key, value]) => (
+                    <div key={key}>
+                      <strong>{key}: </strong>
+                      {value.co.map((course, index) => (
+                        <span key={index}>{course} (corequisite){(index !== (value.co.length - 1) || value.pre.length > 0) && ', '}</span>
+                      ))}
+                      {value.pre.map((course, index) => (
+                        <span key={index}>{course} (prerequisite){index !== (value.pre.length - 1) && ', '}</span>
+                      ))}
+                    </div>
+                  ))}
+                </p>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="primary" onClick={handleClose}>
+                  Close
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          }
           <Row>
             <Col xs={4} lg={2} className="d-flex align-items-end justify-content-center" >
               {name

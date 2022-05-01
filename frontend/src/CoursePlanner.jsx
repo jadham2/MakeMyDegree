@@ -211,8 +211,8 @@ function CoursePlanner (props) {
                     <h5>{value.tag_name}</h5>
                     Tag Rule: {value.tag_rule} credits
                     {value.tag_rule.split(' ')[0] === '>='
-                      ? <p><span style={ value.user_credits <= value.total_credits ? { color: 'red' } : { color: 'green' }}>{value.user_credits}/{value.total_credits}</span> credits</p>
-                      : <p><span style={ value.user_credits >= value.total_credits ? { color: 'red' } : { color: 'green' }}>{value.user_credits}/{value.total_credits}</span> credits</p>
+                      ? <p><span style={ value.user_credits < value.total_credits ? { color: 'red' } : { color: 'green' }}>{value.user_credits}/{value.total_credits}</span> credits</p>
+                      : <p><span style={ value.user_credits > value.total_credits ? { color: 'red' } : { color: 'green' }}>{value.user_credits}/{value.total_credits}</span> credits</p>
                     }
                   </React.Fragment>
                 ))}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
-  Container, Row, Col, Button
+  Container, Row, Col, Button, Modal
 } from 'react-bootstrap'
 import CoursePlanner from './CoursePlanner'
 import Login from './Login'
@@ -14,6 +14,10 @@ function App () {
   const [degree, setDegree] = useState()
   const [userPlan, setUserPlan] = useState({})
   const [update, forceUpdate] = useState(0)
+  const [show, setShow] = useState(false)
+  const [audit, setAudit] = useState({})
+
+  const handleClose = () => setShow(false)
 
   useEffect(() => {
     if (userID) {
@@ -34,9 +38,10 @@ function App () {
     axios.put(`http://localhost:8000/api/users/${userID}/update`, {
       relevantCourses
     }).then(res => {
-      alert(JSON.stringify(res.data, null, 2))
+      setAudit(res.data)
     })
     forceUpdate(update + 1)
+    setShow(true)
   }
 
   if (!userID) {
@@ -44,6 +49,32 @@ function App () {
   } else {
     return (
         <Container fluid>
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Audit Results</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <h4>Requisite Conflicts</h4>
+              <p>
+                {Object.entries(audit.requisites).map(([key, value]) => (
+                  <div key={key}>
+                    <strong>{key}: </strong>
+                    {value.co.map((course, index) => (
+                      <span key={index}>{course} (corequisite){(index !== (value.co.length - 1) || value.pre.length > 0) && ', '}</span>
+                    ))}
+                    {value.pre.map((course, index) => (
+                      <span key={index}>{course} (prerequisite){index !== (value.pre.length - 1) && ', '}</span>
+                    ))}
+                  </div>
+                ))}
+              </p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="primary" onClick={handleClose}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
           <Row>
             <Col xs={4} lg={2} className="d-flex align-items-end justify-content-center" >
               {name

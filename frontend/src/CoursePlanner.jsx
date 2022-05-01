@@ -15,6 +15,8 @@ const termMapper = (term) => {
       return 'Spring ' + term.substring(2)
     case 'Su':
       return 'Summer ' + term.substring(2)
+    case 'Sm':
+      return 'Summer ' + term.substring(2)
     default:
       return term
   }
@@ -143,7 +145,7 @@ function CoursePlanner (props) {
           <Col xs={4} lg={8}>
             <Row>
               <Col>
-                <Card border="primary" className="m-3 p-3" style={{ flexGrow: 1, overflowY: 'auto', maxHeight: 620 }}>
+                <Card border="primary" className="m-3 p-3" style={{ flexGrow: 1, scrollbarWidth: 'none', overflowY: 'auto', maxHeight: 620 }}>
                   {sortedTerms.map((id) => (
                     <React.Fragment key={id}>
                       <h5 style={{ marginLeft: '17px' }}><strong>{termMapper(id)}</strong></h5>
@@ -155,7 +157,7 @@ function CoursePlanner (props) {
             </Row>
             <Row>
               <Col>
-                <Card border="primary" className="m-3" style={{ flexGrow: 1, overflow: 'auto', height: 180 }}>
+                <Card border="primary" className="m-3" style={{ flexGrow: 1, scrollbarWidth: 'none', overflow: 'auto', height: 180 }}>
                   <Card.Body>
                     {Object.keys(selectedCourse).length > 0
                       ? <React.Fragment>
@@ -201,14 +203,17 @@ function CoursePlanner (props) {
             </Row>
           </Col>
           <Col xs={4} lg={2}>
-            <Card border="primary" className="m-3" style={{ flexGrow: 1, overflow: 'auto', height: '832px', maxHeight: '832px' }}>
+            <Card border="primary" className="m-3" style={{ flexGrow: 1, scrollbarWidth: 'none', overflow: 'auto', height: '832px', maxHeight: '832px' }}>
               <Card.Body>
                 <h3>{degree.degree_name}</h3>
                 {Object.entries(tags).map(([key, value]) => (
                   <React.Fragment key={key}>
                     <h5>{value.tag_name}</h5>
                     Tag Rule: {value.tag_rule} credits
-                    <p>{value.user_credits}/{value.total_credits} credits</p>
+                    {value.tag_rule.split(' ')[0] === '>='
+                      ? <p><span style={ value.user_credits <= value.total_credits ? { color: 'red' } : { color: 'green' }}>{value.user_credits}/{value.total_credits}</span> credits</p>
+                      : <p><span style={ value.user_credits >= value.total_credits ? { color: 'red' } : { color: 'green' }}>{value.user_credits}/{value.total_credits}</span> credits</p>
+                    }
                   </React.Fragment>
                 ))}
               </Card.Body>

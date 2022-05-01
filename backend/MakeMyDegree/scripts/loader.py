@@ -3,14 +3,17 @@ from MakeMyDegree.models import *
 import json
 from rest_framework import status
 from rest_framework.test import APIClient
+import re
 
 
 # insert all Purdue courses
 def all_purdue_courses_setup():
     with open("MakeMyDegree/fixture/purdue_all_courses.json", "r") as f:
         all_courses = json.load(f)
+    with open("MakeMyDegree/fixture/ece_tags.json", "r") as f:
+        ece_tags_content = f.read()
     for a_course in all_courses:
-        if "ECE 20001" <= a_course['course_tag'] <= "ECE 60000":
+        if ("ECE 20001" <= a_course['course_tag'] <= "ECE 60000") or (a_course["course_tag"] in ece_tags_content):
             client = APIClient()
             course_resp = client.post(
                 reverse('create_get_courses'),
@@ -75,6 +78,30 @@ def ece_degree_setup(all_course_ids):
     )
     assert (ece_resp.status_code == status.HTTP_201_CREATED)
     ece_degree_id = ece_resp.json()["degree_id"]
+
+    # insert all other degrees
+    with open("MakeMyDegree/fixture/purdue_degrees.txt", "r") as f:
+        content = f.readlines()
+    degree_pattern = re.compile(r"(.+),\s([A-Z]+)")
+    for i, a_line in enumerate(content):
+        try:
+            a_line = a_line.rstrip()
+            result = degree_pattern.search(a_line)
+            a_degree = {
+                'degree_type': result.group(2),
+                'degree_name': result.group(1),
+                'school': 'ENGR',
+                'term': 'Fa2019'
+            }
+            client = APIClient()
+            degree_resp = client.post(
+                reverse('create_get_degrees'),
+                data=a_degree,
+                format='json'
+            )
+        except:
+            # print(f"Degree Line {i} cannot be parsed: {a_line.rstrip()}")
+            pass
 
     # insert all ece degree tags, along with the course tags
     with open("MakeMyDegree/fixture/ece_tags.json", "r") as f:

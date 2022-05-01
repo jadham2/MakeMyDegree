@@ -62,7 +62,6 @@ Chemical Engineering, BSCHE
 Architectural Engineering Minor
 Civil Engineering, BSCE
 Construction Engineering and Management, BSCNE
-Computer Engineering, BSCMPE
 Electrical Engineering, BSEE
 Environmental and Ecological Engineering, BSEEE
 Industrial Engineering, BSIE

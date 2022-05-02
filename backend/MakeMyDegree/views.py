@@ -5,7 +5,6 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework.parsers import JSONParser
 
 from MakeMyDegree.models import *
 from MakeMyDegree.serializers import *
@@ -278,14 +277,14 @@ def update_plan(request, user_id) -> Response:
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    queried_user.curr_plan = request.data
+    queried_user.curr_plan = request.data['relevantCourses']
     queried_user.save()
 
-    plan = dict(queried_user.curr_plan.lists())
+    plan = queried_user.curr_plan
     for term in plan:
-        for i, course_id in enumerate(plan[term]):
+        for i, course in enumerate(plan[term]):
             try:
-                queried_course = Course.objects.get(pk=int(course_id))
+                queried_course = Course.objects.get(pk=int(course['course_id']))
             except Course.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
             plan[term][i] = queried_course
@@ -322,14 +321,14 @@ def update_plan(request, user_id) -> Response:
             for requisite in Requisite.objects.filter(course_id=course):
                 if requisite.requisite_type == 'pre':
                     if requisite.course_requisite not in courses_encountered:
-                        if course.course_id not in audit_response['requisites']:
-                            audit_response['requisites'][course.course_id] = {'pre': []}
-                        audit_response['requisites'][course.course_id]['pre'].append(requisite.course_requisite.course_id)
+                        if course.course_tag not in audit_response['requisites']:
+                            audit_response['requisites'][course.course_tag] = {'co': [], 'pre': []}
+                        audit_response['requisites'][course.course_tag]['pre'].append(requisite.course_requisite.course_tag)
                 elif requisite.requisite_type == 'co':
                     if requisite.course_requisite not in courses_encountered and requisite.course_requisite not in current_courses:
-                        if course.course_id not in audit_response['requisites']:
-                            audit_response['requisites'][course.course_id] = {'co': []}
-                        audit_response['requisites'][course.course_id]['co'].append(requisite.course_requisite.course_id)
+                        if course.course_tag not in audit_response['requisites']:
+                            audit_response['requisites'][course.course_tag] = {'co': [], 'pre': []}
+                        audit_response['requisites'][course.course_tag]['co'].append(requisite.course_requisite.course_tag)
 
         # Once we finish with the term we are on, add the term's courses
         # to the overall set for future pre-requisites checks.
@@ -359,3 +358,86 @@ def update_plan(request, user_id) -> Response:
             audit_response['degree'].pop(tag_id)
 
     return Response(audit_response, status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@csrf_exempt
+def fetch_user_degree(request, user_id) -> Response:
+    try:
+        queried_user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    plan = queried_user.curr_plan
+    degree = queried_user.degree
+    tags = Tag.objects.filter(degree=degree)
+
+    plan = queried_user.curr_plan
+    for term in plan:
+        for i, course in enumerate(plan[term]):
+            try:
+                queried_course = Course.objects.get(pk=int(course['course_id']))
+            except Course.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            plan[term][i] = queried_course
+
+    get_total_credits = lambda x: int(x.rule.split()[1])
+
+    response = {x.tag_id: {'tag_name': x.name, 'tag_rule': x.rule, 'user_credits': 0, 'total_credits': get_total_credits(x)} for x in tags}
+
+    for term in plan:
+        for course in plan[term]:
+            for course_tag in CourseTag.objects.select_related('tag_id').filter(course_id=course):
+                response[course_tag.tag_id.tag_id]['user_credits'] += course.course_credits
+    return Response(response, status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def login_user(request) -> Response:
+    data = request.data
+    username, password, degree = data['user_name'], data['password'], data['degree']
+    password = sha256(password.encode()).hexdigest()
+    degree = Degree.objects.get(pk=degree)
+
+    try:
+        user = User.objects.get(name=username)
+    except User.DoesNotExist:
+        seasons = ['Fa', 'Sp', 'Su']
+        template_plan = {x + str(y): [] for x in seasons for y in range(int(degree.term[2:]) + 1, int(degree.term[2:]) + 4)}
+        template_plan['Fa' + str(int(degree.term[2:]))] = []
+        template_plan['Sp' + str(int(degree.term[2:]) + 4)] = []
+        user = User.objects.create(name=username, password=password, degree=degree, curr_plan=template_plan)
+        user.save()
+
+    if user.password != password:
+        return Response({'status': 'failure'}, status.HTTP_200_OK)
+
+    return Response({'status': 'success', 'user_id': user.user_id}, status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def fetch_tags_from_course(request, course_id) -> Response:
+    try:
+        queried_course = Course.objects.get(pk=int(course_id))
+    except Course.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    tags = CourseTag.objects.filter(course_id=queried_course)
+    return Response({'tags': [x.tag_id.name for x in tags]}, status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def fetch_requisites_from_course(request, course_id) -> Response:
+    try:
+        queried_course = Course.objects.get(pk=int(course_id))
+    except Course.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    pre_requisites = Requisite.objects.filter(course_id=queried_course, requisite_type='pre')
+    co_requisites = Requisite.objects.filter(course_id=queried_course, requisite_type='co')
+    return Response({
+        'requisites': {
+            'co': [x.course_requisite.course_tag for x in co_requisites],
+            'pre': [x.course_requisite.course_tag for x in pre_requisites]
+        }
+    }, status.HTTP_200_OK)

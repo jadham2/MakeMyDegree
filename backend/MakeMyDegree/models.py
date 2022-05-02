@@ -6,7 +6,6 @@ class User(models.Model):
     user_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     password = models.CharField(max_length=100)
-    email = models.EmailField()
     degree = models.ForeignKey(
         'Degree',
         on_delete=models.CASCADE,

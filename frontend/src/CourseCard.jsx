@@ -10,22 +10,23 @@ const CardWrapper = styled(Card)`
   box-shadow: 2px 1px 2px 1px rgba(0, 0, 0, 0.17);
   margin: 10px;
   width: 175px;
-  height: 125px;
+  min-height: 125px;
   background: ${props => props.isdragging ? 'lightgreen' : 'white'};
   ${props => props.draggablestyle};
 `
 
 function CourseCard (props) {
   const {
-    id,
-    content,
+    course,
+    setSelectedCourse,
     index
   } = props
 
   return (
+    <div onClick={() => setSelectedCourse(course)}>
       <Draggable
-        key={id}
-        draggableId={id}
+        key={course.course_id}
+        draggableId={course.course_id.toString()}
         index={index}
       >
         {(provided, snapshot) => (
@@ -37,13 +38,22 @@ function CourseCard (props) {
             draggablestyle={provided.draggableProps.style}
           >
             <Card.Body>
-              <Card.Title style={{ textAlign: 'center', fontSize: '16px' }}><strong>{id}</strong></Card.Title>
-              <Card.Text style={{ textAlign: 'center' }}>{content}</Card.Text>
+              <Card.Title style={{ textAlign: 'center', fontSize: '16px' }}><strong>{course.course_tag}</strong></Card.Title>
+              <Card.Text style={{ textAlign: 'center' }}>{course.course_name}</Card.Text>
             </Card.Body>
           </CardWrapper>
         )}
       </Draggable>
+    </div>
   )
 }
 
+// const areEqual = (prevProps, nextProps) => {
+//   if (prevProps.course === nextProps.course) {
+//     return true
+//   }
+//   return false
+// }
+
 export default CourseCard
+// export default React.memo(CourseCard, areEqual)

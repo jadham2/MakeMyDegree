@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import styled from '@emotion/styled'
@@ -6,6 +6,7 @@ import { Droppable } from 'react-beautiful-dnd'
 import CourseCard from './CourseCard'
 
 /* eslint-disable react/prop-types */
+/* eslint-disable camelcase */
 
 const scrollContainerHeight = 712
 
@@ -46,24 +47,35 @@ const ScrollContainer = styled.div`
 function InnerCourseList (props) {
   const {
     courses,
-    provided
+    setSelectedCourse,
+    provided,
+    searchText
   } = props
 
   return (
-  <DropZone ref={provided.innerRef}>
-    {courses.map(({ id, content }, index) => (
-      <CourseCard key={id} id={id} content={content} index={index} />
-    ))}
-    {provided.placeholder}
-  </DropZone>
+    <DropZone ref={provided.innerRef}>
+      {courses.map((course, index) => (
+        course.course_name.toLowerCase().includes(searchText) || course.course_tag.toLowerCase().includes(searchText)
+          ? <CourseCard key={course.course_id} course={course} setSelectedCourse={setSelectedCourse} index={index} />
+          : null
+      ))}
+      {provided.placeholder}
+    </DropZone>
   )
 }
 
 function VerticalList (props) {
   const {
     id,
+    setSelectedCourse,
     initialCourses
   } = props
+
+  const [searchText, setSearchText] = useState('')
+
+  const inputHandler = (e) => {
+    setSearchText(e.target.value.toLowerCase())
+  }
 
   return (
     <Card
@@ -73,7 +85,7 @@ function VerticalList (props) {
       <Card.Body>
         <Form.Group className="mb-3">
           <Form.Label><b>Search Class</b></Form.Label>
-          <Form.Control placeholder="Enter Class Name"/>
+          <Form.Control onChange={inputHandler} placeholder="Enter Class Name"/>
         </Form.Group>
         <Droppable droppableId={id}>
           {(provided, snapshot) => (
@@ -82,7 +94,7 @@ function VerticalList (props) {
               {...provided.droppableProps}
             >
               <ScrollContainer>
-                <InnerCourseList courses={initialCourses} provided={provided} />
+                <InnerCourseList searchText={searchText} courses={initialCourses} setSelectedCourse={setSelectedCourse} provided={provided} />
               </ScrollContainer>
             </Wrapper>
           )}

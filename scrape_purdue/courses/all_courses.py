@@ -19,7 +19,7 @@ all_courses = []
 
 # Get all available courses from all pages
 # using pdf version since its easier to deal with
-page_nums = range(1, 3)
+page_nums = range(1, 80)
 for page_num in page_nums:
     url = f'https://catalog.purdue.edu/content.php?filter%5B27%5D=-1&filter%5B29%5D=&filter%5Bcourse_type%5D=-1&filter%5Bkeyword%5D=&filter%5B32%5D=1&filter%5Bcpage%5D={page_num}&cur_cat_oid=14&expand=1&navoid=16894&print=1&filter%5Bexact_match%5D=1#acalog_template_course_filter'
     driver.get(url)
@@ -65,6 +65,16 @@ for i, a_course in enumerate(all_courses):
             terms.extend(['Sm' + y for y in years])
     a_course["terms"] = terms
     all_courses[i] = a_course
+
+# manuallly adding the OSS senior design course
+all_courses = [x for x in all_courses if x["course_tag"] != "ECE 49595"]
+all_courses.append({
+    "course_tag": "ECE 49595",
+    "course_name": "Open Source Software Senior Design",
+    "course_credits": 4,
+    "description": "Software Projects for Senior Design is a structured approach to development and distribution of software products with the goal of providing students a complete survey of current software development practices.",
+    "terms": ["Sp2021", "Sp2022", "Sp2023"]
+})
 
 # load to json file in backend/MakeMyDegree/fixtures folder
 json.dump(all_courses, f_json)

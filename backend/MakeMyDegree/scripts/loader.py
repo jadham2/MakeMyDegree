@@ -13,7 +13,7 @@ def all_purdue_courses_setup():
     with open("MakeMyDegree/fixture/ece_tags.json", "r") as f:
         ece_tags_content = f.read()
     for a_course in all_courses:
-        if ("ECE 20001" <= a_course['course_tag'] <= "ECE 60000") or (a_course["course_tag"] in ece_tags_content):
+        if ("ECE 20001" <= a_course['course_tag'] <= "ECE 60000") or (a_course["course_tag"] in ece_tags_content) or (a_course["course_tag"] == 'EAPS 10600'):
             client = APIClient()
             course_resp = client.post(
                 reverse('create_get_courses'),
@@ -32,9 +32,11 @@ def get_all_course_ids():
     )
     get_courses_resp = get_courses_resp.json()
     all_course_ids = dict()
+    all_courses = dict()
     for a_course in get_courses_resp:
         all_course_ids[a_course["course_tag"]] = a_course["course_id"]
-    return all_course_ids
+        all_courses[a_course["course_tag"]] = {k: v for k, v in a_course.items() if k not in ['description', 'terms']}
+    return all_course_ids, all_courses
 
 
 # insert all Purdue course pre and co-requisites
@@ -139,20 +141,25 @@ def ece_degree_setup(all_course_ids):
 
 
 # insert a test user
-def test_user_setup(ece_degree_id, all_course_ids):
+def test_user_setup(ece_degree_id, all_courses):
+    model_plan = {
+        'Fa2019': ['SPAN 10100', 'ENGR 13100', 'CS 15900', 'MA 16500', 'PHYS 17200', 'COM 11400'],
+        'Sp2020': ['ENGR 13200', 'MA 16600', 'PHYS 27200', 'PSY 12000', 'ENGL 10600', ],
+        'Su2020': [],
+        'Fa2020': ['MA 26100', 'ECE 20001', 'ECE 20007', 'ECE 26400', 'CHM 11500'],
+        'Sp2021': ['MA 26600', 'ECE 20002', 'ECE 27000', 'ECE 29401', 'PSY 20000'],
+        'Su2021': [],
+        'Fa2021': ['MA 26500', 'ECE 36800', 'ECE 30100', 'ECE 33700', 'ECE 39401'],
+        'Sp2022': ['ECE 36200', 'ECE 30200', 'ECE 46900', 'ECE 20875', 'ME 20000'],
+        'Su2022': [],
+        'Fa2022': ['ECE 36900', 'ECE 57000', 'ECE 49401', 'ECON 25100', 'CHM 11600'],
+        'Sp2023': ['PSY 22200', 'ECE 40400', 'ECE 46800', 'ECE 49595', 'EAPS 10600']
+    }
     test_student_data = {
-        'name': 'John XYZ',
+        'name': 'test',
         'password': '123456',
-        'email': 'xyz@purdue.edu',
         'degree': ece_degree_id,
-        'curr_plan': {
-            'Fa2019': [all_course_ids["CS 15900"], all_course_ids["ECE 20001"], all_course_ids["ECE 20007"]],
-            'Sp2020': [all_course_ids["ECE 26400"], all_course_ids["ECE 20875"]],
-            'Su2020': [all_course_ids["ECE 36800"]],
-            'Fa2020': [],
-            'Sp2021': [],
-            'Su2021': []
-        }
+        'curr_plan': {k: [all_courses[x] for x in v] for k, v in model_plan.items()}
     }
     client = APIClient()
     user_resp = client.post(
@@ -166,7 +173,7 @@ def test_user_setup(ece_degree_id, all_course_ids):
 
 def run():
     all_purdue_courses_setup()
-    all_course_ids = get_all_course_ids()
+    all_course_ids, all_courses = get_all_course_ids()
     all_purdue_requisites_setup(all_course_ids)
-    ece_degree_setup(all_course_ids)
-    # test_user_setup(ece_degree_id, all_course_ids)
+    ece_degree_id = ece_degree_setup(all_course_ids)
+    test_user_setup(ece_degree_id, all_courses)

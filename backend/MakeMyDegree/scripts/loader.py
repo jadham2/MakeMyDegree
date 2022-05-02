@@ -94,14 +94,13 @@ def ece_degree_setup(all_course_ids):
                 'term': 'Fa2019'
             }
             client = APIClient()
-            degree_resp = client.post(
+            client.post(
                 reverse('create_get_degrees'),
                 data=a_degree,
                 format='json'
             )
-        except:
-            # print(f"Degree Line {i} cannot be parsed: {a_line.rstrip()}")
-            pass
+        except Exception:
+            print(f"Degree Line {i} cannot be parsed: {a_line.rstrip()}")
 
     # insert all ece degree tags, along with the course tags
     with open("MakeMyDegree/fixture/ece_tags.json", "r") as f:
@@ -169,5 +168,5 @@ def run():
     all_purdue_courses_setup()
     all_course_ids = get_all_course_ids()
     all_purdue_requisites_setup(all_course_ids)
-    ece_degree_id = ece_degree_setup(all_course_ids)
+    ece_degree_setup(all_course_ids)
     # test_user_setup(ece_degree_id, all_course_ids)

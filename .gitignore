@@ -4,3 +4,8 @@ backend/.env
 .vscode
 **/__pycache__
 *.pyc
+
+# ignored scraping related files
+scrape_purdue/venv
+scrape_purdue/chromedriver.exe
+scrape_purdue/geckodriver.exe

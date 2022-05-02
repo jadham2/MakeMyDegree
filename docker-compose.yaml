@@ -23,8 +23,6 @@ services:
       - '5432:5432'
     volumes:
       - ./backend/db:/docker-entrypoint-initdb.d/
-    network:
-      - mmd_network
   backend:
     container_name: backend
     env_file:
@@ -36,8 +34,6 @@ services:
       - "0.0.0.0:8000:8000"
     depends_on:
       - postgres
-    network:
-      - mmd_network
   frontend:
     container_name: frontend
     build:
@@ -47,8 +43,3 @@ services:
       - "3000:3000"
     depends_on:
       - backend
-    network:
-      - mmd_network
-
-networks:
-    mmd_network:

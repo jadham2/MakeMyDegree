@@ -1,0 +1,309 @@
+Agricultural Communication, BS
+International Studies in Agriculture Minor
+Agricultural Education, BS
+Natural Resources and Environmental Science: Air Quality Concentration, BS
+Natural Resources and Environmental Science: Emerging Environmental Challenges Concentration, BS
+Natural Resources and Environmental Science: Environmental Policy and Analysis Concentration, BS
+Natural Resources and Environmental Science: Land Resources Concentration, BS
+Natural Resources and Environmental Science: Water Quality Concentration, BS
+Agricultural Systems Management Minor
+Agricultural Systems Management, BS
+Agribusiness: Agribusiness Management Concentration, BS
+Agribusiness: Agricultural Marketing Concentration, BS
+Agribusiness: Agricultural Finance Concentration, BS
+Agribusiness: Commodity Marketing Concentration, BS
+Agribusiness: Food Marketing Concentration, BS
+Agricultural Economics: Commodity Marketing Concentration, BS
+Agricultural Economics: Quantitative Analysis Concentration, BS
+Agricultural Economics: Applied Agricultural Economics Concentration, BS
+Farm Management, BS
+Sales and Marketing, BS
+Agronomy: Agronomic Business and Marketing Concentration, BS
+Agronomy: Crop and Soil Management Concentration, BS
+Agronomy: International Agronomy Concentration, BS
+Applied Meteorology and Climatology, BS
+Crop Science, BS
+Plant Genetics, Breeding, and Biotechnology, BS
+Soil and Water Sciences, BS
+Turf Management and Science, BS
+Animal Science Minor
+Animal Sciences: Animal Agribusiness Concentration, BS
+Animal Sciences: Behavior/Well-Being Concentration, BS
+Animal Sciences: Biosciences Concentration, BS
+Animal Sciences: Pre-Veterinary Medicine Concentration, BS
+Animal Sciences: Production Concentration, BS
+Animal Sciences: Products Concentration, BS
+Biochemistry: Pre-Med Concentration, BS
+Biochemistry: Pre-Vet Concentration, BS
+Biochemistry, BS
+Plant Science, BS
+Insect Biology, BS
+Food and Agribusiness Management Minor
+Food Science, BS
+Fisheries and Aquatic Sciences Minor
+Forestry, BSFOR
+Sustainable Biomaterials - Process and Product Design, BS
+Wildlife, BS
+Horticulture: Horticultural Production and Marketing Concentration, BS
+Horticulture: Landscape Enterprise Management Concentration, BS
+Horticulture: Plant Science Concentration, BS
+Horticulture: Public Horticulture Concentration, BS
+Landscape Architecture, BSLA
+Sustainable Food and Farming Systems, BS
+Elementary Education, BA
+Social Studies Education, BA
+General Education: Curriculum and Instruction, BA (non-licensure)
+General Education: Educational Studies, BA (non-licensure)
+Special Education/Elementary Education, BA
+Agricultural Engineering, BSAGE
+Environmental and Natural Resources Engineering, BSAGE
+Biomedical Engineering, BSBME
+Chemical Engineering, BSCHE
+Architectural Engineering Minor
+Civil Engineering, BSCE
+Construction Engineering and Management, BSCNE
+Electrical Engineering, BSEE
+Environmental and Ecological Engineering, BSEEE
+Industrial Engineering, BSIE
+Materials Engineering, BSMSE
+Mechanical Engineering, BSME
+Nuclear Engineering, BSNE
+Financial Counseling and Planning, BS
+Retail Management, BS
+Selling and Sales Management, BS
+Athletic Training, BS
+Public Health, BS
+Health Science Pre-Professional/Pre-Chiropractic Concentration, BS
+Health Science Pre-Professional/Pre-Dentistry Concentration, BS
+Health Science Pre-Professional/Pre-Medicine Concentration, BS
+Health Science Pre-Professional/Pre-Occupational Therapy Concentration, BS
+Health Science Pre-Professional/Pre-Optometry Concentration, BS
+Health Science Pre-Professional/Pre-Physical Therapy Concentration, BS
+Supply Chain, Information and Analytics, BS
+Health Science Pre-Professional/Pre-Physician Assistant Concentration, BS
+Marketing, BS
+Health Science Pre-Professional/Public Health Concentration, BS
+Medical Laboratory Sciences, BS
+Finance, BS
+Accounting, BS
+Occupational Health Science, BS
+Economics, BS
+Radiological Health Sciences-Pre-Medical Physics, BS
+Radiological Health Sciences-Health Physics, BS
+Veterinary Nursing, BSVN
+Environmental Health Sciences, BSEH
+Organizational Leadership, BS
+Hospitality and Tourism Management, BS
+Developmental and Family Science, BS
+Technology Education, BS
+Early Childhood Education and Exceptional Needs, BS
+Mechanical Engineering Technology, BS
+Family and Consumer Sciences Education, BS
+Human Services, BS
+Electrical Engineering Technology, BS
+Computer and Information Technology, BS
+Coordinated Program in Dietetics, BS
+Nutrition and Dietetics, BS
+Professional Flight Technology, BS
+Dietetics/Nutrition, Fitness and Health, BS
+Aviation Management, BS
+Foods and Nutrition in Business, BS
+Aeronautical Engineering Technology, BS
+Nutrition Science, BS
+Nutrition, Fitness, and Health, BS
+Brain and Behavioral Sciences, BS
+Statistics Honors, BS
+Psychological Sciences, BS
+Speech, Language, and Hearing Sciences, BS
+Statistics - Math Emphasis, BS
+Nursing, BSN
+Applied Statistics, BS
+Aerospace Studies Minor
+Physics, BS
+Physics Honors, BS
+Economics, BA
+Applied Physics, BS
+Applied Physics Honors, BS
+Mathematics/Statistics, BS
+Mathematics/Computer Science, BS
+Mathematics Honors, BS
+Mathematics Education, BS
+Anthropology Minor
+Mathematics, BS
+Mathematics/Business, BS
+Applied Mathematics, BS
+Anthropology, BA
+Actuarial Science, BS
+Anthropology Honors, BA
+Actuarial Science Honors, BS
+Planetary Sciences, BS
+Geology and Geophysics, BS
+Environmental Geoscience, BS
+Atmospheric Science, BS
+Computer Science, BS
+Computer Science Honors, BS
+Creative Writing, BA
+Professional Writing, BA
+Chemistry, BS
+Chemistry (ACS), BSCH
+Biochemistry (Chemistry), BSCH
+Neurobiology and Physiology, BS
+Microbiology, BS
+Microbiology Honors, BS
+Health and Disease, BS
+Genetics, BS
+Ecology, Evolution, and Environmental Biology, BS
+Cell, Molecular, and Developmental Biology, BS
+History, BA
+Biology, BS
+Biochemistry Honors, BS
+Biochemistry (Biology), BS
+History Honors, BA
+Earth, Atmospheric, and Planetary Sciences Minor
+Philosophy, BA
+Political Science, BA
+Law and Society, BA
+Astronomy Minor
+Pharmaceutical Sciences, BS
+Sociology, BA
+Spanish, BA
+Russian, BA
+Japanese, BA
+Italian Studies, BA
+German, BA
+French, BA
+Classical Studies-Classical Languages Track, BA
+Art and Design Studio Minor
+Art History Minor
+Electronic and Time-Based Art Minor
+Latin American and Latino Studies Minor
+Art History, BA
+Integrated Studio Arts, BFA
+Industrial Design Professional Program, BFA
+Interior Design Professional Program, BFA
+Sound for the Performing Arts, BA
+Arabic Language and Culture Minor
+Studio Arts and Technology, BA
+Theatre Acting, BA
+Theatre Concentration, BA
+Women�s, Gender & Sexuality Studies, BA
+Religious Studies, BA
+Theatre Design and Production, BA
+Visual Arts Education, BA
+Visual Communication Design, BFA
+African American Studies Minor
+American Studies Minor
+Asian American Studies Minor
+Asian Studies Minor
+Global Liberal Arts Studies Minor
+Native American and Indigenous Studies Minor
+African American Studies, BA
+American Studies, BA
+Asian Studies, BA
+Comparative Literature, BA
+Film Video and Theatre Production, BA
+Jewish Studies, BA
+Linguistics, BA
+Advanced Accountancy Certificate
+Agronomy, PHD
+Agricultural Economics, PHD
+Agricultural Economics, MS
+Agronomy, MS
+Biological Engineering: Cellular and Biomolecular Engineering Concentration, BSBE
+Agricultural & Biological Engineering, PHD
+Hybrid Vehicle Systems ABE Graduate Certificate
+Agricultural & Biological Engineering, MS
+Agricultural & Biological Engineering, MSABE
+Agricultural & Biological Engineering, MSE
+Communication, MA
+Applied Heat Transfer Graduate Certificate
+Comparative Literature, MA
+Animal Science, PHD
+Animal Science, MS
+Anthropology, PHD
+Anthropology, MS
+Aviation Technology, MSAAM
+Aeronautics & Astronautics, MSAA
+Aeronautics & Astronautics, PHD
+Languages & Cultures, MA
+American Studies, MA
+American Studies, PHD
+Information Assurance Education Graduate Certificate
+Earth, Atmospheric & Planetary Science, PHD
+Earth, Atmospheric & Planetary Science, MS
+Economics, MAT
+English, MA
+English, MFA
+Design-Visual and Performing Arts, MFA
+Theatre-Visual & Performing Arts, MFA
+Art - Visual & Performing Arts, MFA
+Visual and Performing Arts, MA
+History, MA
+Industrial Administration, MSIA
+Management-Executive MBA, MBA
+Management, MBA
+Management-Executive MBA, MS
+Linguistics, MA
+Adult Gerontology Primary Care Graduate Certificate
+Philosophy, MA
+Applied Statistics Graduate Certificate
+Agricultural Sciences Education and Communication, PHD
+Agricultural Sciences Education and Communication, MS
+Political Science, MA
+Aeronautical and Astronautical Engineering, BSAAE
+Economics Honors, BS
+Multidisciplinary Engineering, BSE (General Engr Concentration)
+Industrial Engineering Technology, BS
+Web Programming & Design, BS
+Audio Engineering Technology, BS
+Airline Management and Operations, BS
+Airport Management and Operations, BS
+Unmanned Aerial Systems, BS
+Aerospace Financial Analysis, BS
+Economics Honors, BA
+Visual Effects Compositing, BS
+Virtual Product Integration, BS
+UX Design, BS
+Game Development and Design, BS
+Acting: Communication Through Performance Certificate
+Building Information Modeling, BS
+Animation, BS
+Special Education/Mild Intervention P-12, BA
+Special Education/Mild & Intense Intervention P-12, BA
+Chinese Studies, BA
+Global Studies, BA
+Airframe and Powerplant Maintenance Minor
+Unmanned Aerial Systems Minor
+Science Education - Physics Concentration, BS
+Interdisciplinary Science, BS (Earth, Atmospheric, and Planetary Sciences)
+Interdisciplinary Science, BS (Computer Science)
+Interdisciplinary Science, BS (Statistics)
+Classical Studies-Material Culture & History Track, BA
+Classical Studies-Literature & Culture Track, BA
+Interdisciplinary Science, BS (Biology)
+Interdisciplinary Science, BS (Mathematics)
+Interdisciplinary Science, BS (Chemistry)
+Interdisciplinary Science, BS (Physics)
+African American Studies, SIS
+Science Education - Earth Space Science Concentration, BS
+Science Education - Chemistry Concentration, BS
+Science Education - Biology Concentration, BS
+Business Analytics and Information Management, MS
+Liberal Arts Core Curriculum
+Transfer - Industrial Management, BS
+Transfer - Early Childhood Education & Exceptional Needs, BS
+Transfer - Elementary Education, BA
+Transfer - Computer Science, BS
+Transfer - Special Education/Mild Intervention P-12, BA
+Transfer - Mechanical Engineering Technology, BS
+Transfer - Electrical Engineering Technology, BS
+Transfer - Mechanical Engineering, BSME
+Transfer - Computer & Information Technology, BS
+Pre-Landscape Architecture
+Pre-Agricultural and Biological Engineering
+Data Visualization, BS
+Cybersecurity, BS
+Anthropology/ Gerontology, PHD
+Nursing Accelerated, BSN
+Kinesiology, BS
+English, BA

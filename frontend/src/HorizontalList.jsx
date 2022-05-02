@@ -5,6 +5,7 @@ import { Droppable } from 'react-beautiful-dnd'
 import CourseCard from './CourseCard'
 
 /* eslint-disable react/prop-types */
+/* eslint-disable camelcase */
 
 const Wrapper = styled.div`
   background-color: ${({ isDraggingOver }) =>
@@ -49,6 +50,7 @@ const Container = styled.div`
 function HorizontalList (props) {
   const {
     id,
+    setSelectedCourse,
     initialCourses
   } = props
 
@@ -66,8 +68,8 @@ function HorizontalList (props) {
                 <ScrollContainer>
                   <Container>
                     <DropZone ref={provided.innerRef}>
-                      {initialCourses.map(({ id, content }, index) => (
-                        <CourseCard key={id} id={id} content={content} index={index} />
+                      {initialCourses.map((course, index) => (
+                        <CourseCard key={course.course_id} course={course} setSelectedCourse={setSelectedCourse} index={index} />
                       ))}
                       {provided.placeholder}
                     </DropZone>

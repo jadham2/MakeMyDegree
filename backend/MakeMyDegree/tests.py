@@ -18,7 +18,6 @@ class UserTests(APITestCase):
         test_student_data = {
             'name': 'Jude Lei',
             'password': 'HelloWorld!@#',
-            'email': 'jadham@purdue.edu',
             'degree': self.compe_degree,
             'curr_plan': {}
         }
@@ -29,7 +28,6 @@ class UserTests(APITestCase):
         test_user_data = {
             'name': 'Jess Zhang',
             'password': 'graphsRox',
-            'email': 'jzhang@purdue.edu',
             'degree': self.compe_degree.degree_id,
             'curr_plan': {}
         }
@@ -47,7 +45,6 @@ class UserTests(APITestCase):
         test_user_data = {
             'name': 'Jess Zhang',
             'password': 'graphsRox',
-            'email': 'jzhang@purdue.edu',
             'curr_plan': {}
         }
         user_resp = self.client.post(
@@ -62,7 +59,6 @@ class UserTests(APITestCase):
         new_user_data = {
             'name': 'Jezz Zhang',
             'password': 'b293jfsq32',
-            'email': 'jzhang@purdue.edu',
             'degree': self.compe_degree,
             'curr_plan': {}
         }
@@ -98,7 +94,6 @@ class UserTests(APITestCase):
         new_user_data = {
             'name': 'Jess Zhang',
             'password': 'graphsRox',
-            'email': 'jzhang@purdue.edu',
             'degree': self.compe_degree,
             'curr_plan': {}
         }
@@ -107,7 +102,6 @@ class UserTests(APITestCase):
         update_data = {
             'name': 'Jude Adham',
             'password': 'pwned123',
-            'email': 'newlegitemail@purdue.edu',
             'degree': self.compe_degree.degree_id,
             'curr_plan': {}
         }
@@ -121,19 +115,18 @@ class UserTests(APITestCase):
 
         put_user_resp = put_user_resp.json()
 
-        self.assertEqual(put_user_resp['email'], update_data['email'])
+        self.assertEqual(put_user_resp['name'], update_data['name'])
 
     def test_update_user_id_invalid(self):
         new_user_data = {
             'name': 'Jess Zhang',
             'password': 'graphsRox',
-            'email': 'jzhang@purdue.edu',
             'degree': self.compe_degree,
             'curr_plan': {}
         }
         new_user = User.objects.create(**new_user_data)
 
-        update_data = {'email': 'newlegitemail@purdue.edu'}
+        update_data = {'password': 'lolfunny'}
 
         put_user_resp = self.client.put(
             reverse('detail_user', kwargs={'user_id': new_user.user_id}),
@@ -147,7 +140,6 @@ class UserTests(APITestCase):
         new_user_data = {
             'name': 'Jess Zhang',
             'password': 'graphsRox',
-            'email': 'jzhang@purdue.edu',
             'degree': self.compe_degree,
             'curr_plan': {}
         }
@@ -185,7 +177,6 @@ class DegreeTests(APITestCase):
         test_student_data = {
             'name': 'Jude Lei',
             'password': 'HelloWorld!@#',
-            'email': 'jadham@purdue.edu',
             'degree': self.compe_degree,
             'curr_plan': {}
         }
@@ -1158,7 +1149,6 @@ class UpdateTests(APITestCase):
         test_student_data = {
             'name': 'Jude Lei',
             'password': 'HelloWorld!@#',
-            'email': 'jadham@purdue.edu',
             'degree': self.compe_degree,
             'curr_plan': {'Fa2019': [], 'Sp2020': [], 'Su2020': [], 'Fa2020': [], 'Sp2021': [], 'Su2021': []}
         }

@@ -16,5 +16,9 @@ urlpatterns = [
     path(route='course_tags/<int:course_tag_id>', view=views.detail_course_tag, name='detail_course_tag'),
     path(route='requisites', view=views.create_get_requisites, name='create_get_requisites'),
     path(route='requisites/<int:requisite_id>', view=views.detail_requisite, name='detail_requisite'),
-    path(route='users/<int:user_id>/update', view=views.update_plan, name='update_plan')
+    path(route='users/<int:user_id>/update', view=views.update_plan, name='update_plan'),
+    path(route='users/<int:user_id>/fetch_user_degree', view=views.fetch_user_degree, name='fetch_user_degree'),
+    path(route='login', view=views.login_user, name='login_user'),
+    path(route='courses/<int:course_id>/fetch_tags_from_course', view=views.fetch_tags_from_course, name='fetch_tags_from_course'),
+    path(route='courses/<int:course_id>/fetch_requisites_from_course', view=views.fetch_requisites_from_course, name='fetch_requisites_from_course')
 ]

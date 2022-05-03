@@ -289,16 +289,10 @@ def update_plan(request, user_id) -> Response:
                 return Response(status=status.HTTP_404_NOT_FOUND)
             plan[term][i] = queried_course
 
-    # Get all the tags associated with the user's degree.
-    degree_tags = Tag.objects.filter(degree=queried_user.degree)
-
     # Create an audit response to track conflicting requisites and
     # missing degree requirements based on tags.
     audit_response = {
         "requisites": {},
-        "degree": {
-            x.tag_id: 0 for x in degree_tags
-        }
     }
 
     # Iterate through each term of the plan and check term by term for missing pre/co requisites.
@@ -311,12 +305,7 @@ def update_plan(request, user_id) -> Response:
     for term in sorted(plan, key=lambda x: x[2:] + term_sort_map[x[:2]]):
         current_courses = set(plan[term])
         for course in plan[term]:
-            # First, increment the credit of each tag associated with the course.
-            # This will be included in the audit response.
-            for course_tag in CourseTag.objects.select_related('tag_id').filter(course_id=course):
-                audit_response['degree'][course_tag.tag_id.tag_id] += course.course_credits
-
-            # Then, check if the course has any pre/co requisite violations.
+            # Check if the course has any pre/co requisite violations.
             # If so, add it to the audit response.
             for requisite in Requisite.objects.filter(course_id=course):
                 if requisite.requisite_type == 'pre':
@@ -333,29 +322,6 @@ def update_plan(request, user_id) -> Response:
         # Once we finish with the term we are on, add the term's courses
         # to the overall set for future pre-requisites checks.
         courses_encountered.update(current_courses)
-
-    for tag_id, creds in audit_response['degree'].copy().items():
-        rule_sign, rule_credits = Tag.objects.get(pk=tag_id).rule.split()
-
-        credit_delta = creds - int(rule_credits)
-
-        keep_flag = False
-
-        if rule_sign == "<=":
-            if credit_delta > 0:
-                audit_response['degree'][tag_id] = credit_delta
-                keep_flag = True
-        elif rule_sign == ">=":
-            if credit_delta < 0:
-                audit_response['degree'][tag_id] = credit_delta
-                keep_flag = True
-        elif rule_sign == "==":
-            if credit_delta != 0:
-                audit_response['degree'][tag_id] = credit_delta
-                keep_flag = True
-
-        if not keep_flag:
-            audit_response['degree'].pop(tag_id)
 
     return Response(audit_response, status.HTTP_200_OK)
 

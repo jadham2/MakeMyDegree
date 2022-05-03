@@ -9,6 +9,7 @@ import axios from 'axios'
 import logo from './app_logo.png'
 import { keyframes } from '@emotion/react'
 import styled from '@emotion/styled'
+import '@fontsource/montserrat'
 
 /* eslint-disable react/prop-types */
 const Gradient = keyframes`
@@ -31,7 +32,15 @@ const bounce = keyframes`
   70% {transform: translate3d(0, -5px, 0);}
   90% {transform: translate3d(0,-1px,0);}
 `
-const BounceStyle = styled.h1`animation: ${bounce} 1.5s ease infinite;`
+const BounceStyle = styled.h1`
+  animation: ${bounce} 1.5s ease infinite;
+  font-family: "Montserrat";
+  font-weight: bold;
+`
+const Font = styled.div`
+  font-family: "Montserrat";
+  font-weight: bold;
+`
 
 function Login (props) {
   const [userName, setUserName] = useState()
@@ -78,7 +87,7 @@ function Login (props) {
             <Col className="d-flex justify-content-center">
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="m-2">
-                  <Form.Label>Username</Form.Label>
+                  <Form.Label><Font>Username</Font></Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Enter username"
@@ -86,7 +95,7 @@ function Login (props) {
                   />
                 </Form.Group>
                 <Form.Group className="m-2">
-                  <Form.Label>Password</Form.Label>
+                  <Form.Label><Font>Password</Font></Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="Enter password"
@@ -94,7 +103,7 @@ function Login (props) {
                   />
                 </Form.Group>
                 <Form.Group className="m-2">
-                  <Form.Label>Degree</Form.Label>
+                  <Form.Label><Font>Degree</Font></Form.Label>
                   <Form.Select onChange={(e) => setUserDegree(e.target.value)}>
                     <option>Select a degree</option>
                     {degrees.map(degree => (
@@ -104,7 +113,7 @@ function Login (props) {
                 </Form.Group>
                 <Row>
                   <Col className="d-flex justify-content-center">
-                    <Button variant="primary" type="submit" className="m-2 w-75">Submit</Button>
+                    <Button variant="primary" type="submit" className="m-2 w-75"><Font>Submit</Font></Button>
                   </Col>
                 </Row>
               </Form>

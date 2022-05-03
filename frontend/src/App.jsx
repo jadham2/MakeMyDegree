@@ -5,8 +5,14 @@ import {
 import CoursePlanner from './CoursePlanner'
 import Login from './Login'
 import axios from 'axios'
+import styled from '@emotion/styled'
+import '@fontsource/montserrat'
 
 /* eslint-disable react/prop-types */
+
+const Font = styled.div`
+  font-family: "Montserrat";
+`
 
 function App () {
   const [userID, setUserID] = useState()
@@ -48,6 +54,7 @@ function App () {
     return <Login setUserID={setUserID} />
   } else {
     return (
+      <Font>
         <Container fluid>
           {Object.keys(audit).length > 0 &&
             <Modal show={show} onHide={handleClose}>
@@ -101,6 +108,7 @@ function App () {
           }
           </Row>
         </Container>
+        </Font>
     )
   }
 }

@@ -65,7 +65,7 @@ function HorizontalList (props) {
               isDraggingOver={snapshot.isDraggingOver}
               {...provided.droppableProps}
               >
-                <ScrollContainer>
+                <ScrollContainer style={{ flexGrow: 1, scrollbarWidth: 'none', overflowY: 'auto', maxHeight: 620 }}>
                   <Container>
                     <DropZone ref={provided.innerRef}>
                       {initialCourses.map((course, index) => (

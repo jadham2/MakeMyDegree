@@ -5,8 +5,27 @@ import {
 import CoursePlanner from './CoursePlanner'
 import Login from './Login'
 import axios from 'axios'
+import logo from './app_logo.png'
+import styled from '@emotion/styled'
+import { CheckSquare } from '@styled-icons/bootstrap'
 
 /* eslint-disable react/prop-types */
+
+const Gradient = styled.div`
+  background-color: #74EBD5;
+  background-image: linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%);
+  background-size: 100% 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const SmallCheckSquare = styled(CheckSquare)`
+  height: 30px;
+  width: 30px;
+  margin-right: 5px;
+`
 
 function App () {
   const [userID, setUserID] = useState()
@@ -48,6 +67,7 @@ function App () {
     return <Login setUserID={setUserID} />
   } else {
     return (
+      <Gradient>
         <Container fluid>
           {Object.keys(audit).length > 0 &&
             <Modal show={show} onHide={handleClose}>
@@ -83,15 +103,15 @@ function App () {
           <Row>
             <Col xs={4} lg={2} className="d-flex align-items-end justify-content-center" >
               {name
-                ? <h4>Username: {name}</h4>
+                ? <h4>Hi there! 👋 <u style={{ 'text-decoration-color': 'white' }}>{name}</u></h4>
                 : <h4>loading...</h4>
               }
             </Col>
             <Col xs={4} lg={8} align="center" className="mt-3">
-              <h1>MakeMyDegree</h1>
+              <h1><img src={logo} alt="logo" width='60px' height='60px'/> MakeMyDegree </h1>
             </Col>
             <Col xs={4} lg={2} className="d-flex align-items-end justify-content-center">
-              <Button onClick={handleSubmit} className="w-75" variant="primary">Submit Plan</Button>
+              <Button onClick={handleSubmit} className="w-75" variant="primary"><SmallCheckSquare/> Submit Plan</Button>
             </Col>
           </Row>
           <Row>
@@ -100,7 +120,8 @@ function App () {
               : <h1>loading...</h1>
           }
           </Row>
-        </Container>
+        </Container>`
+      </Gradient>
     )
   }
 }

@@ -4,11 +4,18 @@ import Form from 'react-bootstrap/Form'
 import styled from '@emotion/styled'
 import { Droppable } from 'react-beautiful-dnd'
 import CourseCard from './CourseCard'
+import { Search } from '@styled-icons/bootstrap'
 
 /* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
 
 const scrollContainerHeight = 712
+
+const CourseSearch = styled(Search)`
+  height: 30px;
+  width: 30px;
+  text: 'center';
+`
 
 const Wrapper = styled.div`
   background: ${({ isDraggingOver }) =>
@@ -83,12 +90,13 @@ function VerticalList (props) {
 
   return (
     <Card
-      border="primary"
       className="m-3"
+      backgroud-color='#fff8e7'
+      style={{ boxShadow: '2px 1px 2px 1px rgba(0, 0, 0, 0.17)' }}
     >
       <Card.Body>
         <Form.Group className="mb-3">
-          <Form.Label><b>Search Class</b></Form.Label>
+          <Form.Label><CourseSearch/><b> Search Class</b></Form.Label>
           <Form.Control onChange={handleInput} placeholder="Enter Class Name"/>
         </Form.Group>
         <Droppable droppableId={id}>

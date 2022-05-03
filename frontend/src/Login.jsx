@@ -2,13 +2,45 @@ import React, { useEffect, useState } from 'react'
 import {
   Row,
   Col,
-  Container,
   Button,
   Form
 } from 'react-bootstrap'
 import axios from 'axios'
+import logo from './app_logo.png'
+import { keyframes } from '@emotion/react'
+import styled from '@emotion/styled'
+import '@fontsource/montserrat'
 
 /* eslint-disable react/prop-types */
+const Gradient = keyframes`
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+  `
+const MyStyle = styled.div`
+  background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+  background-size: 400% 400%;
+  animation: ${Gradient} 25s ease infinite;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+const bounce = keyframes`
+  from, 20%, 53%, 80%, to {transform: translate3d(0,0,0);}
+  40%, 43% {transform: translate3d(0, -10px, 0);}
+  70% {transform: translate3d(0, -5px, 0);}
+  90% {transform: translate3d(0,-1px,0);}
+`
+const BounceStyle = styled.h1`
+  animation: ${bounce} 1.5s ease infinite;
+  font-family: "Montserrat";
+  font-weight: bold;
+`
+const Font = styled.div`
+  font-family: "Montserrat";
+  font-weight: bold;
+`
 
 function Login (props) {
   const [userName, setUserName] = useState()
@@ -40,19 +72,22 @@ function Login (props) {
   }
 
   return (
-    <Container className="d-flex justify-content-center align-items-center vh-100">
+    <MyStyle>
       <Row>
+        <Col className="d-flex justify-content-center">
+          <img src={logo} alt="Logo" style={{ opacity: '0.85' }} />
+        </Col>
         <Col>
           <Row>
             <Col className="d-flex justify-content-center">
-              <h1>MakeMyDegree</h1>
+              <BounceStyle>MakeMyDegree</BounceStyle>
             </Col>
           </Row>
           <Row>
             <Col className="d-flex justify-content-center">
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="m-2">
-                  <Form.Label>Username</Form.Label>
+                  <Form.Label><Font>Username</Font></Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Enter username"
@@ -60,7 +95,7 @@ function Login (props) {
                   />
                 </Form.Group>
                 <Form.Group className="m-2">
-                  <Form.Label>Password</Form.Label>
+                  <Form.Label><Font>Password</Font></Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="Enter password"
@@ -68,7 +103,7 @@ function Login (props) {
                   />
                 </Form.Group>
                 <Form.Group className="m-2">
-                  <Form.Label>Degree</Form.Label>
+                  <Form.Label><Font>Degree</Font></Form.Label>
                   <Form.Select onChange={(e) => setUserDegree(e.target.value)}>
                     <option>Select a degree</option>
                     {degrees.map(degree => (
@@ -78,7 +113,7 @@ function Login (props) {
                 </Form.Group>
                 <Row>
                   <Col className="d-flex justify-content-center">
-                    <Button variant="primary" type="submit" className="m-2 w-75">Submit</Button>
+                    <Button variant="primary" type="submit" className="m-2 w-75"><Font>Submit</Font></Button>
                   </Col>
                 </Row>
               </Form>
@@ -86,7 +121,7 @@ function Login (props) {
           </Row>
         </Col>
       </Row>
-    </Container>
+    </MyStyle>
   )
 }
 

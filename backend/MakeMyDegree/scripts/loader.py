@@ -143,9 +143,9 @@ def ece_degree_setup(all_course_ids):
 # insert a test user
 def test_user_setup(ece_degree_id, all_courses):
     model_plan = {
-        'Fa2019': ['SPAN 10100', 'ENGR 13100', 'CS 15900', 'MA 16500', 'PHYS 17200', 'COM 11400'],
+        'Fa2019': ['SPAN 10100', 'ENGR 13100', 'CS 15900', 'MA 16500', 'PHYS 17200'],
         'Sp2020': ['ENGR 13200', 'MA 16600', 'PHYS 27200', 'PSY 12000', 'ENGL 10600', ],
-        'Su2020': [],
+        'Su2020': ['COM 11400'],
         'Fa2020': ['MA 26100', 'ECE 20001', 'ECE 20007', 'ECE 26400', 'CHM 11500'],
         'Sp2021': ['MA 26600', 'ECE 20002', 'ECE 27000', 'ECE 29401', 'PSY 20000'],
         'Su2021': [],

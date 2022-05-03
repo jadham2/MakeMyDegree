@@ -20,7 +20,7 @@ const Gradient = keyframes`
 const MyStyle = styled.div`
   background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
   background-size: 400% 400%;
-  animation: ${Gradient} 10s ease infinite;
+  animation: ${Gradient} 25s ease infinite;
   height: 100vh;
   display: flex;
   align-items: center;

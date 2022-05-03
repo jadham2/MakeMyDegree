@@ -1,10 +1,10 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.3",
-  "serialNumber": "urn:uuid:bfb3f531-278e-45de-8de4-5f6f56236bde",
+  "serialNumber": "urn:uuid:9745dd27-1a01-46ee-8b4b-0772c277a639",
   "version": 1,
   "metadata": {
-    "timestamp": "2022-05-02T01:12:11.247Z",
+    "timestamp": "2022-05-03T18:23:56.221Z",
     "tools": [
       {
         "vendor": "CycloneDX",
@@ -2054,6 +2054,173 @@
         {
           "type": "vcs",
           "url": "https://github.com/emotion-js/emotion/tree/main/packages/is-prop-valid"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40fontsource/montserrat@4.5.10",
+      "author": "Lotus",
+      "group": "@fontsource",
+      "name": "montserrat",
+      "version": "4.5.10",
+      "description": "Self-host the Montserrat font in a neatly bundled NPM package.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "2577bdc144702c5b4f7eb0f7c989dfbee7bf52fd8bd62484a2be30e8ce427063b88964a8685824ec13cb53092c183ec284aa462a968d34b52debb5650aed80d6"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40fontsource/montserrat@4.5.10",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/fontsource/fontsource/tree/main/fonts/google/montserrat#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/fontsource/fontsource/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/fontsource/fontsource.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40styled-icons/bootstrap@10.34.0",
+      "author": "Jacob Gillespie",
+      "group": "@styled-icons",
+      "name": "bootstrap",
+      "version": "10.34.0",
+      "description": "Bootstrap icons available as Styled Components",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "529cdd55447bafd04da847cfacc72125d80c64483d7974312d02545ccd28baf6c8e68f63db5ff2d5d19a99e3b83d9b586eeb53fdd5afe4eeb2db8cf9256cdde7"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40styled-icons/bootstrap@10.34.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/styled-icons/styled-icons"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/styled-icons/styled-icons/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/styled-icons/styled-icons.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40styled-icons/styled-icon@10.6.3",
+      "author": "Jacob Gillespie",
+      "group": "@styled-icons",
+      "name": "styled-icon",
+      "version": "10.6.3",
+      "description": "Styled Icons base component",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "fc0f792f7a5e8a82e85858b2fbf78a461a10f6bfe846b37fab36d25f88575359c63f6ad45dc5f72d6521a013403a9f51c37f2e71cff8ada958e36ed450db5c19"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40styled-icons/styled-icon@10.6.3",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/styled-icons/styled-icons"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/styled-icons/styled-icons/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/styled-icons/styled-icons.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40emotion/is-prop-valid@0.8.8",
+      "group": "@emotion",
+      "name": "is-prop-valid",
+      "version": "0.8.8",
+      "description": "A function to check whether a prop is valid for HTML and SVG elements",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "dd09e1a9e2fe596f3c62361b40be6050892d86e330edad0d19b67bc1f155936920fc22b9c3cc391456b44735a3c98d7eb2e8cdd0d59bb521c7e8e266587b49a5"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40emotion/is-prop-valid@0.8.8",
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/emotion-js/emotion/tree/master/packages/is-prop-valid"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40emotion/memoize@0.7.4",
+      "group": "@emotion",
+      "name": "memoize",
+      "version": "0.7.4",
+      "description": "emotion's memoize utility",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "8a05fd6b7ec347664f198b55eacb99eb086bf294c5b721cbdcafe82d4a2dc694953b60126a9ae601ed8392aeed068ec2458ecc303ac06bd9ee40ff7f606f05c5"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40emotion/memoize@0.7.4",
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/emotion-js/emotion/tree/master/packages/memoize"
         }
       ]
     },
@@ -41755,6 +41922,276 @@
         }
       ],
       "purl": "pkg:npm/styled@1.0.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/styled-components@5.3.5",
+      "author": "Glen Maddern",
+      "name": "styled-components",
+      "version": "5.3.5",
+      "description": "Visual primitives for the component age. Use the best bits of ES6 and CSS to style your apps without stress",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "9dd11327d44a69a2faab8d41ebd5ae75ea8bccea58d40fc44ff8255e4359d93edd3e33eaa4f0975d08c3158656c0d9c4e5ca34c17fa04c2ab1f667f14e64883e"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/styled-components@5.3.5",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://styled-components.com"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/styled-components/styled-components/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/styled-components/styled-components.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40emotion/stylis@0.8.5",
+      "group": "@emotion",
+      "name": "stylis",
+      "version": "0.8.5",
+      "description": "A custom build of Stylis",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "87a2ad3e284a167dd3f5fb88af0bd75d43b0971deb7d4bdf64870fe5aeab87c63bce31373b4ea14f94ace12fd823501886e675923684ff911a38e23636a4b295"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40emotion/stylis@0.8.5",
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/emotion-js/emotion/tree/master/packages/stylis"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/babel-plugin-styled-components@2.0.7",
+      "name": "babel-plugin-styled-components",
+      "version": "2.0.7",
+      "description": "Improve the debugging experience and add server-side rendering support to styled-components",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "8bb621bcf815a9129fa10ebab68899d3a8cf340de9ea27aba5f52e116c4d17e7d5dbb52fe60c4191ff0a64b1d409cd67140f63ebef34a58a08a6a09ec96dff6c"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/babel-plugin-styled-components@2.0.7",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://styled-components.com/docs/tooling#babel-plugin"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/styled-components/babel-plugin-styled-components/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/styled-components/babel-plugin-styled-components.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/babel-plugin-syntax-jsx@6.18.0",
+      "name": "babel-plugin-syntax-jsx",
+      "version": "6.18.0",
+      "description": "Allow parsing of jsx",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "0af32a9a6e13ca7a3fd5069e62d7b0f58d0d8946"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/babel-plugin-syntax-jsx@6.18.0",
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/babel/babel/tree/master/packages/babel-plugin-syntax-jsx"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/css-to-react-native@3.0.0",
+      "author": "Jacob Parker",
+      "name": "css-to-react-native",
+      "version": "3.0.0",
+      "description": "Convert CSS text to a React Native stylesheet object",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "468d72113640f35ddea32529d860c1846da3f9882089d526cced7fbfd79804a4761075449e2136308fcdaa94d0f79e013294cf645b0634f9b8eaa141f5da5a3d"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/css-to-react-native@3.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/styled-components/css-to-react-native#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/styled-components/css-to-react-native/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/styled-components/css-to-react-native.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/camelize@1.0.0",
+      "author": "James Halliday",
+      "name": "camelize",
+      "version": "1.0.0",
+      "description": "recursively transform key strings to camel-case",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "164a5483e630fa4321e5af07020e531831b2609b"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/camelize@1.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/substack/camelize"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/substack/camelize/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git://github.com/substack/camelize.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/css-color-keywords@1.0.0",
+      "author": "Jakob Krigovsky",
+      "name": "css-color-keywords",
+      "version": "1.0.0",
+      "description": "A list of all CSS color keywords.",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "fea2616dc676b2962686b3af8dbdbe180b244e05"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "purl": "pkg:npm/css-color-keywords@1.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/sonicdoe/css-color-keywords#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/sonicdoe/css-color-keywords/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/sonicdoe/css-color-keywords.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/shallowequal@1.1.0",
+      "author": "Alberto Leal",
+      "name": "shallowequal",
+      "version": "1.1.0",
+      "description": "Like lodash isEqualWith but for shallow equal.",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "cb49b52685194a53c08d756d3cf5bbd1a6567c82ff7523fb0059119e788b0ab2bff0c0caa20dd3c924c199c903f9139b5711f4bf84e8c7aefe175e0f7440f6a1"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/shallowequal@1.1.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/dashed/shallowequal#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/dashed/shallowequal/issues"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/dashed/shallowequal.git"
+        }
+      ]
     },
     {
       "type": "library",

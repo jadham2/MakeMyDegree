@@ -56,19 +56,22 @@ function App () {
               </Modal.Header>
               <Modal.Body>
                 <h4>Requisite Conflicts</h4>
-                <p>
-                  {Object.entries(audit.requisites).map(([key, value]) => (
-                    <div key={key}>
-                      <strong>{key}: </strong>
-                      {value.co.map((course, index) => (
-                        <span key={index}>{course} (corequisite){(index !== (value.co.length - 1) || value.pre.length > 0) && ', '}</span>
+                {Object.keys(audit.requisites).length > 0
+                  ? <p>
+                      {Object.entries(audit.requisites).map(([key, value]) => (
+                        <div key={key}>
+                          <strong>{key}: </strong>
+                          {value.co.map((course, index) => (
+                            <span key={index}>{course} (corequisite){(index !== (value.co.length - 1) || value.pre.length > 0) && ', '}</span>
+                          ))}
+                          {value.pre.map((course, index) => (
+                            <span key={index}>{course} (prerequisite){index !== (value.pre.length - 1) && ', '}</span>
+                          ))}
+                        </div>
                       ))}
-                      {value.pre.map((course, index) => (
-                        <span key={index}>{course} (prerequisite){index !== (value.pre.length - 1) && ', '}</span>
-                      ))}
-                    </div>
-                  ))}
-                </p>
+                    </p>
+                  : <p>You&apos;re all good!</p>
+                }
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="primary" onClick={handleClose}>

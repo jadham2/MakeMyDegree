@@ -73,8 +73,12 @@ function VerticalList (props) {
 
   const [searchText, setSearchText] = useState('')
 
-  const inputHandler = (e) => {
-    setSearchText(e.target.value.toLowerCase())
+  const handleInput = (e) => {
+    const delayFn = setTimeout(() => {
+      setSearchText(e.target.value.toLowerCase())
+      console.log(searchText)
+    }, 1000)
+    return () => clearTimeout(delayFn)
   }
 
   return (
@@ -85,7 +89,7 @@ function VerticalList (props) {
       <Card.Body>
         <Form.Group className="mb-3">
           <Form.Label><b>Search Class</b></Form.Label>
-          <Form.Control onChange={inputHandler} placeholder="Enter Class Name"/>
+          <Form.Control onChange={handleInput} placeholder="Enter Class Name"/>
         </Form.Group>
         <Droppable droppableId={id}>
           {(provided, snapshot) => (

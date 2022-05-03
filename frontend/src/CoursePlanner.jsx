@@ -203,7 +203,7 @@ function CoursePlanner (props) {
             </Row>
           </Col>
           <Col xs={4} lg={2}>
-            <Card border="primary" className="m-3" style={{ flexGrow: 1, scrollbarWidth: 'none', overflow: 'auto', height: '832px', maxHeight: '832px' }}>
+            <Card border="primary" backgroud-color='#fff8e7' className="m-3" style={{ flexGrow: 1, scrollbarWidth: 'none', overflow: 'auto', height: '832px', maxHeight: '832px' }}>
               <Card.Body>
                 <h3>{degree.degree_name}</h3>
                 {Object.entries(tags).map(([key, value]) => (

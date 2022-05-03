@@ -11,6 +11,7 @@ const CardWrapper = styled(Card)`
   margin: 10px;
   width: 175px;
   min-height: 125px;
+  opacity: 1.0;
   background: ${props => props.isdragging ? 'lightgreen' : 'white'};
   ${props => props.draggablestyle};
 `

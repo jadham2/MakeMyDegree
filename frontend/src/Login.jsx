@@ -31,7 +31,7 @@ const bounce = keyframes`
   70% {transform: translate3d(0, -5px, 0);}
   90% {transform: translate3d(0,-1px,0);}
 `
-const BounceStyle = styled.h1`animation: ${bounce} 2s ease infinite;`
+const BounceStyle = styled.h1`animation: ${bounce} 1.5s ease infinite;`
 
 function Login (props) {
   const [userName, setUserName] = useState()
@@ -66,7 +66,7 @@ function Login (props) {
     <MyStyle>
       <Row>
         <Col className="d-flex justify-content-center">
-          <img src={logo} alt="Logo" />
+          <img src={logo} alt="Logo" style={{ opacity: '0.85' }} />
         </Col>
         <Col>
           <Row>

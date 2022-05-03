@@ -90,9 +90,9 @@ function VerticalList (props) {
 
   return (
     <Card
-      border="primary"
       className="m-3"
       backgroud-color='#fff8e7'
+      style={{ boxShadow: '2px 1px 2px 1px rgba(0, 0, 0, 0.17)' }}
     >
       <Card.Body>
         <Form.Group className="mb-3">

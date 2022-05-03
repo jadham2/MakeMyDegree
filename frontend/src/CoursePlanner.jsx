@@ -145,7 +145,7 @@ function CoursePlanner (props) {
           <Col xs={4} lg={8}>
             <Row>
               <Col>
-                <Card border="primary" className="m-3 p-3" style={{ flexGrow: 1, scrollbarWidth: 'none', overflowY: 'auto', maxHeight: 620 }}>
+                <Card className="m-3 p-3" style={{ boxShadow: '2px 1px 2px 1px rgba(0, 0, 0, 0.17)', flexGrow: 1, scrollbarWidth: 'none', overflowY: 'auto', maxHeight: 620 }}>
                   {sortedTerms.map((id) => (
                     <React.Fragment key={id}>
                       <h5 style={{ marginLeft: '17px' }}><strong>{termMapper(id)}</strong></h5>
@@ -157,7 +157,7 @@ function CoursePlanner (props) {
             </Row>
             <Row>
               <Col>
-                <Card border="primary" className="m-3" style={{ flexGrow: 1, scrollbarWidth: 'none', overflow: 'auto', height: 180 }}>
+                <Card className="m-3" style={{ boxShadow: '2px 1px 2px 1px rgba(0, 0, 0, 0.17)', flexGrow: 1, scrollbarWidth: 'none', overflow: 'auto', height: 180 }}>
                   <Card.Body>
                     {Object.keys(selectedCourse).length > 0
                       ? <React.Fragment>
@@ -203,7 +203,7 @@ function CoursePlanner (props) {
             </Row>
           </Col>
           <Col xs={4} lg={2}>
-            <Card border="primary" backgroud-color='#fff8e7' className="m-3" style={{ flexGrow: 1, scrollbarWidth: 'none', overflow: 'auto', height: '832px', maxHeight: '832px' }}>
+            <Card backgroud-color='#fff8e7' className="m-3" style={{ boxShadow: '2px 1px 2px 1px rgba(0, 0, 0, 0.17)', flexGrow: 1, scrollbarWidth: 'none', overflow: 'auto', height: '832px', maxHeight: '832px' }}>
               <Card.Body>
                 <h3>{degree.degree_name}</h3>
                 {Object.entries(tags).map(([key, value]) => (

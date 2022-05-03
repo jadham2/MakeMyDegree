@@ -7,14 +7,11 @@ import Login from './Login'
 import axios from 'axios'
 import logo from './app_logo.png'
 import styled from '@emotion/styled'
-import '@fontsource/montserrat'
 import { CheckSquare } from '@styled-icons/bootstrap'
 
 /* eslint-disable react/prop-types */
 
 const Gradient = styled.div`
-  // background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
-  // background: linear-gradient(45deg, #d53369 0%, #daae51 100%);
   background-color: #74EBD5;
   background-image: linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%);
   background-size: 100% 100%;
@@ -24,12 +21,10 @@ const Gradient = styled.div`
   justify-content: center;
 `
 
-const Font = styled.div`
-  font-family: "Montserrat";
-`
 const SmallCheckSquare = styled(CheckSquare)`
   height: 30px;
   width: 30px;
+  margin-right: 5px;
 `
 
 function App () {
@@ -72,8 +67,7 @@ function App () {
     return <Login setUserID={setUserID} />
   } else {
     return (
-      <Font>
-        <Gradient>
+      <Gradient>
         <Container fluid>
           {Object.keys(audit).length > 0 &&
             <Modal show={show} onHide={handleClose}>
@@ -126,9 +120,8 @@ function App () {
               : <h1>loading...</h1>
           }
           </Row>
-        </Container>
-        </Gradient>
-        </Font>
+        </Container>`
+      </Gradient>
     )
   }
 }
